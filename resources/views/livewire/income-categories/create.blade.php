@@ -5,7 +5,7 @@ Crear Nuevo Item de Ingreso
         <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
             pageTitle="Crear Nuevo Item de Ingreso"
-            breadcrumbMainUrl="{{ route('accountLetters.index') }}"
+            breadcrumbMainUrl="{{ route('incomeCategories.index') }}"
             breadcrumbMain="Items de Ingresos"
             breadcrumbCurrent="Crear"
         >
