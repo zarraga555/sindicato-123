@@ -130,7 +130,7 @@
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Otros Ingresos</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('incomeCategories.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Items de Ingresos</a>
                     </li>
                 </ul>
@@ -159,7 +159,7 @@
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Egresos</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('expenseCategories.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Items de Egresos</a>
                     </li>
                 </ul>
