@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ItemsCashFlow extends Model
@@ -11,6 +12,7 @@ class ItemsCashFlow extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'type_income_expense',
         'created_by',
     ];
