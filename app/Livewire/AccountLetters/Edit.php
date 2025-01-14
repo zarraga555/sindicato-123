@@ -25,54 +25,90 @@ class Edit extends Component
         'initial_account_amount' => 'nullable|numeric',
     ];
 
-    // Cargar datos existentes al montar el componente
+    /**
+     * Monta los datos existentes para edición.
+     */
     public function mount($id)
     {
-        $accountLetters = AccountLetters::findOrFail($id);
+        $account = AccountLetters::findOrFail($id);
 
-        $this->accountId = $accountLetters->id;
-        $this->account_name = $accountLetters->account_name;
-        $this->bank_name = $accountLetters->bank_name;
-        $this->account_number = $accountLetters->account_number;
-        $this->account_type = $accountLetters->account_type;
-        $this->currency_type = $accountLetters->currency_type;
-        $this->initial_account_amount = $accountLetters->initial_account_amount;
+        $this->accountId = $account->id;
+        $this->account_name = $account->account_name;
+        $this->bank_name = $account->bank_name;
+        $this->account_number = $account->account_number;
+        $this->account_type = $account->account_type;
+        $this->currency_type = $account->currency_type;
+        $this->initial_account_amount = $account->initial_account_amount;
     }
 
+    /**
+     * Actualiza el registro en la base de datos.
+     */
     public function update()
     {
         $this->validate();
-        $accountLater = AccountLetters::findOrFail($this->accountId);
-        $accountLater->update([
+
+        try {
+            $account = AccountLetters::findOrFail($this->accountId);
+            $account->update($this->getFormData());
+
+            session()->flash('message', 'Cuenta bancaria actualizada correctamente.');
+            return redirect()->route('accountLetters.index');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al actualizar: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Muestra el modal de confirmación de eliminación.
+     */
+    public function openDelete()
+    {
+        $this->confirmingUserDeletion = true;
+    }
+
+    /**
+     * Cierra el modal de confirmación de eliminación.
+     */
+    public function closeDelete()
+    {
+        $this->confirmingUserDeletion = false;
+    }
+
+    /**
+     * Elimina el registro de la base de datos.
+     */
+    public function delete()
+    {
+        try {
+            AccountLetters::findOrFail($this->accountId)->delete();
+
+            $this->closeDelete();
+            session()->flash('message', 'Cuenta bancaria eliminada correctamente.');
+            return redirect()->route('accountLetters.index');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al eliminar: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Obtiene los datos del formulario.
+     */
+    private function getFormData(): array
+    {
+        return [
             'account_name' => $this->account_name,
             'bank_name' => $this->bank_name,
             'account_number' => $this->account_number,
             'account_type' => $this->account_type,
             'currency_type' => $this->currency_type,
             'initial_account_amount' => $this->initial_account_amount,
-        ]);
-        session()->flash('message', 'Cuenta Bancaria actualizado correctamente.');
-        return redirect()->route('accountLetters.index');
+        ];
     }
 
-    public function openDelete()
-    {
-        $this->confirmingUserDeletion = true;
-    }
-
-    public function closeDelete()
-    {
-        $this->confirmingUserDeletion = false;
-    }
-
-    public function delete()
-    {
-        AccountLetters::findOrFail($this->accountId)->delete();
-        $this->closeDelete();
-        session()->flash('message', 'Cuenta Bancaria eliminado correctamente.');
-        return redirect()->route('accountLetters.index');
-    }
-
+    /**
+     * Renderiza la vista del componente.
+     */
     public function render()
     {
         return view('livewire.account-letters.edit')->layout('layouts.app');
