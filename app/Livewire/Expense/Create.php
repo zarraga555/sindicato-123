@@ -14,18 +14,14 @@ class Create extends Component
     public array $cashFlows = [];
     public $itemsCashFlows;
     public $accountLetters;
-
     public $bank_id;
     public $vehicle_id;
 
     public function mount()
     {
-        // Inicializamos las opciones del select
         $this->itemsCashFlows = ItemsCashFlow::where('type_income_expense', 'expense')->get();
         $this->accountLetters = AccountLetters::all();
-
-        // Agregamos un conjunto vacío por defecto
-        $this->addCashFlow();
+        $this->addCashFlow(); // Agrega un flujo inicial vacío
     }
 
     public function addCashFlow()
@@ -38,17 +34,42 @@ class Create extends Component
 
     public function removeCashFlow($index)
     {
-        unset($this->cashFlows[$index]);
-        $this->cashFlows = array_values($this->cashFlows);
+        if (isset($this->cashFlows[$index])) {
+            unset($this->cashFlows[$index]);
+            $this->cashFlows = array_values($this->cashFlows); // Reindexa el array
+        }
     }
 
     private function validateCashFlows()
     {
         $this->validate([
-            'cashFlows.*.amount' => 'required|numeric|min:0',
+            'cashFlows.*.amount' => 'required|numeric|min:0.01',
             'cashFlows.*.cashFlowId' => 'required|exists:items_cash_flows,id',
             'bank_id' => 'nullable|exists:account_letters,id',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
         ]);
+    }
+
+    // Verifica si el saldo es suficiente antes de registrar los flujos de efectivo
+    private function checkAccountBalance()
+    {
+        if ($this->bank_id) {
+            $accountLetter = AccountLetters::find($this->bank_id);
+
+            if (!$accountLetter) {
+                throw new \Exception('La cuenta bancaria seleccionada no existe.');
+            }
+
+            // Calcula el monto total que se desea gastar
+            $totalExpense = array_sum(array_column($this->cashFlows, 'amount'));
+
+            // Verifica si el saldo de la cuenta es suficiente para cubrir los gastos
+            if ($accountLetter->initial_account_amount < $totalExpense) {
+                return false; // No hay suficiente saldo
+            }
+        }
+
+        return true; // Hay suficiente saldo
     }
 
     public function save()
@@ -57,71 +78,66 @@ class Create extends Component
 
         DB::beginTransaction();
         try {
-            foreach ($this->cashFlows as $cashFlow) {
-                CashFlow::create([
-                    'user_id' => Auth::id(),
-                    'transaction_type_income_expense' => 'expense',
-                    'account_bank_id' => $this->bank_id ?? 1,
-                    'amount' => $cashFlow['amount'],
-                    'items_id' => $cashFlow['cashFlowId'],
-                    'vehicle_id' => $this->vehicle_id,
-                ]);
-            }
+            // **Verificar saldo antes de proceder con la creación de flujos**
+//            return  dd($this->checkAccountBalance());
+            if ($this->checkAccountBalance() == false) {
+                // Procesa los flujos de efectivo solo si el saldo es suficiente
+                $amountFinal = $this->processCashFlows();
 
-            $this->resetForm();
-            session()->flash('success', 'Datos guardados correctamente.');
-            DB::commit();
-            return redirect()->route('expense.index');
+                // Actualiza el saldo de la cuenta bancaria
+                $this->updateAccountBalance($amountFinal);
+
+                DB::commit();
+                $this->resetForm();
+                session()->flash('success', 'Datos guardados correctamente.');
+                return redirect()->route('expense.index');
+            }
+            session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
+//            return; // No se realiza ninguna operación si el saldo es insuficiente
+
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
         }
     }
 
-    public function saveAndCreateAnother()
+    private function processCashFlows()
     {
-        $this->validateCashFlows();
         $amountFinal = 0;
 
-        DB::beginTransaction();
-        try {
-            foreach ($this->cashFlows as $cashFlow) {
-                $amountFinal += $cashFlow['amount'];
-                CashFlow::create([
-                    'user_id' => Auth::id(),
-                    'transaction_type_income_expense' => 'expense',
-                    'account_bank_id' => $this->bank_id ?? 1,
-                    'amount' => $cashFlow['amount'],
-                    'items_id' => $cashFlow['cashFlowId'],
-                    'vehicle_id' => $this->vehicle_id,
-                ]);
-            }
+        foreach ($this->cashFlows as $cashFlow) {
+            // Solo crea el flujo si hay saldo suficiente
+            CashFlow::create([
+                'user_id' => Auth::id(),
+                'transaction_type_income_expense' => 'expense',
+                'account_bank_id' => $this->bank_id ?? 1,
+                'amount' => $cashFlow['amount'],
+                'items_id' => $cashFlow['cashFlowId'],
+                'vehicle_id' => $this->vehicle_id,
+            ]);
 
-            // Actualizar el monto inicial de la cuenta bancaria
-            if ($this->bank_id) {
-                $accountLetter = AccountLetters::find($this->bank_id);
-                if ($accountLetter) {
-                    $accountLetter->update([
-                        'initial_account_amount' => $accountLetter->initial_account_amount - $amountFinal,
-                    ]);
-                } else {
-                    throw new \Exception('La cuenta bancaria seleccionada no existe.');
-                }
-            }
+            $amountFinal += $cashFlow['amount'];
+        }
 
-            $this->resetForm();
-            session()->flash('success', 'Datos guardados correctamente.');
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
+        return $amountFinal;
+    }
+
+    private function updateAccountBalance($amountFinal)
+    {
+        if ($this->bank_id) {
+            $accountLetter = AccountLetters::find($this->bank_id);
+
+            if ($accountLetter) {
+                $newBalance = $accountLetter->initial_account_amount - $amountFinal;
+                $accountLetter->update(['initial_account_amount' => $newBalance]);
+            }
         }
     }
 
     private function resetForm()
     {
         $this->cashFlows = [];
-        $this->addCashFlow();
+        $this->addCashFlow(); // Reinicia los flujos
         $this->bank_id = null;
         $this->vehicle_id = null;
     }
