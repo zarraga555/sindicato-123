@@ -47,10 +47,11 @@ Ceuntas Bancarias
                         {{ __('Account Type') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        {{ __('Balance available') }}
+                        {{ __('Currency Type') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        {{ __('Currency Type') }}
+                        {{ __('Balance available') }}
+
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -73,10 +74,11 @@ Ceuntas Bancarias
                         {{ $accountLetter->currency_type }}.
                     </td>
                     <td class="px-6 py-4">
-                        {{ $accountLetter->initial_account_amount }}
+                        {{ number_format($accountLetter->initial_account_amount, 2) }}
                     </td>
                     <td class="px-6 py-4">
-                        <a href="{{ route('accountLetters.edit', $accountLetter->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <a href="{{ route('accountLetters.edit', $accountLetter->id) }}"
+                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </tr>
                 @empty

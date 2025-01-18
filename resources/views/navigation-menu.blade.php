@@ -155,7 +155,7 @@
                 </button>
                 <ul id="dropdown-example2" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="#"
+                        <a href="{{ route('expense.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Egresos</a>
                     </li>
                     <li>
