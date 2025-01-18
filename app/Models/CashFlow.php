@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CashFlow extends Model
 {
     use SoftDeletes;
-
+    protected $table = 'cash_flows'; //
     protected $fillable = [
         'user_id',
         'amount',
@@ -18,6 +18,7 @@ class CashFlow extends Model
         'account_bank_id',
         'items_id',
         'vehicle_id',
+        'roadmap_series',
 //        'driver_id',
 //        'partner_id'
     ];
