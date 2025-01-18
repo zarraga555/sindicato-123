@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Income\Create as IncomeCreate;
 use App\Livewire\Income\Edit as IncomeEdit;
 use App\Livewire\Income\View as IncomeView;
+use App\Livewire\Expense\Create as ExpenseCreate;
+use App\Livewire\Expense\Edit as ExpenseEdit;
+use App\Livewire\Expense\View as ExpenseView;
 use App\Livewire\AccountLetters\Create as AccountLettersCreate;
 use App\Livewire\AccountLetters\Edit as AccountLettersEdit;
 use App\Livewire\AccountLetters\View as AccountLettersView;
@@ -49,5 +52,12 @@ Route::middleware([
         Route::get('expense-categories/create', ExpenseCategoriesCreate::class)->name('expenseCategories.create');
         Route::get('expense-categories/{id}/edit',ExpenseCategoriesEdit::class )->name('expenseCategories.edit');
         Route::get('expense-categories/{id}/view',ExpenseCategoriesView::class )->name('expenseCategories.view');
+        //        Expense  Routes
+        Route::get('expense',\App\Livewire\ExpenseComponent::class )->name('expense.index');
+        Route::get('expense/create', ExpenseCreate::class)->name('expense.create');
+        Route::get('expense/{id}/edit',ExpenseEdit::class )->name('expense.edit');
+        Route::get('expense/{id}/view',ExpenseView::class )->name('expense.view');
+
+
     });
 });
