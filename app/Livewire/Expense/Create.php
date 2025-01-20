@@ -53,6 +53,7 @@ class Create extends Component
     // Verifica si el saldo es suficiente antes de registrar los flujos de efectivo
     private function checkAccountBalance()
     {
+        $this->bank_id = $this->bank_id ?? 1;
         if ($this->bank_id) {
             $accountLetter = AccountLetters::find($this->bank_id);
 
@@ -67,20 +68,23 @@ class Create extends Component
             if ($accountLetter->initial_account_amount < $totalExpense) {
                 return false; // No hay suficiente saldo
             }
+            return true; // Hay suficiente saldo
         }
-
-        return true; // Hay suficiente saldo
+        return false; // Si no hay dato en la variable bank_id
     }
 
+    /**
+     * @throws \Exception
+     */
     public function save()
     {
         $this->validateCashFlows();
 
-        DB::beginTransaction();
-        try {
-            // **Verificar saldo antes de proceder con la creación de flujos**
+        // **Verificar saldo antes de proceder con la creación de flujos**
 //            return  dd($this->checkAccountBalance());
-            if ($this->checkAccountBalance() == false) {
+        if (!$this->checkAccountBalance()) {
+            DB::beginTransaction();
+            try {
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
                 $amountFinal = $this->processCashFlows();
 
@@ -91,14 +95,40 @@ class Create extends Component
                 $this->resetForm();
                 session()->flash('success', 'Datos guardados correctamente.');
                 return redirect()->route('expense.index');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
             }
-            session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
-//            return; // No se realiza ninguna operación si el saldo es insuficiente
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
         }
+        session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
+    }
+
+    public function saveAndCreateAnother()
+    {
+        $this->validateCashFlows();
+
+        // **Verificar saldo antes de proceder con la creación de flujos**
+//        return  dd($this->checkAccountBalance());
+        if ($this->checkAccountBalance()) {
+            DB::beginTransaction();
+            try {
+                // Procesa los flujos de efectivo solo si el saldo es suficiente
+                $amountFinal = $this->processCashFlows();
+
+                // Actualiza el saldo de la cuenta bancaria
+                $this->updateAccountBalance($amountFinal);
+
+                DB::commit();
+                $this->resetForm();
+                session()->flash('success', 'Datos guardados correctamente.');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
+            }
+        } else {
+            session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
+        }
+
     }
 
     private function processCashFlows()
