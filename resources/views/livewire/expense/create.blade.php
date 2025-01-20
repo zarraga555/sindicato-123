@@ -199,12 +199,38 @@ Nuevo Egreso
 
                 </div>
             </div>
+<br>
+            <div>
+                <!-- Mensaje de éxito -->
+                @if (session()->has('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                     role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 20 20">
+                    <title>Cerrar</title>
+                    <path
+                        d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.641a.5.5 0 10.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.641-3.641a.5.5 0 000-.707z"/>
+                </svg>
+            </span>
+                </div>
+                @endif
 
-            <!-- Mensaje de éxito -->
-            @if(session()->has('success'))
-            <div class="mt-4 text-green-500">
-                {{ session('success') }}
+                <!-- Mensaje de error -->
+                @if (session()->has('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 20 20">
+                    <title>Cerrar</title>
+                    <path
+                        d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.641a.5.5 0 10.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.641-3.641a.5.5 0 000-.707z"/>
+                </svg>
+            </span>
+                </div>
+                @endif
             </div>
-            @endif
         </div>
     </section>
