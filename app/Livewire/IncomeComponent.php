@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use App\Models\CashFlow;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class IncomeComponent extends Component
 {
+    use WithPagination;
+
     public $search = '';
 
     public function render()
