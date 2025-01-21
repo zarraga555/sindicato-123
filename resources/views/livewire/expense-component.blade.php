@@ -66,7 +66,8 @@ Egresos
                         {{ $expense->created_at->format('d-m-Y H:i:s') }}
                     </td>
                     <td class="px-6 py-4">
-                    {{ $expense->vehicle_id ? $expense->vehicle_id : 'Sin movil asociado' }}
+                        {{ $expense->vehicle_id ? str_pad($expense->vehicle_id,3,0, STR_PAD_LEFT) : 'Sin movil asociado'
+                        }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $expense->banks ? $expense->banks->bank_name : 'Sin banco asociado' }}
@@ -75,7 +76,8 @@ Egresos
                         {{ $expense->itemsCashFlow->name }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $expense->banks ? $expense->banks->currency_type.'.' : '' }} {{ number_format($expense->amount, 2) }}
+                        {{ $expense->banks ? $expense->banks->currency_type.'.' : '' }} {{
+                        number_format($expense->amount, 2) }}
 
                     </td>
                     <td class="px-6 py-4">

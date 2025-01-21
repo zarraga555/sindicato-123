@@ -12,6 +12,7 @@ class Edit extends Component
 {
     public $cashFlowId;
     public $amount;
+    public $account_bank_id;
     public $itemCashFlowId;
     public $lastAmount;
     public $nameLabel;
@@ -35,6 +36,7 @@ class Edit extends Component
         $this->amount = $expense->amount;
         $this->lastAmount = $expense->amount;
         $this->cashFlowId = $expense->id;
+        $this->account_bank_id = $expense->account_bank_id;
     }
 
     /**
@@ -83,7 +85,7 @@ class Edit extends Component
 
     public function updateAccountBalance(): void
     {
-        $account = AccountLetters::find(1);
+        $account = AccountLetters::find($this->account_bank_id);
 
         if ($account) {
             if ($this->confirmingUserDeletion) {

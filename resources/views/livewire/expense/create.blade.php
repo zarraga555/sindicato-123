@@ -83,7 +83,7 @@ Nuevo Egreso
                             <div class="w-full">
                                 <label for="selectCashFlow-{{ $index }}"
                                        class="block text-sm font-medium text-gray-900">
-                                    Selecciona un item de ingreso
+                                    Selecciona un item de egreso
                                 </label>
                                 <select id="selectCashFlow-{{ $index }}" name="cashFlows[{{ $index }}][cashFlowId]"
                                         wire:model="cashFlows.{{ $index }}.cashFlowId"

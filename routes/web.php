@@ -16,7 +16,8 @@ use App\Livewire\IncomeCategories\View as IncomeCategoriesView;
 use App\Livewire\ExpenseCategories\Create as ExpenseCategoriesCreate;
 use App\Livewire\ExpenseCategories\Edit as ExpenseCategoriesEdit;
 use App\Livewire\ExpenseCategories\View as ExpenseCategoriesView;
-
+use App\Livewire\OtherIncome\Create as OtherIncomeCreate;
+use App\Livewire\OtherIncome\Edit as OtherIncomeEdit;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,7 +58,10 @@ Route::middleware([
         Route::get('expense/create', ExpenseCreate::class)->name('expense.create');
         Route::get('expense/{id}/edit',ExpenseEdit::class )->name('expense.edit');
         Route::get('expense/{id}/view',ExpenseView::class )->name('expense.view');
-
+        //        Others Incomes Routes
+        Route::get('other-income',\App\Livewire\OtherIncomeComponent::class )->name('otherIncome.index');
+        Route::get('other-income/create', OtherIncomeCreate::class)->name('otherIncome.create');
+        Route::get('other-income/{id}/edit',OtherIncomeEdit::class )->name('otherIncome.edit');
 
     });
 });
