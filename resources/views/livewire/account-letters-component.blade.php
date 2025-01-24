@@ -1,5 +1,5 @@
 @section('title')
-Ceuntas Bancarias
+{{__('Bank accounts')}}
 @endsection
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
