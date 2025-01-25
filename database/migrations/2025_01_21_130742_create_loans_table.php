@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('vehicle_id')->nullable()->constrained('vehicles');
 //            $table->foreignId('driver_id')->nullable()->constrained('drivers');
 //            $table->foreignId('partner_id')->nullable()->constrained('partners');
-            $table->string('driver_partner')->nullable();
-            $table->dateTime('dateLoan')->nullable();
-            $table->string('numberInstalments')->nullable();
-            $table->string('debtStatus')->nullable();
-            $table->decimal('amountLoan')->nullable();
+            $table->string('driver_partner_name')->nullable();
+            $table->dateTime('loan_start_date')->nullable(); // Fecha de inicio del prestamo
+            $table->string('numberInstalments')->nullable(); // Cantidad de cuotas del prestamo
+            $table->string('debtStatus')->nullable(); // Estado del prestamo(Pagado; no pagado; incobrables)
+            $table->decimal('amountLoan')->nullable(); // Monto del prestamo
             $table->timestamps();
             $table->softDeletes();
         });
