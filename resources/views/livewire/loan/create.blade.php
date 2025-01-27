@@ -60,6 +60,23 @@
                     @error('driver_partner_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
+            <br>
+            <!-- Description -->
+            <div>
+                <label for="description" class="block text-sm font-medium leading-6 text-gray-950 dark:text-white">
+                    {{ __('Description') }}
+                </label>
+                <div
+                    class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
+                    <textarea
+                        id="description"
+                        name="description"
+                        wire:model.live="description"
+                        class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
+                        rows="2"></textarea>
+                </div>
+                @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
         </fieldset>
 
         <!-- Loan information -->
@@ -71,7 +88,7 @@
                     <div class="mb-4">
                         <label for="bank_id"
                                class="block text-sm font-medium text-gray-900 dark:text-gray-400">
-                            {{__('Select a Bank Account')}}
+                            {{__('Bank Account')}}
                         </label>
                         <select id="bank_id" name="bank_id" wire:model="bank_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -109,16 +126,32 @@
                                class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{__('Payment frecuency')}}
                         </label>
-                        <select id="bank_id" name="bank_id" wire:model="payment_frequency"
+                        <select id="payment_frequency" name="bank_id" wire:model="payment_frequency"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{__('Select an option')}}</option>
-                            <option value="Weekly">{{__('Weekly')}}</option>
-                            <option value="Monthly">{{__('Monthly')}}</option>
+                            <option value="weekly">{{__('Weekly')}}</option>
+                            <option value="monthly">{{__('Monthly')}}</option>
                         </select>
                         @error('payment_frequency') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
                 </div>
-
+                <!-- Interest payment method -->
+                <div>
+                    <div class="mb-4">
+                        <label for="interest_payment_method"
+                               class="block text-sm font-medium text-gray-900 dark:text-gray-400">
+                            {{__('How do you wish to collect interest earned?')}}
+                        </label>
+                        <select id="interest_payment_method" name="bank_id" wire:model="interest_payment_method"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="">{{__('Select an option')}}</option>
+                            <option value="together">{{__('Charge together with the quotas')}}</option>
+                            <option value="separate">{{__('Charge in a separate installment')}}</option>
+                        </select>
+                        @error('interest_payment_method') <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
                 <!-- Number instalments -->
                 <div>
                     <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white"
