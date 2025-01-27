@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('amount', 20, 2)->nullable();
             $table->foreignId('loan_id')->nullable()->constrained('loans');
             $table->string('attachment')->nullable();
-
+            $table->foreignId('user_id')->nullable()->constrained('users'); // id del uduario
             $table->timestamps();
             $table->softDeletes();
         });

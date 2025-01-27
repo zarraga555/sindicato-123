@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('loans', function (Blueprint $table) {
             $table->foreignId('user_id')->nullable()->constrained('users'); // id del uduario
+            $table->string('interest_payment_method')->nullable();
+            $table->string('description')->nullable();
         });
     }
 
@@ -27,6 +29,8 @@ return new class extends Migration
 
             // Luego elimina la columna
             $table->dropColumn('user_id');
+            $table->dropColumn('interest_payment_method');
+            $table->dropColumn('description');
         });
     }
 };
