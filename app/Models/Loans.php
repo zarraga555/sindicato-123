@@ -25,6 +25,9 @@ class Loans extends Model
         'user_type', //TEMPORALMENTE
         'payment_frequency',
         'cash_flows_id',
+        'interest_payment_method',
+        'user_id',
+        'description'
     ];
 
     public function cashFlows(): BelongsTo

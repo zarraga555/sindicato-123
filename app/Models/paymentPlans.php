@@ -15,11 +15,17 @@ class paymentPlans extends Model
         'paymentStatus',
         'amount',
         'loan_id',
-        'attachment'
+        'attachment',
+        'user_id'
     ];
 
     public function loans (): BelongsTo
     {
         return $this->belongsTo(Loans::class, 'loan_id');
+    }
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
