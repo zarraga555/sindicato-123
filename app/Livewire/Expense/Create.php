@@ -82,7 +82,7 @@ class Create extends Component
 
         // **Verificar saldo antes de proceder con la creación de flujos**
 //            return  dd($this->checkAccountBalance());
-        if (!$this->checkAccountBalance()) {
+        if ($this->checkAccountBalance()) {
             DB::beginTransaction();
             try {
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
@@ -144,6 +144,7 @@ class Create extends Component
                 'amount' => $cashFlow['amount'],
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
+                'type_transaction' => 'expense'
             ]);
 
             $amountFinal += $cashFlow['amount'];
