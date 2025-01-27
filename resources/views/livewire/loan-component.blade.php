@@ -70,24 +70,24 @@
                         {{ $loan->vehicle_id ? str_pad($loan->vehicle_id,3,0, STR_PAD_LEFT) : 'Sin movil asociado'}}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $loan->account_number }}
+                        {{ $loan->driver_partner_name }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $loan->account_type }}
+                        {{ $loan->numberInstalments }} {{__('Fees')}}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $loan->currency_type }}.
+                        {{ __($loan->debtStatus) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ number_format($loan->initial_account_amount, 2) }}
+                        {{ number_format($loan->interest_rate, 2) }}%
                     </td>
                     <td class="px-6 py-4">
-                        {{ $loan->banks ? $loan->banks->currency_type.'.' : '' }} {{
-                        number_format($loan->amount, 2) }}
+                        {{ $loan->cash_flows_id ? $loan->cashFlows->banks->currency_type.'.' : '' }} {{
+                        number_format($loan->amountLoan, 2) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $loan->banks ? $loan->banks->currency_type.'.' : '' }} {{
-                        number_format($loan->amount, 2) }}
+                        {{ $loan->cash_flows_id ? $loan->cashFlows->banks->currency_type.'.' : '' }} {{
+                        number_format($loan->total_debt, 2) }}
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('loans.edit', $loan->id) }}"

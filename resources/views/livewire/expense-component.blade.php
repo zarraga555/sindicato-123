@@ -73,7 +73,7 @@ Egresos
                         {{ $expense->banks ? $expense->banks->bank_name : 'Sin banco asociado' }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $expense->itemsCashFlow->name }}
+                        {{ $expense->itemsCashFlow?->name ?? __($expense->type_transaction) }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $expense->banks ? $expense->banks->currency_type.'.' : '' }} {{
