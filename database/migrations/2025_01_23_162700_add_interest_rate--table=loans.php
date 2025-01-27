@@ -30,6 +30,10 @@ return new class extends Migration
             $table->dropColumn('total_debt');
             $table->dropColumn('user_type');
             $table->dropColumn('payment_frequency');
+            // Primero elimina la clave foránea
+            $table->dropForeign(['cash_flows_id']); // 'loans_user_id_foreign'
+
+            // Luego elimina la columna
             $table->dropColumn('cash_flows_id');
         });
     }
