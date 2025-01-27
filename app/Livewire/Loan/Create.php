@@ -7,10 +7,11 @@ use App\Models\CashFlow;
 use App\Models\Loans;
 use App\Models\paymentPlans;
 use App\Models\Vehicle;
+use Exception;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use Termwind\Html\InheritStyles;
 
 class Create extends Component
 {
@@ -27,6 +28,8 @@ class Create extends Component
     public $amountLoan;
     public $interest_rate;
     public $total_debt = 0.00;
+    public $interest_payment_method;
+    public $description;
 
     public function mount()
     {
@@ -39,13 +42,15 @@ class Create extends Component
             'vehicle_id' => 'required|numeric|min:1',
             'driver_partner' => 'required|string|max:255',
             'driver_partner_name' => 'required|string|max:255',
-            'loan_start_date'=> 'required',
+            'loan_start_date' => 'required',
             'bank_id' => 'required|numeric|min:0',
             'payment_frequency' => 'required|string|min:0',
+            'interest_payment_method' => 'required|string|min:0',
             'numberInstalments' => 'required|numeric|min:0',
             'amountLoan' => 'required|numeric|min:0',
             'interest_rate' => 'nullable|numeric|min:0',
-            'total_debt' => 'required|numeric|min:0'
+            'total_debt' => 'required|numeric|min:0',
+            'description' => 'nullable|string|min:0',
         ]);
     }
 
@@ -54,7 +59,7 @@ class Create extends Component
         if ($this->bank_id) {
             $accountLetter = AccountLetters::find($this->bank_id);
             if (!$accountLetter) {
-                throw new \Exception('La cuenta bancaria seleccionada no existe.');
+                throw new Exception('La cuenta bancaria seleccionada no existe.');
             }
 
             //verifica si el saldo de la cuenta es sufuciente para cumplir con el prestamo
@@ -81,14 +86,14 @@ class Create extends Component
                     $this->resetForm();
                     session()->flash('success', 'Datos guardados correctamente.');
                     return redirect()->route('loans.index');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     DB::rollBack();
                     session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
                 }
-            }else{
+            } else {
                 session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
             }
-        }else{
+        } else {
             session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
     }
@@ -107,14 +112,14 @@ class Create extends Component
                     DB::commit();
                     $this->resetForm();
                     session()->flash('success', 'Datos guardados correctamente.');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     DB::rollBack();
                     session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
                 }
-            }else{
+            } else {
                 session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
             }
-        }else{
+        } else {
             session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
     }
@@ -146,23 +151,99 @@ class Create extends Component
             'payment_frequency' => $this->payment_frequency,
             'cash_flows_id' => $cashFlows->id,
             'user_id' => Auth::id(),
+            'interest_payment_method' => $this->interest_payment_method,
+            'description' => $this->description,
         ]);
 
+        if ($this->interest_payment_method == 'together') {
+            $payment_date = Carbon::parse($this->loan_start_date); // Asegúrate de que sea un objeto Carbon
+            $fees = $this->total_debt / $this->numberInstalments;
 
-//        for ($i = 0; $i < $this->numberInstalments; $i++) {
-//            paymentPlans::create([
-//                'instalmentNumber' => $i,
-//                'datePayment',
-//                'paymentStatus' => 'unpaid',
-//                'amount',
-//                'loan_id',
-//            ]);
-//        }
-    }
+            // Verificamos si la frecuencia es semanal o mensual
+            if ($this->payment_frequency == 'weekly') {
+                for ($i = 1; $i <= $this->numberInstalments; $i++) {
+                    // Nos aseguramos de que $i sea un número entero y lo pasamos como argumento
+                    $date = $payment_date->copy()->addWeeks((int)$i); // Asegurándonos de pasar un valor entero
+                    paymentPlans::create([
+                        'instalmentNumber' => $i,
+                        'datePayment' => $date,
+                        'paymentStatus' => 'unpaid',
+                        'amount' => $fees,
+                        'loan_id' => $loan->id,
+                        'user_id' => Auth::id(),
+                    ]);
+                }
+            } elseif ($this->payment_frequency == 'monthly') {
+                for ($i = 1; $i <= $this->numberInstalments; $i++) {
+                    // Asegurándonos de pasar un valor entero
+                    $date = $payment_date->copy()->addMonths((int)$i); // Asegurándonos de pasar un valor entero
+                    paymentPlans::create([
+                        'instalmentNumber' => $i,
+                        'datePayment' => $date,
+                        'paymentStatus' => 'unpaid',
+                        'amount' => $fees,
+                        'loan_id' => $loan->id,
+                        'user_id' => Auth::id(),
+                    ]);
+                }
+            }
+        } elseif ($this->interest_payment_method == 'separate') {
+            // Agregar cuota adicional para el interés
+            $payment_date = Carbon::parse($this->loan_start_date);
+            $fees = $this->amountLoan / $this->numberInstalments;
+            $interest_fee = ($this->amountLoan * $this->interest_rate) / 100;
 
-    private function fees($dues, $loan_amount, $amount_receivable)
-    {
+            // Verificamos si la frecuencia es semanal o mensual
+            if ($this->payment_frequency == 'weekly') {
+                for ($i = 1; $i <= $this->numberInstalments; $i++) {
+                    // Asegurándonos de pasar un valor entero
+                    $date = $payment_date->copy()->addWeeks((int)$i); // Asegurándonos de pasar un valor entero
+                    paymentPlans::create([
+                        'instalmentNumber' => $i,
+                        'datePayment' => $date,
+                        'paymentStatus' => 'unpaid',
+                        'amount' => $fees,
+                        'loan_id' => $loan->id,
+                        'user_id' => Auth::id(),
+                    ]);
+                }
 
+                // Crear una cuota adicional para el interés
+                $interest_payment_date = $payment_date->copy()->addWeeks((int)$this->numberInstalments + 1);
+                paymentPlans::create([
+                    'instalmentNumber' => $this->numberInstalments + 1,
+                    'datePayment' => $interest_payment_date,
+                    'paymentStatus' => 'unpaid',
+                    'amount' => $interest_fee,
+                    'loan_id' => $loan->id,
+                    'user_id' => Auth::id(),
+                ]);
+            } elseif ($this->payment_frequency == 'monthly') {
+                for ($i = 1; $i <= $this->numberInstalments; $i++) {
+                    // Asegurándonos de pasar un valor entero
+                    $date = $payment_date->copy()->addMonths((int)$i); // Asegurándonos de pasar un valor entero
+                    paymentPlans::create([
+                        'instalmentNumber' => $i,
+                        'datePayment' => $date,
+                        'paymentStatus' => 'unpaid',
+                        'amount' => $fees,
+                        'loan_id' => $loan->id,
+                        'user_id' => Auth::id(),
+                    ]);
+                }
+
+                // Crear una cuota adicional para el interés
+                $interest_payment_date = $payment_date->copy()->addMonths((int)$this->numberInstalments + 1);
+                paymentPlans::create([
+                    'instalmentNumber' => $this->numberInstalments + 1,
+                    'datePayment' => $interest_payment_date,
+                    'paymentStatus' => 'unpaid',
+                    'amount' => $interest_fee,
+                    'loan_id' => $loan->id,
+                    'user_id' => Auth::id(),
+                ]);
+            }
+        }
     }
 
     private function updateAccountBalance($amountFinal): void
@@ -178,15 +259,17 @@ class Create extends Component
     {
         $this->reset([
             'vehicle_id',
+            'bank_id',
             'driver_partner',
             'driver_partner_name',
-            'bank_id',
-            'payment_frequency',
+            'loan_start_date',
             'numberInstalments',
             'amountLoan',
             'interest_rate',
-            'loan_start_date',
-            'total_debt'
+            'total_debt',
+            'payment_frequency',
+            'interest_payment_method',
+            'description'
         ]);
     }
 
