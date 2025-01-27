@@ -27,6 +27,11 @@ class Loans extends Model
         'cash_flows_id',
     ];
 
+    public function cashFlows(): BelongsTo
+    {
+        return $this->belongsTo(CashFlow::class, 'cash_flows_id');
+    }
+
     public function vehicles(): BelongsTo
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id');

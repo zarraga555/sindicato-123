@@ -19,6 +19,7 @@ class CashFlow extends Model
         'items_id',
         'vehicle_id',
         'roadmap_series',
+        'type_transaction',
 //        'driver_id',
 //        'partner_id'
     ];
