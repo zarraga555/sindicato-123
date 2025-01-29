@@ -69,5 +69,21 @@
     "Amount of loan" : "Importe del prestamo",
     "Amount to be repaid" : "importe a cobrar",
     "Actions" : "Acciones",
-    "loan" : "Prestamo"
+    "loan" : "Prestamo",
+    "Reports" : "Reportes",
+    "Today's Report" : "Reporte del dia",
+    "Income Report" : "Reporte de ingresos",
+    "Expense Report" : "Reporte de egresos",
+    "Vehicle Report" : "Reporte de moviles",
+    "Loan Report" : "Reporte de prestamos",
+    "No records found. Select other dates." : "No se encontraron registros. Seleccione otras fechas.",
+    "Generate PDF" : "Generar PDF",
+    "Date" : "Fecha",
+    "to" : "a",
+    "income" : "Ingresos",
+    "expense" : "Egresos",
+    "Transaction type" : "Tipo de transaccion",
+    "Total Income" : "Ingresos totales",
+    "Total Expenses" : "Gastos totales",
+    "Net Total" : "Total Neto"
 }
