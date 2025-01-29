@@ -73,6 +73,59 @@
        aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
+
+            <li>
+                <button type="button"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-example4" data-collapse-toggle="dropdown-example4">
+                    <svg
+                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                              d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <span
+                        class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{__('User Management')}}</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 1 4 4 4-4"/>
+                    </svg>
+
+                </button>
+                <ul id="dropdown-example4" class="hidden py-2 space-y-2">
+                    <li>
+                        <a href="{{ route('user.index') }}"
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+
+                            {{__('Users')}}</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Roles')}}</a>
+                    </li>
+                </ul>
+            </li>
+
+
             <li>
                 <a href="{{ route('loans.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -89,11 +142,18 @@
                 <a href="{{ route('accountLetters.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg
-                        class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                        <path
-                            d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
+                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                              d="M12 14a3 3 0 0 1 3-3h4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a3 3 0 0 1-3-3Zm3-1a1 1 0 1 0 0 2h4v-2h-4Z"
+                              clip-rule="evenodd"/>
+                        <path fill-rule="evenodd"
+                              d="M12.293 3.293a1 1 0 0 1 1.414 0L16.414 6h-2.828l-1.293-1.293a1 1 0 0 1 0-1.414ZM12.414 6 9.707 3.293a1 1 0 0 0-1.414 0L5.586 6h6.828ZM4.586 7l-.056.055A2 2 0 0 0 3 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2h-4a5 5 0 0 1 0-10h4a2 2 0 0 0-1.53-1.945L17.414 7H4.586Z"
+                              clip-rule="evenodd"/>
                     </svg>
+
                     <span class="flex-1 ms-3 whitespace-nowrap">Cuentas Bancarias</span>
                     <!--                    <span
                                             class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span> -->
@@ -106,12 +166,20 @@
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <svg
-                        class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                        <path
-                            d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                              d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z"
+                              clip-rule="evenodd"/>
+                        <path fill-rule="evenodd"
+                              d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+                              clip-rule="evenodd"/>
+                        <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
                     </svg>
-                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Ingresos</span>
+
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{__('Income')}}</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -121,18 +189,39 @@
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
                     <li>
                         <a href="{{ route('income.index') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Ingresos
-                            por Moviles</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Income from vehicles')}}</a>
                     </li>
                     <li>
                         <a href="{{ route('otherIncome.index') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Otros
-                            Ingresos</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Other Income')}}</a>
                     </li>
                     <li>
                         <a href="{{ route('incomeCategories.index') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Items
-                            de Ingresos</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Income Categories')}}</a>
                     </li>
                 </ul>
             </li>
@@ -147,7 +236,7 @@
                         <path
                             d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
                     </svg>
-                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Egresos</span>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{__('Expense')}}</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -157,12 +246,28 @@
                 <ul id="dropdown-example2" class="hidden py-2 space-y-2">
                     <li>
                         <a href="{{ route('expense.index') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Egresos</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Expense')}}</a>
                     </li>
                     <li>
                         <a href="{{ route('expenseCategories.index') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Items
-                            de Egresos</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+
+                            {{__('Expense Categories')}}</a>
                     </li>
                 </ul>
             </li>
@@ -172,11 +277,15 @@
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                         aria-controls="dropdown-reports" data-collapse-toggle="dropdown-reports">
                     <svg
-                        class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                        <path
-                            d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                              d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm-1 9a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2Zm2-5a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm4 4a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3Z"
+                              clip-rule="evenodd"/>
                     </svg>
+
                     <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{__('Reports')}}</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 10 6">
@@ -187,8 +296,15 @@
                 <ul id="dropdown-reports" class="hidden py-2 space-y-2">
                     <li>
                         <a href="{{ route('today.report') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                           {{__("Today's Report")}}</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg  group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__("Today's Report")}}</a>
                     </li>
                     <!--
                     <li>
@@ -199,17 +315,31 @@
                     -->
                     <li>
                         <a href="{{ route('income.report') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                           {{__('Income Report')}}</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Income Report')}}</a>
                     </li>
                     <li>
                         <a href="{{ route('expense.report') }}"
-                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                           {{__('Expense Report')}}</a>
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Expense Report')}}</a>
                     </li>
                     <!--
                     <li>
-                        <a href="#"
+                        <a href="#}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                            {{__('Loan Report')}}</a>
                     </li>
