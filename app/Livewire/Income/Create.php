@@ -33,7 +33,7 @@ class Create extends Component
         $this->validate([
             'movil' => 'required|numeric|min:1',
             'hoja_semanal_serie' => 'required|string|max:255',
-            'amount_hoja_semanal' => 'nullable|numeric|min:0',
+            'amount_hoja_semanal' => 'required|numeric|min:0',
             'hoja_domingo_serie' => 'nullable|string|max:255',
             'amount_hoja_domingo' => 'nullable|numeric|min:0',
             'multas' => 'nullable|numeric|min:0',

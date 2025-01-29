@@ -51,10 +51,11 @@ Nuevo Ingresos por movilidad(Senanal)
                                 id="input2"
                                 maxlength="255"
                                 required="required"
-                                type="text"
+                                type="number"
                                 wire:model="amount_hoja_semanal"
                                 placeholder="Ingresa un monto">
                         </div>
+                        @error('amount_hoja_semanal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Input 3: Numero de Serie -->
@@ -69,11 +70,12 @@ Nuevo Ingresos por movilidad(Senanal)
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
                                 id="input3"
                                 maxlength="255"
-                                required="required"
-                                type="text"
+                                required
+                                type="number"
                                 wire:model="hoja_semanal_serie"
                                 placeholder="Ingrese el numero de serie">
                         </div>
+                        @error('hoja_semanal_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <br>
@@ -82,18 +84,18 @@ Nuevo Ingresos por movilidad(Senanal)
                     <div>
                         <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
                             Venta de Hoja Domingo
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
+                            <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
                         </label>
                         <div
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
                                 id="input1"
-                                maxlength="255"
-                                required="required"
-                                type="text"
+                                type="number"
                                 wire:model="amount_hoja_domingo"
                                 placeholder="Ingresa un monto">
+                            @error('amount_hoja_domingo') <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
@@ -101,7 +103,7 @@ Nuevo Ingresos por movilidad(Senanal)
                     <div>
                         <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input2">
                             Numero de Serie
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
+                            <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
                         </label>
                         <div
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
@@ -109,11 +111,11 @@ Nuevo Ingresos por movilidad(Senanal)
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
                                 id="input2"
                                 maxlength="255"
-                                required="required"
-                                type="text"
+                                type="number"
                                 wire:model="hoja_domingo_serie"
                                 placeholder="Ingrese el numero de serie">
                         </div>
+                        @error('hoja_domingo_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </fieldset>
@@ -129,7 +131,7 @@ Nuevo Ingresos por movilidad(Senanal)
                                placeholder="Ingresa un monto"
                                wire:model="multas">
                     </div>
-
+                    @error('multas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     <!-- Input 2: Lavado -->
                     <div>
                         <label for="lavado_auto" class="block text-sm font-medium text-gray-700">Lavado</label>
@@ -138,7 +140,7 @@ Nuevo Ingresos por movilidad(Senanal)
                                placeholder="Ingresa un monto"
                                wire:model="lavado_auto">
                     </div>
-
+                    @error('lavado_auto') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     <!-- Input 3: Aporte para Seguro -->
                     <div>
                         <label for="aporte_seguro" class="block text-sm font-medium text-gray-700">Aporte para
@@ -148,6 +150,7 @@ Nuevo Ingresos por movilidad(Senanal)
                                placeholder="Ingresa un monto"
                                wire:model="aporte_seguro">
                     </div>
+                    @error('aporte_seguro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </fieldset>
 
