@@ -85,5 +85,6 @@
     "Transaction type" : "Tipo de transaccion",
     "Total Income" : "Ingresos totales",
     "Total Expenses" : "Gastos totales",
-    "Net Total" : "Total Neto"
+    "Net Total" : "Total Neto",
+    "Daily Report" : "Reporte del dia"
 }
