@@ -118,7 +118,7 @@
         </div>
     </header>
 
-    <div class="report-title">Reporte del dia</div>
+    <div class="report-title">{{__('Daily Report')}}</div>
 
     <div class="report-date">
         <p>{{__('Date')}}: {{$startDate->format('d/m/Y')}}</p> @if($endDate != null) {{__('to')}}
