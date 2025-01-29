@@ -86,5 +86,18 @@
     "Total Income" : "Ingresos totales",
     "Total Expenses" : "Gastos totales",
     "Net Total" : "Total Neto",
-    "Daily Report" : "Reporte del dia"
+    "Daily Report" : "Reporte del dia",
+    "User Management" : "Gestión de usuarios",
+    "Users" : "Usuarios",
+    "Income from vehicles" : "Ingreso por moviles",
+    "Income" : "Ingresos",
+    "Other Income" : "Otros ingresos",
+    "Expense" : "Egresos",
+    "Income Categories" : "Items de Ingreso",
+    "Expense Categories" : "Items de Egreeso",
+    "Full Name" : "Nombre Completo",
+    "E-mail" : "Correo electronico",
+    "Profile photo" : "Foto de Perfil",
+    "Create new user" : "Crear nuevo usuario",
+    "New user" : "Nuevo usuario"
 }
