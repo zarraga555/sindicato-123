@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\AccountLetters;
+use App\Models\Vehicle;
 use App\Models\User;
+use Carbon\Carbon;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,5 +35,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
+
+        for($i = 1; $i <= 310; $i++){
+            Vehicle::create([
+                'created_at' => Carbon::now(),
+            ]);
+
+        }
     }
 }

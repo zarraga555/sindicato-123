@@ -68,13 +68,13 @@ Route::middleware([
         //        Loans  Routes
         Route::get('loans',\App\Livewire\LoanComponent::class )->name('loans.index');
         Route::get('loans/create', LoansCreate::class)->name('loans.create');
-        Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit');
-        Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
+        // Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit');
+        // Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
         //        Reports
         Route::get('today-report',\App\Livewire\TodayReportComponent::class )->name('today.report');
-        Route::get('vehicle-report', \App\Livewire\VehicleReportComponent::class)->name('vehicle.report');
+        // Route::get('vehicle-report', \App\Livewire\VehicleReportComponent::class)->name('vehicle.report');
         Route::get('income-report',\App\Livewire\IncomeReportComponent::class )->name('income.report');
         Route::get('expense-report',\App\Livewire\ExpenseReportComponent::class )->name('expense.report');
-        Route::get('loan-report',\App\Livewire\LoanReportComponent::class )->name('loan.report');
+        // Route::get('loan-report',\App\Livewire\LoanReportComponent::class )->name('loan.report');
     });
 });
