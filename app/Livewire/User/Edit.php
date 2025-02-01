@@ -6,10 +6,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class Edit extends Component
 {
-    public $name, $email, $password, $password_confirmation, $role;
+    public $name, $email, $password, $password_confirmation, $roles, $role_id;
     public $confirmingUserDeletion = false;
     public $user_id;
     public $nameLabel;
@@ -32,6 +33,8 @@ class Edit extends Component
     {
         $user = User::findOrFail($id);
 
+        $this->roles = Role::all();
+        $this->role_id = isset($user->roles->pluck('id')[0]) ? $user->roles->pluck('id')[0] : 0;
         $this->nameLabel = $user->name;
         $this->user_id = $user->id;
         $this->name = $user->name;
@@ -51,6 +54,7 @@ class Edit extends Component
             'email' => $this->email,
             'password' => Hash::make($this->password)
         ]);
+        $user->roles()->sync($this->role_id);
 
         session()->flash('message', 'Registro actualizado correctamente.');
         return redirect()->route('user.index');

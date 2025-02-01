@@ -81,6 +81,26 @@
                 </div>
                 @error("password_confirmation") <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
             </div>
+
+            <div>
+                <div class="mb-4">
+                    <label for="bank_id"
+                           class="block text-sm font-medium text-gray-900 dark:text-gray-400">
+                        {{__('Role')}}
+                    </label>
+                    <select id="bank_id" name="bank_id" wire:model="role_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="">{{__('Select an option')}}</option>
+                        @foreach($roles as $role)
+                        <option value="{{ $role->id }}">
+                            {{ $role->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('role_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
         </div>
         <div class="fi-form-actions">
             <div class="fi-ac gap-3 flex flex-wrap items-center justify-start">

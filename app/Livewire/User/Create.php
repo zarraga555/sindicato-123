@@ -6,10 +6,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class Create extends Component
 {
-    public $name, $email, $password, $password_confirmation, $role;
+    public $name, $email, $password, $password_confirmation, $role_id, $roles;
 
     private function validateForm()
     {
@@ -17,7 +18,7 @@ class Create extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            //'role' => ['required', Rule::in(['admin', 'user'])], // Ajusta los roles según tu sistema
+            'role_id' => ['required'], // Ajusta los roles según tu sistema
         ]);
     }
 
@@ -40,11 +41,12 @@ class Create extends Component
 
     private function createUser()
     {
-        User::create([
+        $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password)
         ]);
+        $user->roles()->sync($this->role_id);
     }
 
     public function saveAndCreateAnother()
@@ -70,13 +72,14 @@ class Create extends Component
             'email',
             'password',
             'password_confirmation',
-            'role',
+            'roles',
 //            'profile_photo_path'
         ]);
     }
 
     public function render()
     {
+        $this->roles = Role::all();
         return view('livewire.user.create');
     }
 }
