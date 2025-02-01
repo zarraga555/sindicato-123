@@ -62,7 +62,12 @@
                         {{ $role->name}}
                     </td>
                     <td class="px-6 py-4">
-                        No asociado
+                        @foreach ($role->permissions as $permission)
+                        <span
+                            class="m-1 text-xs px-2 py-1 inline-flex text-center leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {{ __("{$permission->name}") }}
+                                    </span>
+                        @endforeach
                     </td>
 
                     <td class="px-6 py-4">

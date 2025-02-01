@@ -78,7 +78,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        No asociado
+                        {{ isset($user->roles->pluck('name')[0]) ? $user->roles->pluck('name')[0] : __('No role')}}
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('user.edit', $user->id) }}"
