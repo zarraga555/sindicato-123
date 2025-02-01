@@ -100,5 +100,14 @@
     "Profile photo" : "Foto de Perfil",
     "Create new user" : "Crear nuevo usuario",
     "New user" : "Nuevo usuario",
-    "Edit user" : "Editar usuario"
+    "Edit user" : "Editar usuario",
+    "No records were found. Create a record to start." : "No se encontraron registros. Cree un un registro para empezar.",
+    "New role" : "Nuevo rol",
+    "Permissions" : "Permisos",
+    "Action" : "Acciones",
+    "Create new role" : "Crear nuevo rol",
+    "Select the permissions for this role" : "Selecciona los permisos para este rol",
+    "No role" : "Sin rol",
+    "Edit role" : "Editar rol",
+    "Delete" : "Borrar"
 }
