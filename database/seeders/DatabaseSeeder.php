@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call(ItemsEgresos::class);
         $this->call(ItemsIngresos::class);
+        $this->call(RolePermissionSeeder::class);
         // Account Letter
         AccountLetters::create([
             'bank_name'=> 'EFECTIVO',
