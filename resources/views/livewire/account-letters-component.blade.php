@@ -4,22 +4,22 @@
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
-            pageTitle="Cuentas Bancarias"
+            pageTitle="{{__('Bank accounts')}}"
             breadcrumbMainUrl="{{ route('accountLetters.index') }}"
-            breadcrumbMain="Cuentas Bancarias"
-            breadcrumbCurrent="Listado"
+            breadcrumbMain="{{__('Bank accounts')}}"
+            breadcrumbCurrent="{{__('List')}}"
         >
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('accountLetters.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
-                {{ __('Nuevo Cuenta Bancaria') }}
+                {{ __('New Bank Account') }}
             </a>
         </x-breadcrumb>
 
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <label for="table-search" class="sr-only">Search</label>
+                <label for="table-search" class="sr-only">{{__('Search')}}</label>
                 <div class="relative mt-4 ml-4">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -47,14 +47,10 @@
                         {{ __('Account Type') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        {{ __('Currency Type') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         {{ __('Balance available') }}
-
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Action
+                        {{__('Action')}}
                     </th>
                 </tr>
                 </thead>
@@ -68,17 +64,27 @@
                         {{ $accountLetter->account_number }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $accountLetter->account_type }}
+                        {{ __($accountLetter->account_type) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $accountLetter->currency_type }}.
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ number_format($accountLetter->initial_account_amount, 2) }}
+                        {{ $accountLetter->currency_type }}. {{ number_format($accountLetter->initial_account_amount, 2)
+                        }}
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('accountLetters.edit', $accountLetter->id) }}"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            {{ __('Edit') }}
+                        </a>
+                        |
+                        <a href="{{ route('accountLetters.transactions', $accountLetter->id) }}"
+                           class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                            {{ __('Historial') }}
+                        </a>
+                        |
+                        <a href="{{ route('accountLetters.transfer', $accountLetter->id) }}"
+                           class="font-medium text-purple-600 dark:text-purple-500 hover:underline">
+                            {{ __('Transferir') }}
+                        </a>
                     </td>
                 </tr>
                 @empty
