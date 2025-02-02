@@ -109,5 +109,18 @@
     "Select the permissions for this role" : "Selecciona los permisos para este rol",
     "No role" : "Sin rol",
     "Edit role" : "Editar rol",
-    "Delete" : "Borrar"
+    "Delete" : "Borrar",
+    "Bank accounts" : "Cuenta Bancarias",
+    "New Bank Account" : "Nueva Cuenta Bancaria",
+    "Bank Name" : "Nombre del banco",
+    "Account Number" : "Número de cuenta",
+    "Account Type" : "Tipo de cuenta",
+    "Currency Type" : "Tipo de divisa",
+    "Balance available" : "Saldo disponible",
+    "Savings bank" : "Caja de ahorros",
+    "Checking account" : "Cuenta corriente",
+    "Account Name" : "Nombre de la Cuenta",
+    "Create Bank Account" : "Crear Cuenta Bancaria",
+    "Bank Account Type" : "Tipo de Cuenta Bancaria",
+    "Opening Amount" : "Monto de Apertura"
 }

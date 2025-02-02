@@ -1,22 +1,22 @@
 @section('title')
-Crear Cuenta Bancaria
+{{__('Create Bank Account')}}
 @endsection
 
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
-            pageTitle="Crear Cuenta Bancaria"
+            pageTitle="{{__('Create Bank Account')}}"
             breadcrumbMainUrl="{{ route('accountLetters.index') }}"
-            breadcrumbMain="Cuentas Bancarias"
-            breadcrumbCurrent="Crear"
+            breadcrumbMain="{{__('Bank Accounts')}}"
+            breadcrumbCurrent="{{__('Create')}}"
         >
         </x-breadcrumb>
 
         <div class="grid grid-cols-2 gap-4">
             <!-- Multas -->
             <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
-                    Nombre de la Cuenta
+                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="account_name">
+                    {{__('Account Name')}}
                     <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup> -->
                 </label>
                 <div
@@ -31,8 +31,8 @@ Crear Cuenta Bancaria
             </div>
 
             <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
-                    Nombre del Banco
+                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="bank_name">
+                    {{__('Bank Name')}}
                     <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                 </label>
 
@@ -48,8 +48,8 @@ Crear Cuenta Bancaria
             </div>
 
             <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
-                    Numero de la cuenta
+                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="account_number">
+                    {{__('Account Number')}}
                     <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                 </label>
                 <div
@@ -65,13 +65,13 @@ Crear Cuenta Bancaria
 
             <div>
                 <div class="mb-4">
-                    <label for="selectCashFlow"
+                    <label for="currency_type"
                            class="block text-sm font-medium text-gray-900 dark:text-gray-400">
-                        Tipo de Cuenta Bancaria
+                        {{__('Currency Type')}}
                     </label>
                     <select id="currency_type" name="currency_type" wire:model.live="currency_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value=" ">Seleccione una opción</option>
+                        <option value=" ">{{__('Select an option')}}</option>
                         <option value="Bs">Bolivianos (Bs.)</option>
                         <option value="$us">Dolares ($us.)</option>
                     </select>
@@ -81,22 +81,22 @@ Crear Cuenta Bancaria
             <!-- Segundo input -->
             <div>
                 <div class="mb-4">
-                    <label for="selectCashFlow"
+                    <label for="account_type"
                            class="block text-sm font-medium text-gray-900 dark:text-gray-400">
-                        Tipo de Moneda
+                           {{__('Bank Account Type')}}
                     </label>
                     <select id="account_type" name="account_type" wire:model.live="account_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value=" ">Seleccione una opción</option>
-                        <option value="Savings bank">Caja de Ahorros</option>
-                        <option value="Checking account">Ceunta Corriente</option>
+                        <option value=" ">{{__('Select an option')}}</option>
+                        <option value="Savings bank">{{__('Savings bank')}}</option>
+                        <option value="Checking account">{{__('Checking account')}}</option>
                     </select>
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
-                    Monto de Apertura
+                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="initial_account_amount">
+                    {{__('Opening Amount')}}
                     <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                 </label>
                 <div
