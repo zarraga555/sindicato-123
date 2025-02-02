@@ -122,5 +122,7 @@
     "Account Name" : "Nombre de la Cuenta",
     "Create Bank Account" : "Crear Cuenta Bancaria",
     "Bank Account Type" : "Tipo de Cuenta Bancaria",
-    "Opening Amount" : "Monto de Apertura"
+    "Opening Amount" : "Monto de Apertura",
+    "History" : "Historial",
+    "Transfer" : "Transferir"
 }

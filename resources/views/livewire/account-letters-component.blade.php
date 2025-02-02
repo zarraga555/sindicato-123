@@ -78,12 +78,12 @@
                         |
                         <a href="{{ route('accountLetters.transactions', $accountLetter->id) }}"
                            class="font-medium text-green-600 dark:text-green-500 hover:underline">
-                            {{ __('Historial') }}
+                            {{ __('History') }}
                         </a>
                         |
                         <a href="{{ route('accountLetters.transfer', $accountLetter->id) }}"
                            class="font-medium text-purple-600 dark:text-purple-500 hover:underline">
-                            {{ __('Transferir') }}
+                            {{ __('Transfer') }}
                         </a>
                     </td>
                 </tr>
