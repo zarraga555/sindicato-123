@@ -129,5 +129,11 @@
     "Transfer between bank accounts" : "Transferencia entre cuentas bancarias",
     "External Transfer" : "Transferencia Externa",
     "Amount" : "Monto",
-    "Account" : "Cuenta"
+    "Account" : "Cuenta",
+    "Created By" : "Creado por",
+    "initial account amount" : "Importe inicial de la cuenta",
+    "transfer" : "Tranferencia Bancaria",
+    "Detail" : "Detalle",
+    "vehicle" : "Movil",
+    "Remarks" : "Observaciones"
 }
