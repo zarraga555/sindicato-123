@@ -7,7 +7,7 @@
         <x-breadcrumb
             pageTitle="{{__('Create Bank Account')}}"
             breadcrumbMainUrl="{{ route('accountLetters.index') }}"
-            breadcrumbMain="{{__('Bank Accounts')}}"
+            breadcrumbMain="{{__('Bank accounts')}}"
             breadcrumbCurrent="{{__('Create')}}"
         >
         </x-breadcrumb>
@@ -28,6 +28,7 @@
                         type="text"
                         wire:model.live="account_name">
                 </div>
+                @error('account_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
@@ -45,6 +46,7 @@
                         type="text"
                         wire:model.live="bank_name">
                 </div>
+                @error('bank_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
@@ -61,6 +63,7 @@
                         type="numeric"
                         wire:model.live="account_number">
                 </div>
+                @error('account_number') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
@@ -75,6 +78,7 @@
                         <option value="Bs">Bolivianos (Bs.)</option>
                         <option value="$us">Dolares ($us.)</option>
                     </select>
+                    @error('currency_type') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -91,6 +95,7 @@
                         <option value="Savings bank">{{__('Savings bank')}}</option>
                         <option value="Checking account">{{__('Checking account')}}</option>
                     </select>
+                    @error('account_type') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -108,6 +113,7 @@
                         type="numeric"
                         wire:model.live="initial_account_amount">
                 </div>
+                @error('initial_account_amount') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
         </div>
         <div class="fi-form-actions">

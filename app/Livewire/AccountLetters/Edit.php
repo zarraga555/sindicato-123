@@ -3,6 +3,8 @@
 namespace App\Livewire\AccountLetters;
 
 use App\Models\AccountLetters;
+use App\Models\CashFlow;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Edit extends Component
@@ -15,9 +17,10 @@ class Edit extends Component
     public $currency_type;
     public $initial_account_amount;
     public $confirmingUserDeletion = false;
+    public $verificationTransactions;
 
     protected array $rules = [
-        'account_name' => 'required|string|max:255',
+        'account_name' => 'nullable|string|max:255',
         'bank_name' => 'required|string|max:255',
         'account_number' => 'required|numeric',
         'account_type' => 'required|string',
@@ -39,6 +42,23 @@ class Edit extends Component
         $this->account_type = $account->account_type;
         $this->currency_type = $account->currency_type;
         $this->initial_account_amount = $account->initial_account_amount;
+        $this->verificationTransactions = $this->verifiedCashFLows();
+    }
+
+    /**
+     * Verifica si en la Tabla CashFlows si hubo transacciones.
+     */
+    private function verifiedCashFLows(): bool
+    {
+        $items = CashFlow::where('account_bank_id', $this->accountId)
+            ->where('type_transaction', '!=', 'initial account amount')
+            ->get();
+
+        if ($items->isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -47,14 +67,15 @@ class Edit extends Component
     public function update()
     {
         $this->validate();
-
+        DB::beginTransaction();
         try {
             $account = AccountLetters::findOrFail($this->accountId);
             $account->update($this->getFormData());
-
+            DB::commit();
             session()->flash('message', 'Cuenta bancaria actualizada correctamente.');
             return redirect()->route('accountLetters.index');
         } catch (\Exception $e) {
+            DB::rollBack();
             session()->flash('error', 'Error al actualizar: ' . $e->getMessage());
         }
     }
@@ -94,16 +115,25 @@ class Edit extends Component
     /**
      * Obtiene los datos del formulario.
      */
-    private function getFormData(): array
+    private function getFormData()
     {
-        return [
-            'account_name' => $this->account_name,
-            'bank_name' => $this->bank_name,
-            'account_number' => $this->account_number,
-            'account_type' => $this->account_type,
-            'currency_type' => $this->currency_type,
-            'initial_account_amount' => $this->initial_account_amount,
-        ];
+        if ($this->verificationTransactions) {
+            return [
+                'account_name' => $this->account_name,
+                'bank_name' => $this->bank_name,
+                'account_number' => $this->account_number,
+                'account_type' => $this->account_type,
+            ];
+        } else {
+            return [
+                'account_name' => $this->account_name,
+                'bank_name' => $this->bank_name,
+                'account_number' => $this->account_number,
+                'account_type' => $this->account_type,
+                'currency_type' => $this->currency_type,
+                'initial_account_amount' => $this->initial_account_amount,
+            ];
+        }
     }
 
     /**
