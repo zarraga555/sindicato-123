@@ -19,14 +19,17 @@ class Edit extends Component
     public $confirmingUserDeletion = false;
     public $verificationTransactions;
 
-    protected array $rules = [
-        'account_name' => 'nullable|string|max:255',
-        'bank_name' => 'required|string|max:255',
-        'account_number' => 'required|numeric',
-        'account_type' => 'required|string',
-        'currency_type' => 'required|string',
-        'initial_account_amount' => 'nullable|numeric',
-    ];
+    private function validateFroms()
+    {
+        $this->validate([
+            'account_name' => 'nullable|string|max:255',
+            'bank_name' => 'required|string|max:255',
+            'account_number' => 'required|numeric',
+            'account_type' => 'required|string',
+            'currency_type' => 'required|string',
+            'initial_account_amount' => 'nullable|numeric',
+        ]);
+    }
 
     /**
      * Monta los datos existentes para edición.
@@ -66,12 +69,13 @@ class Edit extends Component
      */
     public function update()
     {
-        $this->validate();
+        $this->validateFroms();
+
         DB::beginTransaction();
         try {
-            $account = AccountLetters::findOrFail($this->accountId);
-            $account->update($this->getFormData());
+            $this->updateAccountLatter();
             DB::commit();
+
             session()->flash('message', 'Cuenta bancaria actualizada correctamente.');
             return redirect()->route('accountLetters.index');
         } catch (\Exception $e) {
@@ -113,26 +117,34 @@ class Edit extends Component
     }
 
     /**
-     * Obtiene los datos del formulario.
+     * Actualiza la cuenta bancaria.
      */
-    private function getFormData()
+    private function updateAccountLatter()
     {
+        $account = AccountLetters::findOrFail($this->accountId);
         if ($this->verificationTransactions) {
-            return [
+            $account->update([
                 'account_name' => $this->account_name,
                 'bank_name' => $this->bank_name,
                 'account_number' => $this->account_number,
                 'account_type' => $this->account_type,
-            ];
+            ]);
+
         } else {
-            return [
+            $account->update([
                 'account_name' => $this->account_name,
                 'bank_name' => $this->bank_name,
                 'account_number' => $this->account_number,
                 'account_type' => $this->account_type,
                 'currency_type' => $this->currency_type,
                 'initial_account_amount' => $this->initial_account_amount,
-            ];
+            ]);
+
+            CashFlow::where('account_bank_id', $this->accountId)->update([
+                'amount' => $this->initial_account_amount,
+                'detail' => "Apertura de cuenta:  {$this->currency_type}. {$this->initial_account_amount} {$this->bank_name}",
+            ]);
+
         }
     }
 
