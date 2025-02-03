@@ -64,12 +64,13 @@ class Transfer extends Component
     {
         if ($this->bank_id != null) {
             if ($this->bank_id === 'External Transfer') {
+                $bank_name = __('External Transfer');
                 $cashFlow = CashFlow::create([
                     'user_id' => Auth::id(),
                     'transaction_type_income_expense' => 'expense',
                     'account_bank_id' => $this->transfer_bank_id,
                     'amount' => $this->amount,
-                    'detail' => "Transferia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia la cuenta {__($this->bank_id)}",
+                    'detail' => "Transferia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia fuera del sistema en una {$bank_name}",
                     'description' => $this->description,
                     'type_transaction' => 'transfer',
                 ]);
