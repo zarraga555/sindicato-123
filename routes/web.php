@@ -10,6 +10,8 @@ use App\Livewire\Expense\View as ExpenseView;
 use App\Livewire\AccountLetters\Create as AccountLettersCreate;
 use App\Livewire\AccountLetters\Edit as AccountLettersEdit;
 use App\Livewire\AccountLetters\View as AccountLettersView;
+use App\Livewire\AccountLetters\History as AccountLettersHistory;
+use App\Livewire\AccountLetters\Transfer as AccountLettersTransfer;
 use App\Livewire\IncomeCategories\Create as IncomeCategoriesCreate;
 use App\Livewire\IncomeCategories\Edit as IncomeCategoriesEdit;
 use App\Livewire\IncomeCategories\View as IncomeCategoriesView;
@@ -51,6 +53,8 @@ Route::middleware([
         Route::get('account-letters/create', AccountLettersCreate::class)->name('accountLetters.create');
         Route::get('account-letters/{id}/edit', AccountLettersEdit::class)->name('accountLetters.edit');
         Route::get('account-letters/{id}/view', AccountLettersView::class)->name('accountLetters.view');
+        Route::get('account-letters/{id}/transactions', AccountLettersHistory::class)->name('accountLetters.transactions');
+        Route::get('account-letters/{id}/transfer', AccountLettersTransfer::class)->name('accountLetters.transfer');
         //        Income Categories Routes
         Route::get('imcome-categories', \App\Livewire\IncomeCategoriesComponent::class)->name('incomeCategories.index');
         Route::get('imcome-categories/create', IncomeCategoriesCreate::class)->name('incomeCategories.create');
@@ -73,7 +77,7 @@ Route::middleware([
         //        Loans  Routes
         Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index');
         Route::get('loans/create', LoansCreate::class)->name('loans.create');
-        // Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit');
+         Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit');
         // Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
         //        Reports
         Route::get('today-report', \App\Livewire\TodayReportComponent::class)->name('today.report');
