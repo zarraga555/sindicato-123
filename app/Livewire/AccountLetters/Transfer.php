@@ -70,7 +70,7 @@ class Transfer extends Component
                     'transaction_type_income_expense' => 'expense',
                     'account_bank_id' => $this->transfer_bank_id,
                     'amount' => $this->amount,
-                    'detail' => "Transferia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia fuera del sistema en una {$bank_name}",
+                    'detail' => "Transferencia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia fuera del sistema en una {$bank_name}",
                     'description' => $this->description,
                     'type_transaction' => 'transfer',
                 ]);
@@ -82,7 +82,7 @@ class Transfer extends Component
                         'transaction_type_income_expense' => 'expense',
                         'account_bank_id' => $this->transfer_bank_id,
                         'amount' => $this->amount,
-                        'detail' => "Transferia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia la cuenta {$bank->account_number} {$bank->bank_name}",
+                        'detail' => "Transferencia de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name} hacia la cuenta {$bank->account_number} {$bank->bank_name}",
                         'description' => $this->description,
                         'type_transaction' => 'transfer',
                     ]);
@@ -91,7 +91,7 @@ class Transfer extends Component
                         'transaction_type_income_expense' => 'income',
                         'account_bank_id' => $bank->id,
                         'amount' => $this->amount,
-                        'detail' => "Transferia recibida de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name}",
+                        'detail' => "Transferencia recibida de:  {$this->accountLatter->currency_type}. {$this->amount} de la cuenta: {$this->accountLatter->account_number} del banco: {$this->accountLatter->bank_name}",
                         'description' => $this->description,
                         'type_transaction' => 'transfer',
                     ]);
