@@ -124,5 +124,10 @@
     "Bank Account Type" : "Tipo de Cuenta Bancaria",
     "Opening Amount" : "Monto de Apertura",
     "History" : "Historial",
-    "Transfer" : "Transferir"
+    "Transfer" : "Transferir",
+    "Banking Transaction History" : "Historial de transacciones bancarias",
+    "Transfer between bank accounts" : "Transferencia entre cuentas bancarias",
+    "External Transfer" : "Transferencia Externa",
+    "Amount" : "Monto",
+    "Account" : "Cuenta"
 }
