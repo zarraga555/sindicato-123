@@ -95,7 +95,7 @@
                             {{ __('History') }}
                         </a>
                         @endcan
-                        @can('tranferencias cuentas bancarias')
+                        @can('transferencia cuentas bancarias')
                         |
                         <a href="{{ route('accountLetters.transfer', $accountLetter->id) }}"
                            class="font-medium text-purple-600 dark:text-purple-500 hover:underline">
