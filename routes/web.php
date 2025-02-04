@@ -44,40 +44,40 @@ Route::middleware([
 
     Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 //        Incomes Routes
-        Route::get('incomes', \App\Livewire\IncomeComponent::class)->name('income.index');
-        Route::get('incomes/create', IncomeCreate::class)->name('income.create');
-        Route::get('incomes/{id}/edit', IncomeEdit::class)->name('income.edit');
-        Route::get('incomes/{id}/view', IncomeView::class)->name('income.view');
+        Route::get('incomes', \App\Livewire\IncomeComponent::class)->name('income.index')->middleware('can:ver ingresos');
+        Route::get('incomes/create', IncomeCreate::class)->name('income.create')->middleware('can:crear ingresos');
+        Route::get('incomes/{id}/edit', IncomeEdit::class)->name('income.edit')->middleware('can:editar ingresos');
+        Route::get('incomes/{id}/view', IncomeView::class)->name('income.view')->middleware('can:ver ingresos');
         //        Account Letters Routes
-        Route::get('account-letters', \App\Livewire\AccountLettersComponent::class)->name('accountLetters.index');
-        Route::get('account-letters/create', AccountLettersCreate::class)->name('accountLetters.create');
-        Route::get('account-letters/{id}/edit', AccountLettersEdit::class)->name('accountLetters.edit');
-        Route::get('account-letters/{id}/view', AccountLettersView::class)->name('accountLetters.view');
-        Route::get('account-letters/{id}/transactions', AccountLettersHistory::class)->name('accountLetters.transactions');
-        Route::get('account-letters/{id}/transfer', AccountLettersTransfer::class)->name('accountLetters.transfer');
+        Route::get('account-letters', \App\Livewire\AccountLettersComponent::class)->name('accountLetters.index')->middleware('permission:ver cuentas bancarias');
+        Route::get('account-letters/create', AccountLettersCreate::class)->name('accountLetters.create')->middleware('permission:crear cuentas bancarias');
+        Route::get('account-letters/{id}/edit', AccountLettersEdit::class)->name('accountLetters.edit')->middleware('permission:editar cuentas bancarias');
+        Route::get('account-letters/{id}/view', AccountLettersView::class)->name('accountLetters.view')->middleware('permission:ver cuentas bancarias');
+        Route::get('account-letters/{id}/transactions', AccountLettersHistory::class)->name('accountLetters.transactions')->middleware('permission:historial cuentas bancarias');
+        Route::get('account-letters/{id}/transfer', AccountLettersTransfer::class)->name('accountLetters.transfer')->middleware('permission:tranferencias cuentas bancarias');
         //        Income Categories Routes
-        Route::get('imcome-categories', \App\Livewire\IncomeCategoriesComponent::class)->name('incomeCategories.index');
-        Route::get('imcome-categories/create', IncomeCategoriesCreate::class)->name('incomeCategories.create');
-        Route::get('imcome-categories/{id}/edit', IncomeCategoriesEdit::class)->name('incomeCategories.edit');
-        Route::get('imcome-categories/{id}/view', IncomeCategoriesView::class)->name('incomeCategories.view');
+        Route::get('imcome-categories', \App\Livewire\IncomeCategoriesComponent::class)->name('incomeCategories.index')->middleware('can:ver item ingreso');
+        Route::get('imcome-categories/create', IncomeCategoriesCreate::class)->name('incomeCategories.create')->middleware('can:crear item ingreso');
+        Route::get('imcome-categories/{id}/edit', IncomeCategoriesEdit::class)->name('incomeCategories.edit')->middleware('can:editar item ingreso');
+        Route::get('imcome-categories/{id}/view', IncomeCategoriesView::class)->name('incomeCategories.view')->middleware('can:ver item ingreso');
         //        Expense Categories Routes
-        Route::get('expense-categories', \App\Livewire\ExpenseCategoriesComponent::class)->name('expenseCategories.index');
-        Route::get('expense-categories/create', ExpenseCategoriesCreate::class)->name('expenseCategories.create');
-        Route::get('expense-categories/{id}/edit', ExpenseCategoriesEdit::class)->name('expenseCategories.edit');
-        Route::get('expense-categories/{id}/view', ExpenseCategoriesView::class)->name('expenseCategories.view');
+        Route::get('expense-categories', \App\Livewire\ExpenseCategoriesComponent::class)->name('expenseCategories.index')->middleware('can:ver item egreso');
+        Route::get('expense-categories/create', ExpenseCategoriesCreate::class)->name('expenseCategories.create')->middleware('can:crear item egreso');
+        Route::get('expense-categories/{id}/edit', ExpenseCategoriesEdit::class)->name('expenseCategories.edit')->middleware('can:editar item egreso');
+        Route::get('expense-categories/{id}/view', ExpenseCategoriesView::class)->name('expenseCategories.view')->middleware('can:ver item egreso');
         //        Expense  Routes
         Route::get('expense', \App\Livewire\ExpenseComponent::class)->name('expense.index');
         Route::get('expense/create', ExpenseCreate::class)->name('expense.create');
         Route::get('expense/{id}/edit', ExpenseEdit::class)->name('expense.edit');
         Route::get('expense/{id}/view', ExpenseView::class)->name('expense.view');
         //        Others Incomes Routes
-        Route::get('other-income', \App\Livewire\OtherIncomeComponent::class)->name('otherIncome.index');
-        Route::get('other-income/create', OtherIncomeCreate::class)->name('otherIncome.create');
-        Route::get('other-income/{id}/edit', OtherIncomeEdit::class)->name('otherIncome.edit');
+        Route::get('other-income', \App\Livewire\OtherIncomeComponent::class)->name('otherIncome.index')->middleware('can:ver otros ingresos');
+        Route::get('other-income/create', OtherIncomeCreate::class)->name('otherIncome.create')->middleware('can:crear otros ingresos');
+        Route::get('other-income/{id}/edit', OtherIncomeEdit::class)->name('otherIncome.edit')->middleware('can:editar otros ingresos');
         //        Loans  Routes
-        Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index');
-        Route::get('loans/create', LoansCreate::class)->name('loans.create');
-         Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit');
+        Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index')->middleware('can:ver prestamos');
+        Route::get('loans/create', LoansCreate::class)->name('loans.create')->middleware('can:crear prestamos');
+         Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit')->middleware('can:editar prestamos');
         // Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
         //        Reports
         Route::get('today-report', \App\Livewire\TodayReportComponent::class)->name('today.report');
@@ -86,12 +86,12 @@ Route::middleware([
         Route::get('expense-report', \App\Livewire\ExpenseReportComponent::class)->name('expense.report');
         // Route::get('loan-report',\App\Livewire\LoanReportComponent::class )->name('loan.report');
         //        Others Users Routes
-        Route::get('users', \App\Livewire\UserComponent::class)->name('user.index');
-        Route::get('users/create', UserCreate::class)->name('user.create');
-        Route::get('users/{id}/edit', UserEdit::class)->name('user.edit');
+        Route::get('users', \App\Livewire\UserComponent::class)->name('user.index')->middleware('can:ver usuarios');
+        Route::get('users/create', UserCreate::class)->name('user.create')->middleware('can:crear usuarios');
+        Route::get('users/{id}/edit', UserEdit::class)->name('user.edit')->middleware('can:editar usuarios');
         //        Others Roles Routes
-        Route::get('roles', \App\Livewire\RoleComponent::class)->name('role.index');
-        Route::get('roles/create', RoleCreate::class)->name('role.create');
-        Route::get('roles/{id}/edit', RoleEdit::class)->name('role.edit');
+        Route::get('roles', \App\Livewire\RoleComponent::class)->name('role.index')->middleware('can:ver roles');
+        Route::get('roles/create', RoleCreate::class)->name('role.create')->middleware('can:crear roles');
+        Route::get('roles/{id}/edit', RoleEdit::class)->name('role.edit')->middleware('permission:editar roles');
     });
 });

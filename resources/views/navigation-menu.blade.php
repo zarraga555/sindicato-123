@@ -33,14 +33,14 @@
                         id="dropdown-user">
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                Neil Sims
+                                {{ Auth::user()->name }}
                             </p>
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                neil.sims@flowbite.com
+                                {{ Auth::user()->email }}
                             </p>
                         </div>
                         <ul class="py-1" role="none">
-                            <li>
+                            <!--<li>
                                 <a href="#"
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                    role="menuitem">Dashboard</a>
@@ -54,11 +54,17 @@
                                 <a href="#"
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                    role="menuitem">Earnings</a>
-                            </li>
+                            </li> -->
                             <li>
-                                <a href="#"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                   role="menuitem">Sign out</a>
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}" x-data>
+                                    @csrf
+
+                                    <x-dropdown-link href="{{ route('logout') }}"
+                                                     @click.prevent="$root.submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -73,7 +79,8 @@
        aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
-
+            @if (Gate::allows('ver usuarios', App\Models\Users::class) || Gate::allows('ver roles',
+            Spatie\Permission\Models\Role::class))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -97,6 +104,7 @@
 
                 </button>
                 <ul id="dropdown-example4" class="hidden py-2 space-y-2">
+                    @can('ver usuarios')
                     <li>
                         <a href="{{ route('user.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -110,6 +118,8 @@
 
                             {{__('Users')}}</a>
                     </li>
+                    @endcan
+                    @can('ver roles', Spatie\Permission\Models\Role::class)
                     <li>
                         <a href="{{ route('role.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -122,10 +132,11 @@
                             </svg>
                             {{__('Roles')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </li>
-
-
+            @endif
+            @can('ver prestamos')
             <li>
                 <a href="{{ route('loans.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -140,6 +151,8 @@
                         class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">En Proceso</span>
                 </a>
             </li>
+            @endcan
+            @can('ver cuentas bancarias')
             <li>
                 <a href="{{ route('accountLetters.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -161,8 +174,8 @@
                                             class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span> -->
                 </a>
             </li>
-
-
+            @endcan
+            @if (Gate::allows('ver ingresos') || Gate::allows('ver otros ingresos') || Gate::allows('ver otros ingresos'))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -189,6 +202,7 @@
                     </svg>
                 </button>
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                    @can('ver ingresos')
                     <li>
                         <a href="{{ route('income.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -201,6 +215,8 @@
                             </svg>
                             {{__('Income from vehicles')}}</a>
                     </li>
+                    @endcan
+                    @can('ver otros ingresos')
                     <li>
                         <a href="{{ route('otherIncome.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -213,6 +229,8 @@
                             </svg>
                             {{__('Other Income')}}</a>
                     </li>
+                    @endcan
+                    @can('ver item ingreso')
                     <li>
                         <a href="{{ route('incomeCategories.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -225,9 +243,11 @@
                             </svg>
                             {{__('Income Categories')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </li>
-
+            @endif
+            @if (Gate::allows('ver egresos') || Gate::allows('ver otros egresos'))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -246,6 +266,7 @@
                     </svg>
                 </button>
                 <ul id="dropdown-example2" class="hidden py-2 space-y-2">
+                    @can('ver egreso')
                     <li>
                         <a href="{{ route('expense.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -258,6 +279,8 @@
                             </svg>
                             {{__('Expense')}}</a>
                     </li>
+                    @endcan
+                    @can('ver item egreso')
                     <li>
                         <a href="{{ route('expenseCategories.index') }}"
                            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -271,9 +294,11 @@
 
                             {{__('Expense Categories')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </li>
-
+            @endif
+            @if (Gate::allows('ver reportes'))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -348,6 +373,7 @@
                     -->
                 </ul>
             </li>
+            @endif
             <!--
                         <li>
                             <a href="#"
