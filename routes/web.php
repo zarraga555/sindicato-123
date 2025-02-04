@@ -54,7 +54,7 @@ Route::middleware([
         Route::get('account-letters/{id}/edit', AccountLettersEdit::class)->name('accountLetters.edit')->middleware('permission:editar cuentas bancarias');
         Route::get('account-letters/{id}/view', AccountLettersView::class)->name('accountLetters.view')->middleware('permission:ver cuentas bancarias');
         Route::get('account-letters/{id}/transactions', AccountLettersHistory::class)->name('accountLetters.transactions')->middleware('permission:historial cuentas bancarias');
-        Route::get('account-letters/{id}/transfer', AccountLettersTransfer::class)->name('accountLetters.transfer')->middleware('permission:tranferencias cuentas bancarias');
+        Route::get('account-letters/{id}/transfer', AccountLettersTransfer::class)->name('accountLetters.transfer')->middleware('permission:transferencia cuentas bancarias');
         //        Income Categories Routes
         Route::get('imcome-categories', \App\Livewire\IncomeCategoriesComponent::class)->name('incomeCategories.index')->middleware('can:ver item ingreso');
         Route::get('imcome-categories/create', IncomeCategoriesCreate::class)->name('incomeCategories.create')->middleware('can:crear item ingreso');
