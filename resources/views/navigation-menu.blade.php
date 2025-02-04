@@ -247,7 +247,7 @@
                 </ul>
             </li>
             @endif
-            @if (Gate::allows('ver egresos') || Gate::allows('ver otros egresos'))
+            @if (Gate::allows('ver egreso') || Gate::allows('ver item egreso'))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"

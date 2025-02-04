@@ -22,7 +22,7 @@ class RolePermissionSeeder extends Seeder
             'prestamos' => ['crear', 'editar', 'eliminar', 'ver'],
             'cuentas bancarias' => ['crear', 'editar', 'eliminar', 'ver'],
             'ingresos' => ['crear', 'editar', 'eliminar', 'ver'],
-            'egresos' => ['crear', 'editar', 'eliminar', 'ver'],
+            'egreso' => ['crear', 'editar', 'eliminar', 'ver'],
             'reportes' => ['ver'],
         ];
 

@@ -66,10 +66,10 @@ Route::middleware([
         Route::get('expense-categories/{id}/edit', ExpenseCategoriesEdit::class)->name('expenseCategories.edit')->middleware('can:editar item egreso');
         Route::get('expense-categories/{id}/view', ExpenseCategoriesView::class)->name('expenseCategories.view')->middleware('can:ver item egreso');
         //        Expense  Routes
-        Route::get('expense', \App\Livewire\ExpenseComponent::class)->name('expense.index');
-        Route::get('expense/create', ExpenseCreate::class)->name('expense.create');
-        Route::get('expense/{id}/edit', ExpenseEdit::class)->name('expense.edit');
-        Route::get('expense/{id}/view', ExpenseView::class)->name('expense.view');
+        Route::get('expense', \App\Livewire\ExpenseComponent::class)->name('expense.index')->middleware('can:ver egreso');
+        Route::get('expense/create', ExpenseCreate::class)->name('expense.create')->middleware('can:crear egreso');
+        Route::get('expense/{id}/edit', ExpenseEdit::class)->name('expense.edit')->middleware('can:editar egreso');
+        Route::get('expense/{id}/view', ExpenseView::class)->name('expense.view')->middleware('can:ver egreso');
         //        Others Incomes Routes
         Route::get('other-income', \App\Livewire\OtherIncomeComponent::class)->name('otherIncome.index')->middleware('can:ver otros ingresos');
         Route::get('other-income/create', OtherIncomeCreate::class)->name('otherIncome.create')->middleware('can:crear otros ingresos');

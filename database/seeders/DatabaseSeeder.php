@@ -21,21 +21,22 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemsEgresos::class);
         $this->call(ItemsIngresos::class);
         $this->call(RolePermissionSeeder::class);
+        $this->call(RolePermissionSecondSeeder::class);
         // Account Letter
-        AccountLetters::create([
-            'bank_name'=> 'EFECTIVO',
-            'account_number' => 00000000,
-            'account_type' => 'Savings bank',
-            'currency_type' => 'Bs',
-            'initial_account_amount' => 0.00,
-        ]);
+//        AccountLetters::create([
+//            'bank_name'=> 'EFECTIVO',
+//            'account_number' => 00000000,
+//            'account_type' => 'Savings bank',
+//            'currency_type' => 'Bs',
+//            'initial_account_amount' => 0.00,
+//        ]);
 
 //        User Test
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
+//        User::factory()->create([
+//            'name' => 'Test User',
+//            'email' => 'test@example.com',
+//            'password' => bcrypt('password'),
+//        ]);
 
         for($i = 1; $i <= 310; $i++){
             Vehicle::create([
