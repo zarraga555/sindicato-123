@@ -9,11 +9,13 @@
             breadcrumbMain="{{__('Roles')}}	"
             breadcrumbCurrent="{{__('Edit')}}"
         >
+            @can('eliminar roles')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="#" wire:click="openDelete"
                class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Delete') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!-- input1 -->

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Gate;
 
 class Create extends Component
 {
@@ -79,6 +80,7 @@ class Create extends Component
 
     public function render()
     {
+        Gate::authorize('create', User::class);
         $this->roles = Role::all();
         return view('livewire.user.create');
     }

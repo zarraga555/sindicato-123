@@ -9,11 +9,13 @@ Otros Ingresos
             breadcrumbMain="Otros Ingresos"
             breadcrumbCurrent="Listado"
         >
+            @can('ver otros ingresos')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('otherIncome.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Nuevo Ingreso') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!--Table-->
@@ -54,9 +56,11 @@ Otros Ingresos
                     <th scope="col" class="px-6 py-3">
                         {{ __('Monto') }}
                     </th>
+                    @can('editar otros ingresos')
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -80,10 +84,12 @@ Otros Ingresos
                         {{ $otherIncome->banks ? $otherIncome->banks->currency_type.'.' : '' }} {{
                         number_format($otherIncome->amount, 2) }}
                     </td>
+                    @can('editar otros ingresos')
                     <td class="px-6 py-4">
                         <a href="{{ route('otherIncome.edit', $otherIncome->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

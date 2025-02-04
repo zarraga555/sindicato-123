@@ -9,11 +9,13 @@
             breadcrumbMain="{{__('Roles')}}"
             breadcrumbCurrent="{{__('List')}}"
         >
+            @can('crear roles')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('role.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('New role') }}
             </a>
+            @endcan
         </x-breadcrumb>
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -47,9 +49,11 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Permissions') }}
                     </th>
+                    @can('editar roles')
                     <th scope="col" class="px-6 py-3">
                         {{__("Action")}}
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -69,11 +73,12 @@
                                     </span>
                         @endforeach
                     </td>
-
+                    @can('editar roles')
                     <td class="px-6 py-4">
                         <a href="{{ route('role.edit', $role->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

@@ -9,11 +9,13 @@ Egresos
             breadcrumbMain="Egresos"
             breadcrumbCurrent="Listado"
         >
+            @can('crear egreso')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('expense.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Nuevo egreso') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!--Table-->
@@ -54,9 +56,11 @@ Egresos
                     <th scope="col" class="px-6 py-3">
                         {{ __('Monto') }}
                     </th>
+                    @can('editar egreso')
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -80,10 +84,12 @@ Egresos
                         number_format($expense->amount, 2) }}
 
                     </td>
+                    @can('editar egreso')
                     <td class="px-6 py-4">
                         <a href="{{ route('expense.edit', $expense->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

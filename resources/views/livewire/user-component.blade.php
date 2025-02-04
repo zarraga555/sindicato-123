@@ -9,11 +9,14 @@
             breadcrumbMain="{{__('Users')}}"
             breadcrumbCurrent="{{__('List')}}"
         >
+            @can('crear usuarios')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('user.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('New user') }}
             </a>
+            @endcan
+
         </x-breadcrumb>
 
         <!--Table-->
@@ -54,9 +57,11 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Role') }}
                     </th>
+                    @can('editar usuarios')
                     <th scope="col" class="px-6 py-3">
                         {{__("Action")}}
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -73,17 +78,19 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="items-center">
-                                                <img class="w-10 h-10 rounded-full" src="{{ $user->profile_photo_path}}"
-                             alt="Rounded avatar">
+                            <img class="w-10 h-10 rounded-full" src="{{ $user->profile_photo_path}}"
+                                 alt="Rounded avatar">
                         </div>
                     </td>
                     <td class="px-6 py-4">
                         {{ isset($user->roles->pluck('name')[0]) ? $user->roles->pluck('name')[0] : __('No role')}}
                     </td>
+                    @can('editar usuarios')
                     <td class="px-6 py-4">
                         <a href="{{ route('user.edit', $user->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

@@ -9,11 +9,13 @@ Ingresos por movilidad(Senanal)
             breadcrumbMain="Ingresos por Moviles"
             breadcrumbCurrent="Listado"
         >
+        @can('crear ingresos')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('income.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Nuevo ingreso') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!--Table-->
@@ -54,9 +56,11 @@ Ingresos por movilidad(Senanal)
                     <th scope="col" class="px-6 py-3">
                         {{ __('Monto') }}
                     </th>
+                    @can('editar ingresos')
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -80,10 +84,12 @@ Ingresos por movilidad(Senanal)
                         number_format($income->amount, 2) }}
 
                     </td>
+                    @can('editar ingresos')
                     <td class="px-6 py-4">
                         <a href="{{ route('income.edit', $income->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

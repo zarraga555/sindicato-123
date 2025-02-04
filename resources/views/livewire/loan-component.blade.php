@@ -9,11 +9,13 @@
             breadcrumbMain="{{__('Loans')}}"
             breadcrumbCurrent="{{__('List')}}"
         >
+            @can('crear prestamos')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('loans.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('New loan') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!--Table-->
@@ -58,9 +60,11 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Amount to be repaid') }}
                     </th>
+                    @can('editar prestamos')
                     <th scope="col" class="px-6 py-3">
                         {{ __('Actions')}}
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -89,10 +93,12 @@
                         {{ $loan->cash_flows_id ? $loan->cashFlows->banks->currency_type.'.' : '' }} {{
                         number_format($loan->total_debt, 2) }}
                     </td>
+                    @can('editar prestamos')
                     <td class="px-6 py-4">
                         <a href="{{ route('loans.edit', $loan->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

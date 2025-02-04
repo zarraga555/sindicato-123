@@ -9,11 +9,13 @@ Editar Ingresos por movilidad(Senanal)
             breadcrumbMain="Ingresos por Moviles"
             breadcrumbCurrent="Editar"
         >
+        @can('eliminar ingresos')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="#" wire:click="openDelete"
                class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Borrar') }}
             </a>
+            @can('ver ingresos')
         </x-breadcrumb>
 
         <div class="grid grid-cols-2 gap-4">

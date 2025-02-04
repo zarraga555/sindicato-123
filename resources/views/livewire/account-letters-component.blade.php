@@ -9,11 +9,13 @@
             breadcrumbMain="{{__('Bank accounts')}}"
             breadcrumbCurrent="{{__('List')}}"
         >
+            @can('crear cuentas bancarias')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('accountLetters.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('New Bank Account') }}
             </a>
+            @endcan
         </x-breadcrumb>
 
         <!--Table-->
@@ -49,9 +51,14 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Balance available') }}
                     </th>
+                    @if (Gate::allows('editar cuentas bancarias', App\Models\AccountLetters::class) ||
+                    Gate::allows('historial cuentas bancarias',
+                    App\Models\AccountLetters::class) || Gate::allows('tranferencias cuentas bancarias',
+                    App\Models\AccountLetters::class))
                     <th scope="col" class="px-6 py-3">
                         {{__('Action')}}
                     </th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -70,22 +77,33 @@
                         {{ $accountLetter->currency_type }}. {{ number_format($accountLetter->initial_account_amount, 2)
                         }}
                     </td>
+                    @if (Gate::allows('editar cuentas bancarias', App\Models\AccountLetters::class) ||
+                    Gate::allows('historial cuentas bancarias',
+                    App\Models\AccountLetters::class) || Gate::allows('tranferencias cuentas bancarias',
+                    App\Models\AccountLetters::class))
                     <td class="px-6 py-4">
+                        @can('editar cuentas bancarias')
                         <a href="{{ route('accountLetters.edit', $accountLetter->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                             {{ __('Edit') }}
                         </a>
+                        @endcan
+                        @can('historial cuentas bancarias')
                         |
                         <a href="{{ route('accountLetters.transactions', $accountLetter->id) }}"
                            class="font-medium text-green-600 dark:text-green-500 hover:underline">
                             {{ __('History') }}
                         </a>
+                        @endcan
+                        @can('tranferencias cuentas bancarias')
                         |
                         <a href="{{ route('accountLetters.transfer', $accountLetter->id) }}"
                            class="font-medium text-purple-600 dark:text-purple-500 hover:underline">
                             {{ __('Transfer') }}
                         </a>
+                        @endcan
                     </td>
+                    @endif
                 </tr>
                 @empty
                 <tr>

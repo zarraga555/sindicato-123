@@ -9,11 +9,13 @@ Items de Ingresos
             breadcrumbMain="Items de Ingresos"
             breadcrumbCurrent="Listado"
         >
+            @can('crear item ingreso')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('incomeCategories.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Nuevo Item de Ingreso') }}
             </a>
+            @endif
         </x-breadcrumb>
 
         <!--Table-->
@@ -45,9 +47,11 @@ Items de Ingresos
                     <th scope="col" class="px-6 py-3">
                         {{ __('Type Item') }}
                     </th>
+                    @can('editar item ingreso')
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -59,10 +63,12 @@ Items de Ingresos
                     <td class="px-6 py-4">
                         {{ $incomeCategorie->type_income_expense }}
                     </td>
+                    @can('editar item ingreso')
                     <td class="px-6 py-4">
                         <a href="{{ route('incomeCategories.edit', $incomeCategorie->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>
