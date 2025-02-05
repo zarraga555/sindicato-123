@@ -30,7 +30,10 @@ class IncomeComponent extends Component
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        $totalIncome = $incomes->sum('amount');
+        $query = CashFlow::query();
+        $totalIncome = $query->where('transaction_type_income_expense', 'income')
+            ->whereNotNull('vehicle_id')
+            ->sum('amount');
         return view(
             'livewire.income-component',
             compact('incomes', 'totalIncome')
