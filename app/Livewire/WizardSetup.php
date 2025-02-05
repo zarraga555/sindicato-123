@@ -32,6 +32,14 @@ class WizardSetup extends Component
     // Variable para la cantidad de móviles (posiblemente vehículos o usuarios móviles)
     public $moviles;
 
+    public function mount()
+    {
+        // Si ya hay usuarios en la base de datos, redirige al login
+        if (User::count() > 0) {
+            return redirect()->route('login');
+        }
+    }
+
     // Método para avanzar al siguiente paso del asistente
     public function nextStep()
     {
@@ -55,45 +63,45 @@ class WizardSetup extends Component
         ]);
 
 //        try {
-            // Guardamos los datos comerciales
-            $data = [
-                'APP_NAME' => $this->empresa,
-                'EMPRESA_FECHA_CREACION' => $this->fecha_creacion,
-                'EMPRESA_CONTACTO' => $this->contacto,
-                'EMPRESA_ZONA_HORARIA' => $this->zona_horaria,
-                'EMPRESA_PAIS' => $this->pais,
-                'EMPRESA_ESTADO' => $this->estado,
-                'EMPRESA_CIUDAD' => $this->ciudad,
-                'EMPRESA_CODIGO_POSTAL' => $this->codigo_postal,
-                'EMPRESA_REFERENCIA' => $this->referencia
-            ];
+        // Guardamos los datos comerciales
+        $data = [
+            'APP_NAME' => $this->empresa,
+            'EMPRESA_FECHA_CREACION' => $this->fecha_creacion,
+            'EMPRESA_CONTACTO' => $this->contacto,
+            'EMPRESA_ZONA_HORARIA' => $this->zona_horaria,
+            'EMPRESA_PAIS' => $this->pais,
+            'EMPRESA_ESTADO' => $this->estado,
+            'EMPRESA_CIUDAD' => $this->ciudad,
+            'EMPRESA_CODIGO_POSTAL' => $this->codigo_postal,
+            'EMPRESA_REFERENCIA' => $this->referencia
+        ];
 
-            // Guardar en el archivo .env
-            Settings::setEnvironmentValue($data);
+        // Guardar en el archivo .env
+        Settings::setEnvironmentValue($data);
 
-            // Crear usuario
-            $user = User::create([
-                'name' => $this->nombre,
-                'email' => $this->email,
-                'password' => Hash::make($this->password),
+        // Crear usuario
+        $user = User::create([
+            'name' => $this->nombre,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+        ]);
+
+        // Asignar rol admin
+        $user->assignRole('admin');
+
+        // Autenticar al usuario
+        Auth::login($user);
+
+        for ($i = 1; $i <= $this->moviles; $i++) {
+            Vehicle::create([
+                'created_at' => Carbon::now(),
             ]);
 
-            // Asignar rol admin
-            $user->assignRole('admin');
+        }
 
-            // Autenticar al usuario
-            Auth::login($user);
-
-            for($i = 1; $i <= $this->moviles; $i++){
-                Vehicle::create([
-                    'created_at' => Carbon::now(),
-                ]);
-
-            }
-
-            // Redirigir al dashboard con un mensaje de éxito
-            session()->flash('success', 'Configuración guardada correctamente.');
-            return redirect()->route('dashboard');
+        // Redirigir al dashboard con un mensaje de éxito
+        session()->flash('success', 'Configuración guardada correctamente.');
+        return redirect()->route('dashboard');
 //        } catch (\Exception $e) {
 //            // En caso de error, mostrar el mensaje de error
 //            session()->flash('error', 'Hubo un error al guardar la configuración: ' . $e->getMessage());
