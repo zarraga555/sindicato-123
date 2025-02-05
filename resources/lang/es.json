@@ -135,5 +135,9 @@
     "transfer" : "Tranferencia Bancaria",
     "Detail" : "Detalle",
     "vehicle" : "Movil",
-    "Remarks" : "Observaciones"
+    "Remarks" : "Observaciones",
+    "User Info" : "Informacion del usuario",
+    "Organization information" : "Informacion de la organizacion",
+    "Welcome to the configuration wizard" : "Bienvenido al asistente de configuración",
+    "Log Out" : "Cerrar Sesion"
 }
