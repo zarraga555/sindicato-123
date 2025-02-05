@@ -35,7 +35,7 @@ Route::get('/', function () {
 })->middleware(App\Http\Middleware\RedirectIfNoUsers::class);
 
 // Ruta del wizard
-Route::get('/wizard-setup', WizardSetup::class)->name('wizard.setup');
+Route::get('/wizard-setup', WizardSetup::class)->name('wizard');
 
 Route::middleware([
     'auth:sanctum',
@@ -46,7 +46,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::middleware(['auth:sanctum', 'verified', 'redirectIfNoUsers'])->group(function () {
 //        Incomes Routes
         Route::get('incomes', \App\Livewire\IncomeComponent::class)->name('income.index')->middleware('can:ver ingresos');
         Route::get('incomes/create', IncomeCreate::class)->name('income.create')->middleware('can:crear ingresos');
