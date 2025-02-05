@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\WizardSetup;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Income\Create as IncomeCreate;
 use App\Livewire\Income\Edit as IncomeEdit;
@@ -30,8 +31,11 @@ use App\Livewire\Role\Edit as RoleEdit;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('dashboard'); // O la vista que desees mostrar
+})->middleware(App\Http\Middleware\RedirectIfNoUsers::class);
+
+// Ruta del wizard
+Route::get('/wizard-setup', WizardSetup::class)->name('wizard.setup');
 
 Route::middleware([
     'auth:sanctum',
