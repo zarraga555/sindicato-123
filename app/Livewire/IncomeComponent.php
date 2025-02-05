@@ -15,6 +15,7 @@ class IncomeComponent extends Component
     public function render()
     {
         $incomes = CashFlow::where('transaction_type_income_expense', 'income')
+            ->whereNotNull('vehicle_id')
             ->where(function ($query) {
                 $query //->where('name', 'like', '%' . $this->search . '%') // Búsqueda en nombre del gasto
                 ->orWhereHas('vehicles', function ($subQuery) { // Relación con Vehicle
@@ -29,9 +30,10 @@ class IncomeComponent extends Component
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+        $totalIncome = $incomes->sum('amount');
         return view(
             'livewire.income-component',
-            compact('incomes')
+            compact('incomes', 'totalIncome')
         )->layout('layouts.app');
     }
 

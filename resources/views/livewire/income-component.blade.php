@@ -9,7 +9,7 @@ Ingresos por movilidad(Senanal)
             breadcrumbMain="Ingresos por Moviles"
             breadcrumbCurrent="Listado"
         >
-        @can('crear ingresos')
+            @can('crear ingresos')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('income.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
@@ -20,10 +20,11 @@ Ingresos por movilidad(Senanal)
 
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <div class="pb-4 bg-white dark:bg-gray-900">
-                <label for="table-search" class="sr-only">Search</label>
-                <div class="relative mt-4 ml-4">
-                    <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+            <div class="pb-4 bg-white dark:bg-gray-900 px-4 flex justify-between items-center">
+                <!-- Contenedor del input -->
+                <div class="relative mt-4">
+                    <label for="table-search" class="sr-only">Search</label>
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -36,6 +37,17 @@ Ingresos por movilidad(Senanal)
                            wire:model.debounce.500ms="search"
                            x-on:keyup="if ($event.key === 'Enter') { $wire.$refresh() }"
                     >
+                </div>
+
+                <!-- Contenedor del total -->
+                <div class="mt-4 mr-6">
+                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                        {{ __('Total Income') }}:
+                        <span id="total">
+                {{ $incomes->first()? ($incomes->first()->banks ? $incomes->first()->banks->currency_type.'.' : '') : '' }}
+                {{ number_format($totalIncome, 2) }}
+            </span>
+                    </p>
                 </div>
             </div>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
