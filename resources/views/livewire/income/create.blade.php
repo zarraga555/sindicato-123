@@ -10,6 +10,8 @@ Nuevo Ingresos por movilidad(Senanal)
             breadcrumbMain="Ingresos por Moviles"
             breadcrumbCurrent="Crear"
         >
+            <!-- Mostrar el total en pantalla -->
+            <p>Total: <span id="total">0.00</span></p>
         </x-breadcrumb>
 
         <div class="grid flex-1 auto-cols-fr gap-y-8">
@@ -20,7 +22,7 @@ Nuevo Ingresos por movilidad(Senanal)
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                     <!-- Input 1: Numero de Movil -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
+                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="movil">
                             Numero de Movil
                             <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                         </label>
@@ -28,7 +30,7 @@ Nuevo Ingresos por movilidad(Senanal)
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="input1"
+                                id="movil"
                                 maxlength="255"
                                 required="required"
                                 type="text"
@@ -40,7 +42,7 @@ Nuevo Ingresos por movilidad(Senanal)
 
                     <!-- Input 2: Venta Hoja -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input2">
+                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="amount_hoja_semanal">
                             Venta de Hoja
                             <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                         </label>
@@ -48,7 +50,7 @@ Nuevo Ingresos por movilidad(Senanal)
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="input2"
+                                id="amount_hoja_semanal"
                                 maxlength="255"
                                 required="required"
                                 type="number"
@@ -60,7 +62,7 @@ Nuevo Ingresos por movilidad(Senanal)
 
                     <!-- Input 3: Numero de Serie -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input3">
+                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="hoja_semanal_serie">
                             Numero de Serie
                             <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
                         </label>
@@ -68,10 +70,10 @@ Nuevo Ingresos por movilidad(Senanal)
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="input3"
+                                id="hoja_semanal_serie"
                                 maxlength="255"
                                 required
-                                type="number"
+                                type="text"
                                 wire:model="hoja_semanal_serie"
                                 placeholder="Ingrese el numero de serie">
                         </div>
@@ -82,7 +84,7 @@ Nuevo Ingresos por movilidad(Senanal)
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Venta Hoja Domingo -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
+                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="amount_hoja_domingo">
                             Venta de Hoja Domingo
                             <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
                         </label>
@@ -90,7 +92,7 @@ Nuevo Ingresos por movilidad(Senanal)
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="input1"
+                                id="amount_hoja_domingo"
                                 type="number"
                                 wire:model="amount_hoja_domingo"
                                 placeholder="Ingresa un monto">
@@ -101,7 +103,7 @@ Nuevo Ingresos por movilidad(Senanal)
 
                     <!-- Numero Series Domingo -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input2">
+                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="hoja_domingo_serie">
                             Numero de Serie
                             <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
                         </label>
@@ -109,9 +111,9 @@ Nuevo Ingresos por movilidad(Senanal)
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                             <input
                                 class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="input2"
+                                id="hoja_domingo_serie"
                                 maxlength="255"
-                                type="number"
+                                type="text"
                                 wire:model="hoja_domingo_serie"
                                 placeholder="Ingrese el numero de serie">
                         </div>
@@ -126,7 +128,7 @@ Nuevo Ingresos por movilidad(Senanal)
                     <!-- Input 1: Multas -->
                     <div>
                         <label for="multas" class="block text-sm font-medium text-gray-700">Multas</label>
-                        <input type="text" id="multas" name="multas"
+                        <input type="number" id="multas" name="multas"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
                                wire:model="multas">
@@ -135,7 +137,7 @@ Nuevo Ingresos por movilidad(Senanal)
                     <!-- Input 2: Lavado -->
                     <div>
                         <label for="lavado_auto" class="block text-sm font-medium text-gray-700">Lavado</label>
-                        <input type="text" id="lavado_auto" name="lavado_auto"
+                        <input type="number" id="lavado_auto" name="lavado_auto"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
                                wire:model="lavado_auto">
@@ -145,7 +147,7 @@ Nuevo Ingresos por movilidad(Senanal)
                     <div>
                         <label for="aporte_seguro" class="block text-sm font-medium text-gray-700">Aporte para
                             seguro</label>
-                        <input type="text" id="aporte_seguro" name="aporte_seguro"
+                        <input type="number" id="aporte_seguro" name="aporte_seguro"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
                                wire:model="aporte_seguro">
@@ -270,4 +272,28 @@ Nuevo Ingresos por movilidad(Senanal)
                 @endif
             </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function calcularSuma() {
+                let total = 0;
+                document.querySelectorAll('[type="number"]').forEach(input => {
+                    const valor = parseFloat(input.value) || 0;
+                    total += valor;
+                });
+
+                // Muestra el total en un campo o en la consola
+                console.log("Total:", total);
+                document.getElementById("total").textContent = total.toFixed(2);
+            }
+
+            // Agregar el evento input a todos los inputs numéricos
+            document.querySelectorAll('[type="number"]').forEach(input => {
+                input.addEventListener("input", calcularSuma);
+            });
+
+            // Llamamos a la función una vez al cargar la página
+            calcularSuma();
+        });
+    </script>
+
 </div>

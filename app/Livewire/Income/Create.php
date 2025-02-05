@@ -31,7 +31,7 @@ class Create extends Component
     private function validateCashFlows()
     {
         $this->validate([
-            'movil' => 'required|numeric|min:1',
+            'movil' => 'required|string|min:1',
             'hoja_semanal_serie' => 'required|string|max:255',
             'amount_hoja_semanal' => 'required|numeric|min:0',
             'hoja_domingo_serie' => 'nullable|string|max:255',
@@ -61,8 +61,9 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
             }
+        }else{
+            session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
-        session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
     }
 
     public function saveAndCreateAnother(): void
@@ -83,9 +84,9 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
             }
+        }else{
+            session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
-        session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
-
     }
 
     public function processCashFlows()

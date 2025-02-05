@@ -22,14 +22,14 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemsIngresos::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(RolePermissionSecondSeeder::class);
-        // Account Letter
-//        AccountLetters::create([
-//            'bank_name'=> 'EFECTIVO',
-//            'account_number' => 00000000,
-//            'account_type' => 'Savings bank',
-//            'currency_type' => 'Bs',
-//            'initial_account_amount' => 0.00,
-//        ]);
+         //Account Letter
+        AccountLetters::create([
+            'bank_name'=> 'EFECTIVO',
+            'account_number' => 000000001,
+            'account_type' => 'Savings bank',
+            'currency_type' => 'Bs',
+            'initial_account_amount' => 0.00,
+        ]);
 
 //        User Test
 //        User::factory()->create([
