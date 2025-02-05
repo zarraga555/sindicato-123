@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\CashFlow;
 use Livewire\Component;
+use Carbon\Carbon;
 use Livewire\WithPagination;
 
 class IncomeComponent extends Component
@@ -33,6 +34,7 @@ class IncomeComponent extends Component
         $query = CashFlow::query();
         $totalIncome = $query->where('transaction_type_income_expense', 'income')
             ->whereNotNull('vehicle_id')
+            ->whereDate('created_at', Carbon::today()) // Filtrar por la fecha de hoy
             ->sum('amount');
         return view(
             'livewire.income-component',
