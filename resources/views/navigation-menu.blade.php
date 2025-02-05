@@ -12,9 +12,15 @@
                               d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                     </svg>
                 </button>
-                <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo"/>
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
+                <a href="/" class="flex ms-2 md:me-24">
+                    <svg class="w-8 h-8 me-3 text-gray-800 dark:text-white" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                              d="M4 4a2 2 0 0 0-2 2v9a1 1 0 0 0 1 1h.535a3.5 3.5 0 1 0 6.93 0h3.07a3.5 3.5 0 1 0 6.93 0H21a1 1 0 0 0 1-1v-4a.999.999 0 0 0-.106-.447l-2-4A1 1 0 0 0 19 6h-5a2 2 0 0 0-2-2H4Zm14.192 11.59.016.02a1.5 1.5 0 1 1-.016-.021Zm-10 0 .016.02a1.5 1.5 0 1 1-.016-.021Zm5.806-5.572v-2.02h4.396l1 2.02h-5.396Z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ config('app.name') }}</span>
                 </a>
             </div>
             <div class="flex items-center">
@@ -175,7 +181,8 @@
                 </a>
             </li>
             @endcan
-            @if (Gate::allows('ver ingresos') || Gate::allows('ver otros ingresos') || Gate::allows('ver otros ingresos'))
+            @if (Gate::allows('ver ingresos') || Gate::allows('ver otros ingresos') || Gate::allows('ver otros
+            ingresos'))
             <li>
                 <button type="button"
                         class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"

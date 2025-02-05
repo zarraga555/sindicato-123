@@ -49,7 +49,7 @@ class RolePermissionSeeder extends Seeder
             'crear prestamos', 'editar prestamos', 'eliminar prestamos', 'ver prestamos',
             'crear cuentas bancarias', 'editar cuentas bancarias', 'eliminar cuentas bancarias', 'ver cuentas bancarias',
             'crear ingresos', 'editar ingresos', 'eliminar ingresos', 'ver ingresos',
-            'crear egresos', 'editar egresos', 'eliminar egresos', 'ver egresos',
+            'crear egreso', 'editar egreso', 'eliminar egreso', 'ver egreso',
             'ver reportes'
         ]);
 
@@ -57,13 +57,13 @@ class RolePermissionSeeder extends Seeder
             'crear prestamos', 'editar prestamos', 'eliminar prestamos', 'ver prestamos',
             'crear cuentas bancarias', 'editar cuentas bancarias', 'eliminar cuentas bancarias', 'ver cuentas bancarias',
             'crear ingresos', 'editar ingresos', 'eliminar ingresos', 'ver ingresos',
-            'crear egresos', 'editar egresos', 'eliminar egresos', 'ver egresos',
+            'crear egreso', 'editar egreso', 'eliminar egreso', 'ver egreso',
             'ver reportes'
         ]);
 
         $cajero->givePermissionTo([
             'crear ingresos', 'editar ingresos', 'eliminar ingresos', 'ver ingresos',
-            'crear egresos', 'editar egresos', 'eliminar egresos', 'ver egresos'
+            'crear egreso', 'editar egreso', 'eliminar egreso', 'ver egreso'
         ]);
 
         $auditor->givePermissionTo(['ver reportes']);

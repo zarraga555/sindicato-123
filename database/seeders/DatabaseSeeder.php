@@ -37,12 +37,5 @@ class DatabaseSeeder extends Seeder
 //            'email' => 'test@example.com',
 //            'password' => bcrypt('password'),
 //        ]);
-
-        for($i = 1; $i <= 310; $i++){
-            Vehicle::create([
-                'created_at' => Carbon::now(),
-            ]);
-
-        }
     }
 }
