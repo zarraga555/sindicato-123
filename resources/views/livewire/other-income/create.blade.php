@@ -62,10 +62,10 @@ Nuevo Igreso
                     </div>
                 </div>
 
-
                 <div class="grid gap-6">
                     @foreach($cashFlows as $index => $cashFlow)
-                    <div class="grid grid-cols-2 gap-4 items-center">
+                    <div class="grid gap-4 items-center"
+                         style="grid-template-columns: repeat({{ $index > 0 ? 4 : 3 }}, minmax(0, 1fr));">
                         <!-- Input de Monto -->
                         <div>
                             <label for="input1-{{ $index }}"
@@ -78,42 +78,55 @@ Nuevo Igreso
                             @enderror
                         </div>
 
-                        <!-- Select de Item y Botón de Eliminar -->
-                        <div class="flex items-center space-x-2">
-                            <div class="w-full">
-                                <label for="selectCashFlow-{{ $index }}"
-                                       class="block text-sm font-medium text-gray-900">
-                                    Selecciona un item de ingreso
-                                </label>
-                                <select id="selectCashFlow-{{ $index }}" name="cashFlows[{{ $index }}][cashFlowId]"
-                                        wire:model="cashFlows.{{ $index }}.cashFlowId"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option value="" disabled>Seleccione una opción</option>
-                                    @foreach($itemsCashFlows as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error("cashFlows.$index.cashFlowId") <span
-                                    class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                            </div>
+                        <!-- Input: Número de Serie -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-950 dark:text-white"
+                                   for="hoja_semanal_serie">
+                                Número de Serie
+                                <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
+                            </label>
+                            <input
+                                class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                id="hoja_semanal_serie"
+                                maxlength="255"
+                                required
+                                type="text"
+                                wire:model="cashFlows.{{ $index }}.serie"
+                                placeholder="Ingrese el número de serie">
+                            @error("cashFlows.$index.serie") <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                            <!-- Botón de Eliminar (excepto para el primer conjunto) -->
-                            @if($index > 0)
+                        <!-- Select de Item -->
+                        <div>
+                            <label for="selectCashFlow-{{ $index }}" class="block text-sm font-medium text-gray-900">
+                                Selecciona un item de ingreso
+                            </label>
+                            <select id="selectCashFlow-{{ $index }}" name="cashFlows[{{ $index }}][cashFlowId]"
+                                    wire:model="cashFlows.{{ $index }}.cashFlowId"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" disabled>Seleccione una opción</option>
+                                @foreach($itemsCashFlows as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                            @error("cashFlows.$index.cashFlowId") <span
+                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+
+                        <!-- Botón de Eliminar (solo si hay más de un elemento) -->
+                        @if($index > 0)
+                        <div class="flex justify-center">
                             <button type="button" wire:click="removeCashFlow({{ $index }})"
-                                    class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75 mt-4">
-                                <!--                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                                     fill="currentColor">
-                                                                    <path fill-rule="evenodd"
-                                                                          d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm3 5a.75.75 0 011.5 0v6a.75.75 0 11-1.5 0V7zM7 7a.75.75 0 011.5 0v6A.75.75 0 017 13V7zm6 0a.75.75 0 111.5 0v6a.75.75 0 11-1.5 0V7z"
-                                                                          clip-rule="evenodd"/>
-                                                                </svg>-->
+                                    class="bg-red-500 text-white hover:bg-red-600 rounded-lg px-3 py-2 text-sm font-semibold shadow-sm transition duration-75">
                                 <span>Eliminar</span>
                             </button>
-                            @endif
                         </div>
+                        @endif
                     </div>
                     @endforeach
                 </div>
+
             </form>
 
 
@@ -199,7 +212,7 @@ Nuevo Igreso
 
                 </div>
             </div>
-<br>
+            <br>
             <div>
                 <!-- Mensaje de éxito -->
                 @if (session()->has('success'))

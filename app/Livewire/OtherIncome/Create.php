@@ -29,6 +29,7 @@ class Create extends Component
         $this->cashFlows[] = [
             'amount' => '',
             'cashFlowId' => '',
+            'serie' => '',
         ];
     }
 
@@ -45,6 +46,7 @@ class Create extends Component
         $this->validate([
             'cashFlows.*.amount' => 'required|numeric|min:0.01',
             'cashFlows.*.cashFlowId' => 'required|exists:items_cash_flows,id',
+            'cashFlows.*.serie' => 'nullable|string',
             'bank_id' => 'nullable|exists:account_letters,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
         ]);
@@ -110,6 +112,7 @@ class Create extends Component
                 'amount' => $cashFlow['amount'],
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
+                'roadmap_series' => $cashFlow['serie'],
             ]);
 
             $amountFinal += $cashFlow['amount'];
