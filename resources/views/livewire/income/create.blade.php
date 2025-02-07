@@ -13,7 +13,7 @@ Nuevo Ingresos por movilidad(Senanal)
             <!-- Mostrar el total en pantalla -->
             <p>Total: <span id="total">0.00</span></p>
         </x-breadcrumb>
-
+        @include('components.components.messagesFlash')
         <div class="grid flex-1 auto-cols-fr gap-y-8">
 
             <!-- Pruebas -->
@@ -22,103 +22,67 @@ Nuevo Ingresos por movilidad(Senanal)
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                     <!-- Input 1: Numero de Movil -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="movil">
-                            Numero de Movil
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
-                        </label>
-                        <div
-                            class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                            <input
-                                class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="movil"
-                                maxlength="255"
-                                required="required"
-                                type="text"
-                                wire:model="movil"
-                                placeholder="Ingrese el numero de movil a registrar">
-                        </div>
-                        @error('movil') <span class="text-danger">{{ $message }}</span> @enderror
+                        <label for="movil" class="block text-sm font-medium text-gray-700">Numero de Movil</label>
+                        <input type="text" id="movil" name="movil"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingrese el numero de movil a registrar"
+                               maxlength="255"
+                               required="required"
+                               wire:model="movil">
                     </div>
+                    @error('movil') <span class="text-danger">{{ $message }}</span> @enderror
 
                     <!-- Input 2: Venta Hoja -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="amount_hoja_semanal">
-                            Venta de Hoja
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
-                        </label>
-                        <div
-                            class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                            <input
-                                class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="amount_hoja_semanal"
-                                maxlength="255"
-                                required="required"
-                                type="number"
-                                wire:model="amount_hoja_semanal"
-                                placeholder="Ingresa un monto">
-                        </div>
-                        @error('amount_hoja_semanal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <label for="amount_hoja_semanal" class="block text-sm font-medium text-gray-700">Venta de
+                            Hoja</label>
+                        <input type="number" id="amount_hoja_semanal" name="amount_hoja_semanal"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingresa un monto"
+                               maxlength="255"
+                               required="required"
+                               wire:model="amount_hoja_semanal">
                     </div>
+                    @error('hoja_semanal_serie') <span class="text-danger">{{ $message }}</span> @enderror
 
                     <!-- Input 3: Numero de Serie -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="hoja_semanal_serie">
-                            Numero de Serie
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>
-                        </label>
-                        <div
-                            class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                            <input
-                                class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="hoja_semanal_serie"
-                                maxlength="255"
-                                required
-                                type="text"
-                                wire:model="hoja_semanal_serie"
-                                placeholder="Ingrese el numero de serie">
-                        </div>
-                        @error('hoja_semanal_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <label for="hoja_semanal_serie" class="block text-sm font-medium text-gray-700">Numero de Serie
+                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup></label>
+                        <input type="text" id="hoja_semanal_serie" name="hoja_semanal_serie"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingrese el numero de serie"
+                               maxlength="255"
+                               required="required"
+                               wire:model="hoja_semanal_serie">
                     </div>
+                    @error('hoja_semanal_serie') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <br>
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Venta Hoja Domingo -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="amount_hoja_domingo">
-                            Venta de Hoja Domingo
-                            <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
-                        </label>
-                        <div
-                            class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                            <input
-                                class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="amount_hoja_domingo"
-                                type="number"
-                                wire:model="amount_hoja_domingo"
-                                placeholder="Ingresa un monto">
-                            @error('amount_hoja_domingo') <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <label for="amount_hoja_domingo" class="block text-sm font-medium text-gray-700">Venta de Hoja
+                            Domingo</label>
+                        <input type="number" id="amount_hoja_domingo" name="amount_hoja_domingo"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingresa un monto"
+                               maxlength="255"
+                               wire:model="amount_hoja_domingo">
                     </div>
+                    @error('amount_hoja_domingo') <span class="text-danger">{{ $message }}</span> @enderror
 
                     <!-- Numero Series Domingo -->
                     <div>
-                        <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="hoja_domingo_serie">
-                            Numero de Serie
-                            <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup>-->
-                        </label>
-                        <div
-                            class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                            <input
-                                class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                                id="hoja_domingo_serie"
-                                maxlength="255"
-                                type="text"
-                                wire:model="hoja_domingo_serie"
-                                placeholder="Ingrese el numero de serie">
-                        </div>
-                        @error('hoja_domingo_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <label for="hoja_domingo_serie" class="block text-sm font-medium text-gray-700">Numero de
+                            Serie</label>
+                        <input type="text" id="hoja_domingo_serie" name="hoja_domingo_serie"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingrese el numero de serie"
+                               maxlength="255"
+                               wire:model="hoja_domingo_serie">
                     </div>
+                    @error('hoja_domingo_serie') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </fieldset>
 
@@ -237,39 +201,6 @@ Nuevo Ingresos por movilidad(Senanal)
                     </button>
 
                 </div>
-            </div>
-
-            <div>
-                <!-- Mensaje de éxito -->
-                @if (session()->has('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-                     role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 20 20">
-                    <title>Cerrar</title>
-                    <path
-                        d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.641a.5.5 0 10.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.641-3.641a.5.5 0 000-.707z"/>
-                </svg>
-            </span>
-                </div>
-                @endif
-
-                <!-- Mensaje de error -->
-                @if (session()->has('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ session('error') }}</span>
-                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 20 20">
-                    <title>Cerrar</title>
-                    <path
-                        d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.641a.5.5 0 10.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.641-3.641a.5.5 0 000-.707z"/>
-                </svg>
-            </span>
-                </div>
-                @endif
             </div>
     </section>
     <script>
