@@ -139,5 +139,11 @@
     "User Info" : "Informacion del usuario",
     "Organization information" : "Informacion de la organizacion",
     "Welcome to the configuration wizard" : "Bienvenido al asistente de configuración",
-    "Log Out" : "Cerrar Sesion"
+    "Log Out" : "Cerrar Sesion",
+    "No records were found for today. You can create one now to start recording information." : "No se encontraron registros para hoy. Puedes crear uno ahora para comenzar a registrar información.",
+    "Entry item" : "Item de Ingreso",
+    "Exit item" : "Item de Egreso",
+    "Receipt number" : "Numero de recibo",
+    "Other income" : "Otros ingresos",
+    "Edit another entry" : "Editar otro ingreso"
 }
