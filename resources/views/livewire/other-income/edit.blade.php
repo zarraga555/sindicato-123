@@ -1,13 +1,13 @@
 @section('title')
-Editar Ingreso
+{{__('Edit another entry')}}
 @endsection
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
-            pageTitle="Editar Egreso ({{$nameLabel}})"
+            pageTitle="{{__('Edit another entry')}} ({{$nameLabel}})"
             breadcrumbMainUrl="{{ route('expense.index') }}"
-            breadcrumbMain="Egresos	"
-            breadcrumbCurrent="Editar"
+            breadcrumbMain="{{__('Other income')}}"
+            breadcrumbCurrent="{{__('Edit')}}"
         >
             @can('eliminar otros ingresos')
             <!-- Contenido dentro del slot, como el botón de creación -->
@@ -17,23 +17,8 @@ Editar Ingreso
             </a>
             @endcan
         </x-breadcrumb>
-
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="amount">
-                    {{$nameLabel}}
-                    <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup> -->
-                </label>
-                <div
-                    class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                    <input
-                        class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                        id="amount"
-                        type="number"
-                        wire:model.live="amount">
-                </div>
-            </div>
-        </div>
+        @include('components.components.messagesFlash')
+        @include('components.components.expenseIncomeForm')
         <div class="fi-form-actions">
             <div class="fi-ac gap-3 flex flex-wrap items-center justify-start">
 

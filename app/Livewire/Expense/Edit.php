@@ -5,6 +5,7 @@ namespace App\Livewire\Expense;
 use App\Models\AccountLetters;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -17,10 +18,16 @@ class Edit extends Component
     public $lastAmount;
     public $nameLabel;
     public $confirmingUserDeletion = false;
+    public $receipt_number;
+    public $movil;
+    public $bank_id;
+    public $mode = "expense";
 
     protected array $rules = [
         'amount' => 'required|numeric',
-//        'itemCashFlowId' => 'required',
+        'itemCashFlowId' => 'required',
+        'receipt_number' => 'nullable|numeric',
+        'movil' => 'nullable'
     ];
 
     /**
@@ -32,11 +39,17 @@ class Edit extends Component
         $itemCashFlow = ItemsCashFlow::findOrFail($expense->items_id);
 
         $this->nameLabel = $itemCashFlow->name;
-        $this->itemCashFlowId = $expense->items_id;
-        $this->amount = $expense->amount;
         $this->lastAmount = $expense->amount;
         $this->cashFlowId = $expense->id;
         $this->account_bank_id = $expense->account_bank_id;
+
+        // Data for the inputs
+        $this->itemCashFlowId = $expense->items_id;
+        $this->amount = $expense->amount;
+//        $this->amount = number_format($expense->amount, 2);
+        $this->receipt_number = $expense->roadmap_series;
+        $this->movil = $expense->vehicle_id;
+        $this->bank_id = $expense->account_bank_id;
     }
 
     /**
@@ -45,14 +58,20 @@ class Edit extends Component
     public function update()
     {
         $this->validate();
-        DB::beginTransaction();
         try {
+            // Si se ingresó un vehículo, verificar si existe
+            if (!empty($this->movil) && !Vehicle::find($this->movil)) {
+                session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
+                return;
+            }
+
+            // Si no hay error con el vehículo, continuar con la actualización
             $cashFlow = CashFlow::findOrFail($this->cashFlowId);
             $cashFlow->update($this->getFormData());
             $this->updateAccountBalance();
 
             DB::commit();
-            session()->flash('message', 'Registro actualizado correctamente.');
+            session()->flash('success', 'Registro actualizado correctamente.');
             return redirect()->route('expense.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -78,8 +97,14 @@ class Edit extends Component
 
     private function getFormData(): array
     {
+        $accountLetter = AccountLetters::find($this->bank_id);
+        $itemCashFlow = ItemsCashFlow::findOrFail($this->itemCashFlowId);
         return [
             'amount' => $this->amount,
+            'roadmap_series' => $this->receipt_number,
+            'items_id' => $this->itemCashFlowId,
+            'vehicle_id' => $this->movil,
+            'detail' => "Egreso de dinero: {$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
         ];
     }
 
@@ -116,8 +141,10 @@ class Edit extends Component
 
     public function render()
     {
+        $items = ItemsCashFlow::where('type_income_expense', 'expense')->get();
         return view(
-            'livewire.expense.edit'
+            'livewire.expense.edit',
+            compact('items')
         )->layout('layouts.app');
     }
 }

@@ -17,7 +17,7 @@ Editar Ingresos por movilidad(Senanal)
             </a>
             @endcan
         </x-breadcrumb>
-
+        @include('components.components.messagesFlash')
         @include('components.components.expenseIncomeForm')
         <div class="fi-form-actions">
             <div class="fi-ac gap-3 flex flex-wrap items-center justify-start">

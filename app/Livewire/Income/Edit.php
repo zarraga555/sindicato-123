@@ -5,6 +5,7 @@ namespace App\Livewire\Income;
 use App\Models\AccountLetters;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -18,12 +19,14 @@ class Edit extends Component
     public $confirmingUserDeletion = false;
     public $receipt_number;
     public $movil;
+    public $bank_id;
+    public $mode = "income";
 
     protected array $rules = [
         'amount' => 'required|numeric',
         'itemCashFlowId' => 'required',
         'receipt_number' => 'nullable|numeric',
-        'movil' => 'nullable|string'
+        'movil' => 'nullable'
     ];
 
     /**
@@ -39,9 +42,11 @@ class Edit extends Component
         $this->cashFlowId = $income->id;
         // Data for the inputs
         $this->itemCashFlowId = $income->items_id;
-        $this->amount = number_format($income->amount, 2);
+        $this->amount = $income->amount;
+//        $this->amount = number_format($income->amount, 2);
         $this->receipt_number = $income->roadmap_series;
         $this->movil = $income->vehicle_id;
+        $this->bank_id = $income->account_bank_id;
     }
 
     /**
@@ -50,8 +55,14 @@ class Edit extends Component
     public function update()
     {
         $this->validate();
-        DB::beginTransaction();
         try {
+            // Si se ingresó un vehículo, verificar si existe
+            if (!empty($this->movil) && !Vehicle::find($this->movil)) {
+                session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
+                return;
+            }
+
+            // Si no hay error con el vehículo, continuar con la actualización
             $cashFlow = CashFlow::findOrFail($this->cashFlowId);
             $cashFlow->update($this->getFormData());
             $this->updateAccountBalance();
@@ -83,11 +94,15 @@ class Edit extends Component
 
     private function getFormData(): array
     {
+        $accountLetter = AccountLetters::find($this->bank_id);
+        $itemCashFlow = ItemsCashFlow::findOrFail($this->itemCashFlowId);
+
         return [
             'amount' => $this->amount,
             'roadmap_series' => $this->receipt_number,
             'items_id' => $this->itemCashFlowId,
-            'movil' => $this->movil,
+            'vehicle_id' => $this->movil,
+            'detail' => "Ingreso de dinero:  {$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
         ];
     }
 
@@ -124,7 +139,7 @@ class Edit extends Component
 
     public function render()
     {
-        $items = ItemsCashFlow::where('type_income_expense', 'income')->get();;
+        $items = ItemsCashFlow::where('type_income_expense', 'income')->get();
         return view('livewire.income.edit', compact('items'))->layout('layouts.app');
     }
 }
