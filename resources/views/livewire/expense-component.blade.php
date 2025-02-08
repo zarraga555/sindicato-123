@@ -17,7 +17,7 @@ Egresos
             </a>
             @endcan
         </x-breadcrumb>
-
+        @include('components.components.messagesFlash')
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
