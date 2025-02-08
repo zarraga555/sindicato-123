@@ -10,6 +10,10 @@ class AccountLetters extends Model
 {
     use SoftDeletes;
 
+    protected $casts = [
+        'initial_account_amount' => 'float',
+    ];
+
     protected $fillable = [
         'account_name',
         'bank_name',

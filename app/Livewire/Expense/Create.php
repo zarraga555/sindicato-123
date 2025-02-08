@@ -99,8 +99,9 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
             }
+        }else{
+            session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
         }
-        session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
     }
 
     public function saveAndCreateAnother()
@@ -133,9 +134,11 @@ class Create extends Component
 
     private function processCashFlows()
     {
+        $accountLetter = AccountLetters::find($this->bank_id);
         $amountFinal = 0;
 
         foreach ($this->cashFlows as $cashFlow) {
+            $itemCashFlow = ItemsCashFlow::findOrFail($cashFlow['cashFlowId']);
             // Solo crea el flujo si hay saldo suficiente
             CashFlow::create([
                 'user_id' => Auth::id(),
@@ -144,7 +147,8 @@ class Create extends Component
                 'amount' => $cashFlow['amount'],
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
-                'type_transaction' => 'expense'
+                'type_transaction' => 'expense',
+                'detail' => "Egreso de dinero:  {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
             ]);
 
             $amountFinal += $cashFlow['amount'];

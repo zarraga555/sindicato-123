@@ -101,9 +101,13 @@ class Create extends Component
     private
     function processCashFlows()
     {
+        $this->bank_id = $this->bank_id ?? 1;
+        $accountLetter = AccountLetters::find($this->bank_id);
+
         $amountFinal = 0;
 
         foreach ($this->cashFlows as $cashFlow) {
+            $itemCashFlow = ItemsCashFlow::findOrFail($cashFlow['cashFlowId']);
             // Solo crea el flujo si hay saldo suficiente
             CashFlow::create([
                 'user_id' => Auth::id(),
@@ -113,6 +117,7 @@ class Create extends Component
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
                 'roadmap_series' => $cashFlow['serie'],
+                'detail' => "Egreso de dinero:  {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
             ]);
 
             $amountFinal += $cashFlow['amount'];
