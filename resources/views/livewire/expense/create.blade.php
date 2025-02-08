@@ -35,9 +35,10 @@ Nuevo Egreso
                     x-transition:leave-end="opacity-0 scale-90"
                     class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md mb-4" role="alert">
                     <p class="font-bold">Nota:</p>
-                    <p>Si el egreso está relacionado con un móvil, ingresa el número del móvil. De lo contrario, deja
-                        este campo vacío de "Movil". <br> Selecciona la cuenta de donde saldrá el dinero. Si no se
-                        selecciona, se usará la primera cuenta bancaria.</p>
+                    <p>Si el egreso está asociado a un número de móvil, ingresa el número correspondiente en el campo
+                        "Móvil". De lo contrario, déjalo vacío.
+                        <br> Selecciona la cuenta de la cual se descontará el dinero. Si no seleccionas ninguna cuenta,
+                        se utilizará automáticamente la primera cuenta bancaria registrada.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
