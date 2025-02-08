@@ -17,7 +17,7 @@ Ingresos por movilidad(Senanal)
             </a>
             @endcan
         </x-breadcrumb>
-
+        @include('components.components.messagesFlash')
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900 px-4 flex justify-between items-center">
@@ -106,7 +106,7 @@ Ingresos por movilidad(Senanal)
                 @empty
                 <tr>
                     <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                        No se encontraron registros. Cree un un registro para empezar.
+                        {{__('No records were found for today. You can create one now to start recording information.')}}
                     </td>
                 </tr>
                 @endforelse

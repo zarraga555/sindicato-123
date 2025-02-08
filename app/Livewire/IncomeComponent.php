@@ -29,6 +29,7 @@ class IncomeComponent extends Component
                         $subQuery->where('name', 'like', '%' . $this->search . '%');
                     });
             })
+            ->whereDate('created_at', Carbon::today()) // Filtrar por la fecha de hoy
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         $query = CashFlow::query();
