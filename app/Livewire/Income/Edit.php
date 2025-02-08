@@ -16,10 +16,14 @@ class Edit extends Component
     public $lastAmount;
     public $nameLabel;
     public $confirmingUserDeletion = false;
+    public $receipt_number;
+    public $movil;
 
     protected array $rules = [
         'amount' => 'required|numeric',
-//        'itemCashFlowId' => 'required',
+        'itemCashFlowId' => 'required',
+        'receipt_number' => 'nullable|numeric',
+        'movil' => 'nullable|string'
     ];
 
     /**
@@ -31,10 +35,13 @@ class Edit extends Component
         $itemCashFlow = ItemsCashFlow::findOrFail($income->items_id);
 
         $this->nameLabel = $itemCashFlow->name;
-        $this->itemCashFlowId = $income->items_id;
-        $this->amount = $income->amount;
         $this->lastAmount = $income->amount;
         $this->cashFlowId = $income->id;
+        // Data for the inputs
+        $this->itemCashFlowId = $income->items_id;
+        $this->amount = number_format($income->amount, 2);
+        $this->receipt_number = $income->roadmap_series;
+        $this->movil = $income->vehicle_id;
     }
 
     /**
@@ -50,7 +57,7 @@ class Edit extends Component
             $this->updateAccountBalance();
 
             DB::commit();
-            session()->flash('message', 'Registro actualizado correctamente.');
+            session()->flash('success', 'Registro actualizado correctamente.');
             return redirect()->route('income.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -78,6 +85,9 @@ class Edit extends Component
     {
         return [
             'amount' => $this->amount,
+            'roadmap_series' => $this->receipt_number,
+            'items_id' => $this->itemCashFlowId,
+            'movil' => $this->movil,
         ];
     }
 
@@ -105,7 +115,7 @@ class Edit extends Component
             $this->updateAccountBalance();
 
             $this->closeDelete();
-            session()->flash('message', 'Registro eliminado correctamente.');
+            session()->flash('success', 'Registro eliminado correctamente.');
             return redirect()->route('income.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Error al eliminar: ' . $e->getMessage());
@@ -114,6 +124,7 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.income.edit')->layout('layouts.app');
+        $items = ItemsCashFlow::where('type_income_expense', 'income')->get();;
+        return view('livewire.income.edit', compact('items'))->layout('layouts.app');
     }
 }
