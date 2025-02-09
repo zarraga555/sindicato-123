@@ -54,28 +54,35 @@
         }
 
         .report-date {
-            text-align: right;
+            text-align: center;
             font-size: 12px;
             margin-bottom: 20px;
             color: #555;
+        }
+
+        .report-date p {
+            margin: 0; /* Elimina los márgenes */
+            display: block; /* Asegura que el <p> es un elemento bloque */
+            text-align: center; /* Aunque ya está en .report-date, asegúrate de que el <p> también lo tenga */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 13px;
+            font-size: 8px;
         }
 
         table th, table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 6px 2px;
             text-align: left;
         }
 
         table th {
             background-color: #f4f4f4;
             font-weight: bold;
+            text-align: center;
         }
 
         .summary {
@@ -84,7 +91,7 @@
         }
 
         .summary p {
-            font-size: 14px;
+            font-size: 10px;
             margin: 5px 0;
         }
 
@@ -110,38 +117,46 @@
 <body>
 <div class="container">
     <header>
-        <img src="logo.png" alt="Company Logo">
+        <!--<img src="logo.png" alt="Company Logo">-->
         <div class="company-info">
-            <p><strong>Company Name:</strong> [Your Company Name]</p>
-            <p><strong>Address:</strong> [Company Address]</p>
-            <p><strong>Email:</strong> [Company Email] | <strong>Phone:</strong> [Company Phone]</p>
+            <p><strong>{{env('APP_NAME')}}</strong></p>
+            <p><strong>{{__('Address')}}:</strong> {{env('EMPRESA_REFERENCIA')}}, {{env('EMPRESA_CODIGO_POSTAL')}},
+                {{env('EMPRESA_CIUDAD')}},
+                {{env('EMPRESA_ESTADO')}}, {{env('EMPRESA_PAIS')}}</p>
+            <p><strong>{{__('Email')}}:</strong> {{env('EMPRESA_CORREO')}} | <strong>{{__('Phone')}}:</strong>
+                {{env('EMPRESA_TELEFONO')}}</p>
         </div>
     </header>
 
     <div class="report-title">{{__('Daily Report')}}</div>
 
     <div class="report-date">
-        <p>{{__('Date')}}: {{$startDate->format('d/m/Y')}}</p> @if($endDate != null) {{__('to')}}
-        {{$endDate->format('d/m/Y')}}@endif
+        <p><strong>{{__('Movements')}}: </strong>{{$startDate->format('d/m/Y')}} @if($endDate != null) -
+        {{$endDate->format('d/m/Y')}}@endif</p>
     </div>
 
     <table>
         <thead>
         <tr>
-            <th>{{ __('Vehicle') }}</th>
-            <th>{{ __('Bank Account') }}</th>
+            <th>{{ __('Movil') }}</th>
+
+            <th>{{ __('Bank') }}</th>
             <th>{{ __('Items') }}</th>
-            <th>{{ __('Transaction type') }}</th>
+            <th>{{ __('Transaction') }}</th>
+            <th>{{ __('Receipt No.') }}</th>
+            <th>{{ __('Detail') }}</th>
             <th>{{ __('Amount') }}</th>
         </tr>
         </thead>
         <tbody>
         @forelse($items as $item)
         <tr>
-            <td>{{ $item->vehicle_id ? str_pad($item->vehicle_id,3,0, STR_PAD_LEFT) : 'Sin movil asociado'}}</td>
-            <td>{{ $item->banks ? $item->banks->bank_name : 'Sin banco asociado' }}</td>
+            <td>{{ $item->vehicle_id ? str_pad($item->vehicle_id,3,0, STR_PAD_LEFT) : 'S/M'}}</td>
+            <td>{{ $item->banks ? $item->banks->bank_name : 'S/B' }}</td>
             <td>{{ $item->itemsCashFlow->name?? __($item->type_transaction) }}</td>
             <td>{{ __($item->transaction_type_income_expense) }}</td>
+            <td>{{ __($item->roadmap_series) }}</td>
+            <td>{{ __($item->detail) }}</td>
             <td>{{ $item->banks ? $item->banks->currency_type.'.' : '' }} {{number_format($item->amount, 2) }}</td>
         </tr>
         @empty
@@ -161,7 +176,7 @@
     </div>
 
     <footer>
-        <p>&copy; <?php echo date('Y'); ?> [Your Company Name]. All rights reserved.</p>
+        <p>&copy; <?php echo date('Y'); ?> {{env('ORIGEN')}}. {{__('All rights reserved')}}.</p>
     </footer>
 </div>
 </body>
