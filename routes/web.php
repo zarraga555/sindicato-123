@@ -82,7 +82,7 @@ Route::middleware([
         Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index')->middleware('can:ver prestamos');
         Route::get('loans/create', LoansCreate::class)->name('loans.create')->middleware('can:crear prestamos');
          Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit')->middleware('can:editar prestamos');
-        // Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
+         Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
         //        Reports
         Route::get('today-report', \App\Livewire\TodayReportComponent::class)->name('today.report');
         // Route::get('vehicle-report', \App\Livewire\VehicleReportComponent::class)->name('vehicle.report');
