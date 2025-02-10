@@ -17,7 +17,7 @@
             </a>
             @endcan
         </x-breadcrumb>
-
+        @include('components.components.messagesFlash')
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
@@ -97,6 +97,13 @@
                     <td class="px-6 py-4">
                         <a href="{{ route('loans.edit', $loan->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
+                        <!--@can('historial cuentas bancarias')-->
+                        |
+                        <a href="{{ route('loans.view', $loan->id) }}"
+                           class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                            {{ __('View loan') }}
+                        </a>
+                        <!--@endcan-->
                     </td>
                     @endcan
                 </tr>
