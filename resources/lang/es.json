@@ -172,5 +172,8 @@
     "attachment" : "Archivo Adjunto",
     "Loan status" : "Estado del préstamo",
     "Download resource" : "Descargar recurso",
-    "No downloadable resource available." : "No hay recursos descargables disponibles."
+    "No downloadable resource available." : "No hay recursos descargables disponibles.",
+    "view loan" : "Ver prestamo",
+    "partner" : "Socio",
+    "monthly" : "Mensualmente"
 }
