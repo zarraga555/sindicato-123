@@ -157,5 +157,20 @@
     "Bank" : "Banco",
     "Receipt No." : "Nº Recibo",
     "Movements" : "Movimientos",
-    "All rights reserved" : "Todos los derechos reservados"
+    "All rights reserved" : "Todos los derechos reservados",
+    "View loan" : "Ver prestamo",
+    "Information" : "Informacion",
+    "User type" : "Tipo de usuario",
+    "driver" : "Chofer",
+    "weekly" : "Semanal",
+    "Collection of interest earned" : "Cobro de los intereses ganados",
+    "No fees were found for this loan." : "No se encontraron cuotas registradas para este prestamo.",
+    "Instalment Number" : "Numero de cuota",
+    "Payment Status" : "Estado del pago",
+    "unpaid" : "Sin pagar",
+    "Date Payment" : "Fechas de pago",
+    "attachment" : "Archivo Adjunto",
+    "Loan status" : "Estado del préstamo",
+    "Download resource" : "Descargar recurso",
+    "No downloadable resource available." : "No hay recursos descargables disponibles."
 }
