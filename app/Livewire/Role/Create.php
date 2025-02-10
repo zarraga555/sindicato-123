@@ -104,7 +104,12 @@ class Create extends Component
         $modules = $permissions->groupBy(function ($permission) {
             // Extraer el nombre del módulo (por ejemplo, "Usuarios" de "crear usuarios")
             $parts = explode(' ', $permission->name);
-            return ucfirst($parts[1]);  // Usamos la segunda palabra como el módulo
+
+            // Extraer todo después de la primera palabra (el verbo)
+            array_shift($parts); // Eliminar el verbo (la primera palabra)
+
+            // Usar el resto de las palabras como el nombre del módulo
+            return ucfirst(implode(' ', $parts));  // Unir el resto y capitalizar
         });
 
         return view('livewire.role.create', compact('modules'));
