@@ -32,7 +32,7 @@ class Create extends Component
             $this->createUser();
 
             DB::commit();
-            session()->flash('message', 'Registro exitosamente.');
+            session()->flash('success', 'Registro exitosamente.');
             return redirect()->route('user.index');
         } catch (\Exception $e) {
             DB::rollBack();
