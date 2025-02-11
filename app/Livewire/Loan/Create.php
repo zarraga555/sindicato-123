@@ -85,7 +85,7 @@ class Create extends Component
                     DB::commit();
                     $this->resetForm();
                     session()->flash('success', 'Datos guardados correctamente.');
-                    return redirect()->route('loans.index');
+                    return redirect()->route('loans.view');
                 } catch (Exception $e) {
                     DB::rollBack();
                     session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
