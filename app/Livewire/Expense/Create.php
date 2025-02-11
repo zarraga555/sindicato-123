@@ -29,6 +29,7 @@ class Create extends Component
         $this->cashFlows[] = [
             'amount' => '',
             'cashFlowId' => '',
+            'serie' => '',
         ];
     }
 
@@ -45,6 +46,7 @@ class Create extends Component
         $this->validate([
             'cashFlows.*.amount' => 'required|numeric|min:0.01',
             'cashFlows.*.cashFlowId' => 'required|exists:items_cash_flows,id',
+            'cashFlows.*.serie' => 'nullable|string',
             'bank_id' => 'nullable|exists:account_letters,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
         ]);
@@ -99,7 +101,7 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
             }
-        }else{
+        } else {
             session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
         }
     }
@@ -148,6 +150,7 @@ class Create extends Component
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
                 'type_transaction' => 'expense',
+                'roadmap_series' => $cashFlow['serie'],
                 'detail' => "Egreso de dinero:  {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
             ]);
 
