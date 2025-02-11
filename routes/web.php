@@ -82,7 +82,7 @@ Route::middleware([
         Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index')->middleware('can:ver prestamos');
         Route::get('loans/create', LoansCreate::class)->name('loans.create')->middleware('can:crear prestamos');
          Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit')->middleware('can:editar prestamos');
-         Route::get('loans/{id}/view',LoansView::class )->name('loans.view');
+         Route::get('loans/{id}/view',LoansView::class )->name('loans.view')->middleware('can:ver prestamos');
         //        Reports
         Route::get('today-report', \App\Livewire\TodayReportComponent::class)->name('today.report');
         // Route::get('vehicle-report', \App\Livewire\VehicleReportComponent::class)->name('vehicle.report');
@@ -97,5 +97,9 @@ Route::middleware([
         Route::get('roles', \App\Livewire\RoleComponent::class)->name('role.index')->middleware('can:ver roles');
         Route::get('roles/create', RoleCreate::class)->name('role.create')->middleware('can:crear roles');
         Route::get('roles/{id}/edit', RoleEdit::class)->name('role.edit')->middleware('permission:editar roles');
+        // Uncollectible accounts
+        Route::get('uncollectible-accounts', \App\Livewire\UncollectibleAccountsComponent::class)->name('uncollectibleAccounts.index');
+        //Collection of Dues
+        Route::get('collection-dues', \App\Livewire\CollectionDuesComponent::class)->name('collectionDues.index');
     });
 });
