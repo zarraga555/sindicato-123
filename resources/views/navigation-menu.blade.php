@@ -142,22 +142,7 @@
                 </ul>
             </li>
             @endif
-            @can('ver prestamos')
-            <li>
-                <a href="{{ route('loans.index') }}"
-                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                         viewBox="0 0 600 602.2" enable-background="new 0 0 600 602.2" xml:space="preserve"
-                         class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                          <path
-                              d="M122.2,234c-61.8,0-112-50.2-112-112s50.5-112,112-112c61.8,0,112,50.2,112,112S184.1,234,122.2,234z M122.2,31.2  c-49.9,0-90.7,40.8-90.7,90.7s40.8,90.7,90.7,90.7s90.7-40.8,90.7-90.7S172.5,31.2,122.2,31.2z M395.4,426  c20.2-25.8,16.7-63.4-10.2-84.5c-25.8-20.2-64.3-15.6-84.5,10.2s-16.7,63.4,10.2,84.5C336.7,456.2,375.2,451.6,395.4,426z   M322.5,398.4c-8.1-6.5-10.4-16.5-5.1-27.4l-8.1-6.5l7.2-9.3l7.2,5.6c3.3-4.2,9.3-7.7,13.7-10.9l7.9,11.1c-2.6,1.2-7,4.6-11.8,10.7  c-3.9,5.1-4.4,9.8-1.4,12.3c3,2.3,7.7,0.9,16.3-3.7c12.1-7,20.4-9.1,28.6-2.6c6.5,6.7,7.7,17.6,3.3,27.6l8.1,6.5l-7.2,9.3l-7.2-5.6  c-3.3,4.2-11.8,10.7-15.1,13l-7.9-11.1c4.4-1.4,11.4-6,15.3-11.1c4.9-6.3,5.1-10.9,1.2-14.2c-3-2.3-6.7-2.1-15.6,2.8  C341.3,401.6,330.7,404.9,322.5,398.4z M110.4,143.8c-3.2-1.9-5.1-5.4-5.1-9.2V60.9c0-5.9,4.9-10.5,10.5-10.5s10.5,4.9,10.5,10.5  v55.9l51.8-28.3c5.1-2.7,11.6-0.8,14.3,4.3c2.7,5.1,0.8,11.6-4.3,14.3l-67.5,36.7C119.3,144.9,113.9,145.7,110.4,143.8z   M451.4,186.6l-35.1,39.5l-37.8-29.5l-93.8,120.3c-1.9-1.2-7.4-3.7-7.9-4.4c-20-9.3-46.9-8.4-66.4,1.6L7.4,427.4v150.5L97.3,534  c40.4,19,86.6,14.2,123.8-8.8l87.8,68.5l26.2-33.7l20.7,18.3l236.8-265.9L451.4,186.6z M329.3,540.5c-17-8.8-38.1-6-52,7.2  l-69.9-54.8c-15.3,12.3-33.9,18.8-52.9,18.8c-8.6,0-17-1.4-25.3-3.9c-4.2-1.4-6.5-5.8-5.3-10c1.4-4.2,5.8-6.5,10-5.3  c20.7,6.5,43.2,2.8,60.6-9.8l0,0c4.4-3.3,9.1-7.2,13.9-12.5l21.4-25.3l61.8,48.5c10.7,7.4,23.2,5.6,30.2-2.8  c7.4-10.7,5.6-23.5-2.8-30.2l-111-89.4c-3.3-2.6-3.7-7.4-1.2-10.7c2.6-3.3,7.4-3.7,10.7-1.2l34.1,27.4L359,248.4  c16.5,8.6,36.7,6,50.4-6.3l64.8,50.4c-8.8,17-5.8,37.8,7.4,51.8L329.3,540.5z M365.5,520.8l162.1-208.1L434,239.8  c14.9,6.5,32.5,4.4,45.5-5.8l61.3,54.6c-9.8,16.3-8.4,37.4,3.9,52L379.6,526.1C375.2,523.8,370.6,521.9,365.5,520.8z"/>
-                    </svg>
-                    <span class="ms-3">{{__('Loans')}}</span>
-                    <span
-                        class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">En Proceso</span>
-                </a>
-            </li>
-            @endcan
+
             @can('ver cuentas bancarias')
             <li>
                 <a href="{{ route('accountLetters.index') }}"
@@ -181,6 +166,73 @@
                 </a>
             </li>
             @endcan
+
+            <!-- || Gate::allows('ver cuentas incobrables') || Gate::allows('ver cuotas')-->
+            @if (Gate::allows('ver prestamos') )
+            <li>
+                <button type="button"
+                        class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-example5" data-collapse-toggle="dropdown-example5">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         viewBox="0 0 600 602.2" enable-background="new 0 0 600 602.2" xml:space="preserve"
+                         class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                          <path
+                              d="M122.2,234c-61.8,0-112-50.2-112-112s50.5-112,112-112c61.8,0,112,50.2,112,112S184.1,234,122.2,234z M122.2,31.2  c-49.9,0-90.7,40.8-90.7,90.7s40.8,90.7,90.7,90.7s90.7-40.8,90.7-90.7S172.5,31.2,122.2,31.2z M395.4,426  c20.2-25.8,16.7-63.4-10.2-84.5c-25.8-20.2-64.3-15.6-84.5,10.2s-16.7,63.4,10.2,84.5C336.7,456.2,375.2,451.6,395.4,426z   M322.5,398.4c-8.1-6.5-10.4-16.5-5.1-27.4l-8.1-6.5l7.2-9.3l7.2,5.6c3.3-4.2,9.3-7.7,13.7-10.9l7.9,11.1c-2.6,1.2-7,4.6-11.8,10.7  c-3.9,5.1-4.4,9.8-1.4,12.3c3,2.3,7.7,0.9,16.3-3.7c12.1-7,20.4-9.1,28.6-2.6c6.5,6.7,7.7,17.6,3.3,27.6l8.1,6.5l-7.2,9.3l-7.2-5.6  c-3.3,4.2-11.8,10.7-15.1,13l-7.9-11.1c4.4-1.4,11.4-6,15.3-11.1c4.9-6.3,5.1-10.9,1.2-14.2c-3-2.3-6.7-2.1-15.6,2.8  C341.3,401.6,330.7,404.9,322.5,398.4z M110.4,143.8c-3.2-1.9-5.1-5.4-5.1-9.2V60.9c0-5.9,4.9-10.5,10.5-10.5s10.5,4.9,10.5,10.5  v55.9l51.8-28.3c5.1-2.7,11.6-0.8,14.3,4.3c2.7,5.1,0.8,11.6-4.3,14.3l-67.5,36.7C119.3,144.9,113.9,145.7,110.4,143.8z   M451.4,186.6l-35.1,39.5l-37.8-29.5l-93.8,120.3c-1.9-1.2-7.4-3.7-7.9-4.4c-20-9.3-46.9-8.4-66.4,1.6L7.4,427.4v150.5L97.3,534  c40.4,19,86.6,14.2,123.8-8.8l87.8,68.5l26.2-33.7l20.7,18.3l236.8-265.9L451.4,186.6z M329.3,540.5c-17-8.8-38.1-6-52,7.2  l-69.9-54.8c-15.3,12.3-33.9,18.8-52.9,18.8c-8.6,0-17-1.4-25.3-3.9c-4.2-1.4-6.5-5.8-5.3-10c1.4-4.2,5.8-6.5,10-5.3  c20.7,6.5,43.2,2.8,60.6-9.8l0,0c4.4-3.3,9.1-7.2,13.9-12.5l21.4-25.3l61.8,48.5c10.7,7.4,23.2,5.6,30.2-2.8  c7.4-10.7,5.6-23.5-2.8-30.2l-111-89.4c-3.3-2.6-3.7-7.4-1.2-10.7c2.6-3.3,7.4-3.7,10.7-1.2l34.1,27.4L359,248.4  c16.5,8.6,36.7,6,50.4-6.3l64.8,50.4c-8.8,17-5.8,37.8,7.4,51.8L329.3,540.5z M365.5,520.8l162.1-208.1L434,239.8  c14.9,6.5,32.5,4.4,45.5-5.8l61.3,54.6c-9.8,16.3-8.4,37.4,3.9,52L379.6,526.1C375.2,523.8,370.6,521.9,365.5,520.8z"/>
+                    </svg>
+
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{__('Loans')}}</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 1 4 4 4-4"/>
+                    </svg>
+                </button>
+                <ul id="dropdown-example5" class="hidden py-2 space-y-2">
+                    @can('ver prestamos')
+                    <li>
+                        <a href="{{ route('loans.index') }}"
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Loans')}}</a>
+                    </li>
+                    @endcan
+
+                    <li>
+                        <a href="{{ route('collectionDues.index') }}"
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Collection of Dues')}}</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('uncollectibleAccounts.index') }}"
+                           class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                            </svg>
+                            {{__('Uncollectible accounts')}}</a>
+                    </li>
+
+                </ul>
+            </li>
+            @endif
+
             @if (Gate::allows('ver ingresos') || Gate::allows('ver otros ingresos') || Gate::allows('ver otros
             ingresos'))
             <li>

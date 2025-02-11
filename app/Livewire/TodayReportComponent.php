@@ -21,6 +21,9 @@ class TodayReportComponent extends Component
     public $totalLoan;
     public $netTotal;
 
+    public $selectedItem = null; // Filtro por ítem
+    public $vehicleId = null; //
+
     public function mount()
     {
         $this->reportDateFrom = now()->format('Y-m-d'); // Establecer la fecha actual como predeterminada
@@ -41,7 +44,7 @@ class TodayReportComponent extends Component
     {
         $query = CashFlow::query();
 
-        // Aplica los filtros basados en las fechas
+        // Filtrar por fecha
         if ($this->dateCheck === 'unic') {
             $query->whereDate('created_at', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
@@ -51,7 +54,16 @@ class TodayReportComponent extends Component
             ]);
         }
 
-        // Paginación de los registros
+        // Filtrar por ítem si está seleccionado
+        if (!empty($this->selectedItem)) {
+            $query->where('items_id', $this->selectedItem);
+        }
+
+        // Filtrar por número de vehículo si está ingresado
+        if (!empty($this->vehicleId)) {
+            $query->where('vehicle_id', $this->vehicleId);
+        }
+
         return $query->paginate(10);
     }
 
@@ -92,7 +104,7 @@ class TodayReportComponent extends Component
     {
         $query = CashFlow::query();
 
-        // Aplica los filtros basados en las fechas
+        // Filtrar por fecha
         if ($this->dateCheck === 'unic') {
             $query->whereDate('created_at', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
@@ -102,26 +114,45 @@ class TodayReportComponent extends Component
             ]);
         }
 
+        // Aplicar filtros adicionales
+        if (!empty($this->selectedItem)) {
+            $query->where('items_id', $this->selectedItem);
+        }
+
+        if (!empty($this->vehicleId)) {
+            $query->where('vehicle_id', $this->vehicleId);
+        }
+
         // Obtener los datos filtrados
         $items = $query->get();
 
         // Calcular totales
-        $totalIncome = $items->where('transaction_type_income_expense', 'income')->sum('amount');
-        $totalExpense = $items->where('transaction_type_income_expense', 'expense')->sum('amount');
-        $netTotal = $totalIncome - $totalExpense;
+        $totalIncomes = $items->where('transaction_type_income_expense', 'income')->sum('amount');
+        $totalExpenses = $items->where('transaction_type_income_expense', 'expense')->sum('amount');
+        $netTotal = $totalIncomes - $totalExpenses;
 
-        // Fechas
+        // Agrupar por ítems
+        $itemsGrouped = $items->whereNotNull('items_id')
+            ->groupBy('items_id')
+            ->map(function ($group) {
+                return [
+                    'item_name' => optional($group->first()->itemsCashFlow)->name ?? __('Unknown'),
+                    'total_income' => $group->where('transaction_type_income_expense', 'income')->sum('amount'),
+                    'total_expense' => $group->where('transaction_type_income_expense', 'expense')->sum('amount'),
+                ];
+            });
+
         $startDate = Carbon::parse($this->reportDateFrom);
         $endDate = Carbon::parse($this->reportDateTo);
 
-        // Generar el PDF
-        $pdf = Pdf::loadView('pdf.today-report', compact('items', 'totalIncome', 'totalExpense', 'netTotal', 'startDate', 'endDate'));
+        // Generar PDF
+        $pdf = Pdf::loadView('pdf.today-report', compact('items', 'itemsGrouped', 'totalIncomes', 'totalExpenses', 'netTotal', 'startDate', 'endDate'));
 
-//         Descargar el archivo PDF
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            "reporte_diario_" . now()->format('Y-m-d') . ".pdf"
+            "reporte_diario_" . now()->format('d-m-Y') . ".pdf"
         );
+
 
     }
 }

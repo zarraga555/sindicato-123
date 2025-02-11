@@ -20,9 +20,7 @@
         <fieldset class="border border-gray-300 rounded-md p-3">
             <legend class="text-sm font-medium text-gray-700">{{ __('Filters') }}</legend>
 
-            {{-- Filtros de fechas --}}
             <div class="flex flex-col space-y-4">
-                {{-- Selección de tipo de fecha --}}
                 <div class="flex items-center space-x-6">
                     <label class="flex items-center cursor-pointer">
                         <input wire:model.live="dateCheck" type="radio" value="unic"
@@ -35,7 +33,7 @@
                         <span class="ml-2 text-sm text-gray-700">Rango de fechas</span>
                     </label>
                 </div>
-                {{-- Inputs de fechas --}}
+
                 <div class="flex items-center space-x-4 flex-wrap">
                     <div class="w-auto">
                         <label class="block text-sm text-gray-700">
@@ -52,8 +50,26 @@
                                class="block w-[137px] px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
                     </div>
                     @endif
-                </div>
 
+                    {{-- Filtro por item --}}
+                    <div class="w-auto">
+                        <label class="block text-sm text-gray-700">{{ __('Filtrar por Item') }}</label>
+                        <select wire:model.live="selectedItem"
+                                class="block w-48 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
+                            <option value="">{{ __('Todos los Items') }}</option>
+                            @foreach(\App\Models\ItemsCashFlow::all() as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Filtro por Número de Móvil --}}
+                    <div class="w-auto">
+                        <label class="block text-sm text-gray-700">{{ __('Filtrar por Número de Móvil') }}</label>
+                        <input wire:model.live="vehicleId" type="number" placeholder="Ej. 123"
+                               class="block w-32 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
+                    </div>
+                </div>
             </div>
         </fieldset>
         <!--Table-->

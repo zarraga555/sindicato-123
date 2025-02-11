@@ -52,6 +52,24 @@
                                class="block w-[137px] px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
                     </div>
                     @endif
+                    {{-- Filtro por item --}}
+                    <div class="w-auto">
+                        <label class="block text-sm text-gray-700">{{ __('Filtrar por Item') }}</label>
+                        <select wire:model.live="selectedItem"
+                                class="block w-48 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
+                            <option value="">{{ __('Todos los Items') }}</option>
+                            @foreach($incomeItems as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Filtro por Número de Móvil --}}
+                    <div class="w-auto">
+                        <label class="block text-sm text-gray-700">{{ __('Filtrar por Número de Móvil') }}</label>
+                        <input wire:model.live="vehicleId" type="number" placeholder="Ej. 123"
+                               class="block w-32 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
+                    </div>
                 </div>
 
             </div>

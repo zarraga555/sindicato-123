@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\CashFlow;
+use App\Models\ItemsCashFlow;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
@@ -19,11 +20,15 @@ class ExpenseReportComponent extends Component
     public $totalExpense;
     public $totalLoan;
     public $netTotal;
+    public $selectedItem = null; // Filtro por ítem
+    public $vehicleId = null; //
+    public $incomeItems = [];
 
     public function mount()
     {
         $this->reportDateFrom = now()->format('Y-m-d'); // Establecer la fecha actual como predeterminada
         $this->filterRecords(); // Filtrar registros al montar el componente
+        $this->incomeItems = ItemsCashFlow::where('type_income_expense', 'Expense')->get();
     }
 
     private function items()
@@ -38,6 +43,16 @@ class ExpenseReportComponent extends Component
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);
+        }
+
+        // Filtrar por ítem si está seleccionado
+        if (!empty($this->selectedItem)) {
+            $query->where('items_id', $this->selectedItem);
+        }
+
+        // Filtrar por número de vehículo si está ingresado
+        if (!empty($this->vehicleId)) {
+            $query->where('vehicle_id', $this->vehicleId);
         }
 
         // Paginación de los registros
@@ -91,23 +106,43 @@ class ExpenseReportComponent extends Component
             ]);
         }
 
+        // Aplicar filtros adicionales
+        if (!empty($this->selectedItem)) {
+            $query->where('items_id', $this->selectedItem);
+        }
+
+        if (!empty($this->vehicleId)) {
+            $query->where('vehicle_id', $this->vehicleId);
+        }
+
         // Obtener los datos filtrados
         $items = $query->get();
 
         // Calcular totales
-        $totalExpense = $items->where('transaction_type_income_expense', 'expense')->sum('amount');
+        $totalExpenses = $items->where('transaction_type_income_expense', 'expense')->sum('amount');
+
+        // Agrupar por ítems
+        $itemsGrouped = $items->whereNotNull('items_id')
+            ->groupBy('items_id')
+            ->map(function ($group) {
+                return [
+                    'item_name' => optional($group->first()->itemsCashFlow)->name ?? __('Unknown'),
+                    'total_income' => $group->where('transaction_type_income_expense', 'income')->sum('amount'),
+                    'total_expense' => $group->where('transaction_type_income_expense', 'expense')->sum('amount'),
+                ];
+            });
 
         // Fechas
         $startDate = Carbon::parse($this->reportDateFrom);
         $endDate = Carbon::parse($this->reportDateTo);
 
         // Generar el PDF
-        $pdf = Pdf::loadView('pdf.expense-report', compact('items', 'totalExpense', 'startDate', 'endDate'));
+        $pdf = Pdf::loadView('pdf.expense-report', compact('items', 'itemsGrouped','totalExpenses', 'startDate', 'endDate'));
 
 //         Descargar el archivo PDF
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            "reporte_gastos_" . now()->format('Y-m-d') . ".pdf"
+            "reporte_gastos_" . now()->format('d-m-Y') . ".pdf"
         );
 
     }
