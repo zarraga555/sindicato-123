@@ -78,7 +78,7 @@ Otros Ingresos
                         {{ $otherIncome->banks ? $otherIncome->banks->bank_name : 'Sin banco asociado' }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $otherIncome->itemsCashFlow->name }}
+                        {{ $otherIncome->itemsCashFlow?->name ?? 'Sin item asociado' }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $otherIncome->banks ? $otherIncome->banks->currency_type.'.' : '' }} {{
