@@ -22,7 +22,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('payment_plans', function (Blueprint $table) {
-            $table->string('description')->nullable();
+            $table->dropColumn('description')->nullable();
             $table->dropForeign(['cash_flow_id']);
             $table->dropColumn('cash_flow_id');
         });
