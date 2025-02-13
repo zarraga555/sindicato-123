@@ -14,7 +14,7 @@
                class="fi-btn relative grid-flow-col items-center justify-center font-bold transition duration-75 rounded-lg px-3 py-2 text-sm inline-grid shadow-sm bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20 gap-1.5 fi-ac-action fi-ac-btn-action"
                id="cancel-button"
             >
-                <span class="fi-btn-label">Cancelar</span>
+                <span class="fi-btn-label">{{__('Back')}}</span>
             </a>
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="#"
