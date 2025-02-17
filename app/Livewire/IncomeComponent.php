@@ -20,7 +20,7 @@ class IncomeComponent extends Component
             ->where(function ($query) {
                 $query //->where('name', 'like', '%' . $this->search . '%') // Búsqueda en nombre del gasto
                 ->orWhereHas('vehicles', function ($subQuery) { // Relación con Vehicle
-                    $subQuery->where('id', 'like', '%' . $this->search . '%');
+                    $subQuery->where('id', $this->search);
                 })
                     ->orWhereHas('banks', function ($subQuery) { // Relación con AccountBank
                         $subQuery->where('bank_name', 'like', '%' . $this->search . '%');
