@@ -145,8 +145,19 @@ class TodayReportComponent extends Component
         $startDate = Carbon::parse($this->reportDateFrom);
         $endDate = Carbon::parse($this->reportDateTo);
 
+        // Obtener el rango de fechas según el filtro seleccionado
+        $startDate = Carbon::parse($this->reportDateFrom)->startOfDay();
+        $endDate = $this->dateCheck === 'range'
+            ? Carbon::parse($this->reportDateTo)->endOfDay()
+            : $startDate->copy()->endOfDay();
+
+        // Contar cuántas hojas se vendieron (items_id 8 y 24)
+        $soldSheets = CashFlow::whereIn('items_id', [8, 24])
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
         // Generar PDF
-        $pdf = Pdf::loadView('pdf.today-report', compact('items', 'itemsGrouped', 'totalIncomes', 'totalExpenses', 'netTotal', 'startDate', 'endDate'));
+        $pdf = Pdf::loadView('pdf.today-report', compact('items', 'soldSheets', 'itemsGrouped', 'totalIncomes', 'totalExpenses', 'netTotal', 'startDate', 'endDate'));
 
         return response()->streamDownload(
             fn() => print($pdf->output()),

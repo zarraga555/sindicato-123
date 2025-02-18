@@ -197,6 +197,7 @@
         <h3>{{ __('Summary by Items') }}</h3>
 
         {{-- Totales de Income --}}
+        <p><strong>{{ $soldSheets }}</strong> hojas vendidas en el período seleccionado.</p>
         @if ($items->where('transaction_type_income_expense', 'income')->isNotEmpty())
 
             {{-- 1️⃣ Agrupar por Item --}}
