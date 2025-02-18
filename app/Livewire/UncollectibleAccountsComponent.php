@@ -150,8 +150,8 @@ class UncollectibleAccountsComponent extends Component
         try {
             $loans = Loans::where('vehicle_id', 'like', '%' . $this->search . '%')
                 ->where('debtStatus', 'uncollectible')
-                ->orderByDesc('created_at')
-                ->paginate(10);
+                ->orderByDesc('registration_date')
+                ->paginate(25);
 
             return view('livewire.uncollectible-accounts-component', compact('loans'));
         } catch (\Exception $e) {

@@ -21,6 +21,7 @@ class CashFlow extends Model
         'roadmap_series',
         'type_transaction',
         'description',
+        'registration_date',
 //        'driver_id',
 //        'partner_id'
     ];
