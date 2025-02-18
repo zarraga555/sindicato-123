@@ -175,5 +175,21 @@
     "No downloadable resource available." : "No hay recursos descargables disponibles.",
     "view loan" : "Ver prestamo",
     "partner" : "Socio",
-    "monthly" : "Mensualmente"
+    "monthly" : "Mensualmente",
+    "Collection of Dues" : "Cobro de cuotas",
+    "Uncollectible accounts" : "Cuentas incobrables",
+    "Back" : "Atras",
+    "No uncollectible accounts were found." : "No se encontraron cuentas incobrables.",
+    "Create an uncollectible account" : "Crear una cuenta incobrable",
+    "uncollectible" : "Prestamo Incobrable",
+    "Revert to a collectible account" : "Volver a ser cuenta cobrable",
+    "Pay fee" : "Pagar cuota",
+    "Summary by Items" : "Resumen por items",
+    "Income Items" : "Items de ingreso",
+    "Expense Items" : "Items de egreso",
+    "Daily income and expense report" : "Reporte del dia de ingresos y egresos",
+    "Reporting of all revenues" : "Reporte de todos los ingresos",
+    "Initial Account Amount" : "Apertura de Cuenta Bancaria",
+    "Payment of Quota" : "Pago de cuota",
+    "reporting of all expenditures" : "Reporte de todos los egresos"
 }
