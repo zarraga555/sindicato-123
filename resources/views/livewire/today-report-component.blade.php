@@ -102,7 +102,7 @@
                 @forelse($items as $item)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $item->registration_date->format('d-m-Y H:i:s') }}
+                        {{ \Carbon\Carbon::parse($item->registration_date)->format('d-m-Y H:i:s') }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $item->vehicle_id ? str_pad($item->vehicle_id,3,0, STR_PAD_LEFT) : 'Sin movil asociado'
