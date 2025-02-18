@@ -133,7 +133,7 @@ class Create extends Component
             'items_id' => $itemId,
             'vehicle_id' => $this->movil,
             'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
-            'detail' => "Ingreso de dinero del movil: {$this->movil}{$accountLetter->currency_type}. {$amount} de: {$itemCashFlow->name}",
+            'detail' => "Ingreso de dinero del movil: {$this->movil} cantidad de: {$accountLetter->currency_type}. {$amount} de: {$itemCashFlow->name}",
         ]);
     }
 

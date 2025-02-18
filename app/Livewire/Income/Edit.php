@@ -105,7 +105,7 @@ class Edit extends Component
             'items_id' => $this->itemCashFlowId,
             'vehicle_id' => $this->movil,
             'registration_date' => $this->fecha_registro,
-            'detail' => "Ingreso de dinero del movil: {$this->movil}{$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
+            'detail' => "Ingreso de dinero del movil: {$this->movil} cantidad de: {$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
         ];
     }
 
