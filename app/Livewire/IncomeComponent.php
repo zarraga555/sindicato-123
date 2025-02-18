@@ -29,13 +29,13 @@ class IncomeComponent extends Component
                         $subQuery->where('name', 'like', '%' . $this->search . '%');
                     });
             })
-            ->whereDate('created_at', Carbon::today()) // Filtrar por la fecha de hoy
-            ->orderBy('created_at', 'desc')
+            ->whereDate('registration_date', Carbon::today()) // Filtrar por la fecha de hoy
+            ->orderBy('registration_date', 'desc')
             ->paginate(25);
         $query = CashFlow::query();
         $totalIncome = $query->where('transaction_type_income_expense', 'income')
             ->whereNotNull('vehicle_id')
-            ->whereDate('created_at', Carbon::today()) // Filtrar por la fecha de hoy
+            ->whereDate('registration_date', Carbon::today()) // Filtrar por la fecha de hoy
             ->sum('amount');
         return view(
             'livewire.income-component',

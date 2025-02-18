@@ -14,7 +14,7 @@ class LoanComponent extends Component
 
     public function render()
     {
-        $loans = Loans::where('vehicle_id', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')
+        $loans = Loans::where('vehicle_id', 'like', '%' . $this->search . '%')->orderBy('registration_date', 'desc')
             ->paginate(25);
         return view(
             'livewire.loan-component',
