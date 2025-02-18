@@ -5,6 +5,7 @@ namespace App\Livewire\Expense;
 use App\Models\AccountLetters;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -16,6 +17,7 @@ class Create extends Component
     public $accountLetters;
     public $bank_id;
     public $vehicle_id;
+    public $fecha_registro;
 
     public function mount()
     {
@@ -49,6 +51,7 @@ class Create extends Component
             'cashFlows.*.serie' => 'nullable|string',
             'bank_id' => 'nullable|exists:account_letters,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
+            'fecha_registro' => 'nullable'
         ]);
     }
 
@@ -151,7 +154,8 @@ class Create extends Component
                 'vehicle_id' => $this->vehicle_id,
                 'type_transaction' => 'expense',
                 'roadmap_series' => $cashFlow['serie'],
-                'detail' => "Egreso de dinero:  {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
+                 'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
+                'detail' => "Egreso de dinero: {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
             ]);
 
             $amountFinal += $cashFlow['amount'];

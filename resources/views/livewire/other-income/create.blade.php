@@ -40,18 +40,27 @@ Nuevo Igreso
                         <br> Selecciona la cuenta de la cual se ingresara el dinero. Si no seleccionas ninguna cuenta,
                         se utilizará automáticamente la primera cuenta bancaria registrada.</p>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Monto -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Número de Móvil -->
                     <div>
-                        <label for="input1" class="block text-sm font-medium text-gray-700">Numero de Movil</label>
+                        <label for="input1" class="block text-sm font-medium text-gray-700">Número de Móvil</label>
                         <input type="text" id="input1" name="input1"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                               placeholder="Ingresa el movil"
+                               placeholder="Ingresa el móvil"
                                wire:model="vehicle_id">
                     </div>
 
-                    <!-- Segundo input -->
+                    <!-- Fecha de Registro -->
+                    <div>
+                        <label for="fecha_registro" class="block text-sm font-medium text-gray-700">Fecha de
+                            Registro</label>
+                        <input type="date" id="fecha_registro" name="fecha_registro"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               wire:model="fecha_registro">
+                        @error('fecha_registro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Cuenta Bancaria -->
                     <div>
                         <div class="mb-4">
                             <label for="bank_id"

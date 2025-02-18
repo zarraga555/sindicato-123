@@ -10,6 +10,17 @@
                wire:model="movil">
     </div>
     @error('movil') <span class="text-danger">{{ $message }}</span> @enderror
+    <div>
+        <!-- Fecha de Registro -->
+        <div>
+            <label for="fecha_registro" class="block text-sm font-medium text-gray-700">Fecha de
+                Registro</label>
+            <input type="date" id="fecha_registro" name="fecha_registro"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                   wire:model="fecha_registro">
+            @error('fecha_registro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+    </div>
     <!-- Input: Items -->
     <div>
         <label for="cashFlowId" class="block text-sm font-medium text-gray-900">

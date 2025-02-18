@@ -22,6 +22,7 @@ class Edit extends Component
     public $movil;
     public $bank_id;
     public $mode = "income";
+    public $fecha_registro;
 
     protected array $rules = [
         'amount' => 'required|numeric',
@@ -50,6 +51,7 @@ class Edit extends Component
         $this->receipt_number = $otherIncome->roadmap_series;
         $this->movil = $otherIncome->vehicle_id;
         $this->bank_id = $otherIncome->account_bank_id;
+        $this->fecha_registro = \Carbon\Carbon::parse($this->fecha_registro)->format('Y-m-d');
     }
 
     /**
@@ -104,7 +106,8 @@ class Edit extends Component
             'roadmap_series' => $this->receipt_number,
             'items_id' => $this->itemCashFlowId,
             'vehicle_id' => $this->movil,
-            'detail' => "Ingreso de dinero:  {$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
+            'registration_date' => $this->fecha_registro,
+            'detail' => "Ingreso de dinero del movil: {$this->movil} cantidad de: {$accountLetter->currency_type}. {$this->amount} de: {$itemCashFlow->name}",
         ];
     }
 

@@ -27,7 +27,8 @@ class Edit extends Component
         'amount' => 'required|numeric',
         'itemCashFlowId' => 'required',
         'receipt_number' => 'nullable|numeric',
-        'movil' => 'nullable'
+        'movil' => 'nullable',
+        'fecha_registro' => 'nullable'
     ];
 
     /**
@@ -48,7 +49,7 @@ class Edit extends Component
         $this->receipt_number = $income->roadmap_series;
         $this->movil = $income->vehicle_id;
         $this->bank_id = $income->account_bank_id;
-        $this->fecha_registro = $income->registration_date;
+        $this->fecha_registro = \Carbon\Carbon::parse($this->fecha_registro)->format('Y-m-d');
     }
 
     /**
@@ -114,7 +115,7 @@ class Edit extends Component
         $account = AccountLetters::find(1);
 
         if ($account) {
-            if ($this->confirmingUserDeletion){
+            if ($this->confirmingUserDeletion) {
                 $account->decrement('initial_account_amount', $this->lastAmount);
             } else {
                 $account->decrement('initial_account_amount', $this->lastAmount);
