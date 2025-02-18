@@ -19,8 +19,9 @@ Ingresos por movilidad(Senanal)
         </x-breadcrumb>
         @include('components.components.messagesFlash')
         <!--Table-->
+        <!-- Tabla -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <div class="pb-4 bg-white dark:bg-gray-900 px-4 flex justify-between items-center">
+            <div class="pb-4 bg-white dark:bg-gray-900 px-4 flex justify-between items-center flex-wrap">
                 <!-- Contenedor del input -->
                 <div class="relative mt-4">
                     <label for="table-search" class="sr-only">Search</label>
@@ -40,36 +41,36 @@ Ingresos por movilidad(Senanal)
                 </div>
 
                 <!-- Contenedor del total -->
-                <div class="mt-4 mr-6">
+                <div class="mt-4 md:mt-0 md:mr-6">
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
                         {{ __('Total Income') }}:
                         <span id="total">
-                {{ $incomes->first()? ($incomes->first()->banks ? $incomes->first()->banks->currency_type.'.' : '') : '' }}
-                {{ number_format($totalIncome, 2) }}
-            </span>
+                    {{ $incomes->first()? ($incomes->first()->banks ? $incomes->first()->banks->currency_type.'.' : '') : '' }}
+                    {{ number_format($totalIncome, 2) }}
+                </span>
                     </p>
                 </div>
             </div>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 date-column">
                         {{ __('Fecha') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 vehicle-column">
                         {{ __('Movil') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bank-column">
                         {{ __('Cuenta Bancaria') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Item de Egreso') }}
+                    <th scope="col" class="px-6 py-3 item-column">
+                        {{ __('Item') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 amount-column">
                         {{ __('Monto') }}
                     </th>
                     @can('editar ingresos')
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 action-column">
                         Action
                     </th>
                     @endcan
@@ -78,26 +79,26 @@ Ingresos por movilidad(Senanal)
                 <tbody>
                 @forelse($incomes as $income)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white date-column">
                         {{ \Carbon\Carbon::parse($income->registration_date)->format('d-m-Y H:i:s') }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 vehicle-column">
                         {{ $income->vehicle_id ? str_pad($income->vehicle_id,3,0, STR_PAD_LEFT) : 'Sin movil asociado'
                         }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 bank-column">
                         {{ $income->banks ? $income->banks->bank_name : 'Sin banco asociado' }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 item-column">
                         {{ $income->itemsCashFlow->name }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ $income->banks ? $income->banks->currency_type.'.' : '' }} {{
-                        number_format($income->amount, 2) }}
-
+                    <td class="px-6 py-4 amount-column">
+                        {{ $income->banks ? $income->banks->currency_type.'.' : '' }} {{ number_format($income->amount,
+                        2) }}
                     </td>
                     @can('editar ingresos')
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 action-column">
                         <a href="{{ route('income.edit', $income->id) }}"
                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
@@ -106,7 +107,8 @@ Ingresos por movilidad(Senanal)
                 @empty
                 <tr>
                     <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                        {{__('No records were found for today. You can create one now to start recording information.')}}
+                        {{__('No records were found for today. You can create one now to start recording
+                        information.')}}
                     </td>
                 </tr>
                 @endforelse
@@ -118,11 +120,33 @@ Ingresos por movilidad(Senanal)
             </div>
         </div>
 
-        <!-- Mensaje de éxito -->
-        @if(session()->has('error'))
-        <div class="mt-4 text-green-500">
-            {{ session('error') }}
-        </div>
-        @endif
+        <!-- CSS personalizado para controlar la visibilidad en dispositivos móviles y de escritorio -->
+        <style>
+            /* En pantallas grandes, se muestran todas las columnas */
+            @media (min-width: 640px) {
+                .date-column,
+                .bank-column,
+                .item-column,
+                .amount-column,
+                .action-column {
+                    display: table-cell;
+                }
+            }
+
+            /* En pantallas pequeñas, ocultar las columnas no necesarias */
+            @media (max-width: 639px) {
+                .date-column,
+                .bank-column {
+                    display: none;
+                }
+
+                .vehicle-column,
+                .item-column,
+                .amount-column,
+                .action-column {
+                    display: table-cell;
+                }
+            }
+        </style>
     </section>
 </div>
