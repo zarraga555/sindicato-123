@@ -10,13 +10,14 @@ Editar Item de Ingreso
             breadcrumbMain="Items de Ingresos"
             breadcrumbCurrent="Editar"
         >
-            @can('eliminar item ingreso')
-            <!-- Contenido dentro del slot, como el botón de creación -->
-            <a href="#" wire:click="openDelete"
-               class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
-                {{ __('Borrar') }}
-            </a>
-            @encan
+        @can('eliminar item ingreso')
+            @if(!in_array($itemIncomeId, [10, 25, 28, 27, 8, 23]))
+                <a href="#" wire:click="openDelete"
+                   class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
+                    {{ __('Borrar') }}
+                </a>
+            @endif
+        @endcan
         </x-breadcrumb>
 
         <div class="grid grid-cols-2 gap-4">
@@ -95,14 +96,13 @@ Editar Item de Ingreso
                 </button>
 
                 <!-- Botón Cancelar -->
-                <button
+                <a href="{{route('incomeCategories.index')}}"
                     class="fi-btn relative grid-flow-col items-center justify-center font-semibold outline-none transition duration-75 focus-visible:ring-2 rounded-lg fi-btn-color-gray fi-color-gray fi-size-md fi-btn-size-md gap-1.5 px-3 py-2 text-sm inline-grid shadow-sm bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20"
                     type="button"
                     wire:loading.attr="disabled"
-                    x-on:click="document.referrer ? window.history.back() : (window.location.href = '/admin/categories')"
                 >
                     <span class="fi-btn-label">Cancelar</span>
-                </button>
+                </a>
             </div>
         </div>
     </section>
