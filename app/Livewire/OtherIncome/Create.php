@@ -117,7 +117,7 @@ class Create extends Component
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
                 'roadmap_series' => $cashFlow['serie'],
-                'detail' => "Egreso de dinero:  {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
+                'detail' => "Ingreso de dinero:  {$accountLetter->currency_type}. del movil: {$this->vehicle_id} {$cashFlow['amount']} de: {$itemCashFlow->name}",
             ]);
 
             $amountFinal += $cashFlow['amount'];
