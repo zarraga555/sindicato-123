@@ -11,112 +11,133 @@ Nuevo Ingresos por movilidad(Senanal)
             breadcrumbCurrent="Crear"
         >
             <!-- Mostrar el total en pantalla -->
-            <p>Total: <span id="total">0.00</span></p>
+            <p class="text-2xl font-bold">Total: <span id="total">0.00</span></p>
         </x-breadcrumb>
         @include('components.components.messagesFlash')
         <div class="grid flex-1 auto-cols-fr gap-y-8">
 
-            <!-- Pruebas -->
+            <!-- Formulario optimizado y responsivo -->
             <fieldset class="border border-gray-300 rounded-md p-3">
-                <legend class="text-sm font-medium text-gray-700"> Hojas de Rutas</legend>
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <!-- Input 1: Numero de Movil -->
+                <legend class="text-sm font-medium text-gray-700">Hojas de Rutas</legend>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Número de Móvil -->
                     <div>
-                        <label for="movil" class="block text-sm font-medium text-gray-700">Numero de Movil</label>
-                        <input type="text" id="movil" name="movil"
+                        <label for="movil" class="block text-sm font-medium text-gray-700">Número de Móvil</label>
+                        <input type="number" id="movil" name="movil"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                               placeholder="Ingrese el numero de movil a registrar"
-                               maxlength="255"
-                               required="required"
+                               placeholder="Ingrese el número de móvil"
+                               required
                                wire:model="movil">
+                        @error('movil') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('movil') <span class="text-danger">{{ $message }}</span> @enderror
 
-                    <!-- Input 2: Venta Hoja -->
+                    <!-- Fecha de Registro -->
                     <div>
-                        <label for="amount_hoja_semanal" class="block text-sm font-medium text-gray-700">Venta de
-                            Hoja</label>
+                        <label for="fecha_registro" class="block text-sm font-medium text-gray-700">Fecha de
+                            Registro</label>
+                        <input type="date" id="fecha_registro" name="fecha_registro"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               wire:model="fecha_registro">
+                        @error('fecha_registro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Venta Hoja Semanal -->
+                    <div>
+                        <label for="amount_hoja_semanal" class="block text-sm font-medium text-gray-700">Venta Hoja
+                            Semanal</label>
                         <input type="number" id="amount_hoja_semanal" name="amount_hoja_semanal"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               class="sumar-total mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
-                               maxlength="255"
-                               required="required"
+                               required
                                wire:model="amount_hoja_semanal">
+                        @error('amount_hoja_semanal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('hoja_semanal_serie') <span class="text-danger">{{ $message }}</span> @enderror
 
-                    <!-- Input 3: Numero de Serie -->
+                    <!-- Número de Serie Semanal -->
                     <div>
-                        <label for="hoja_semanal_serie" class="block text-sm font-medium text-gray-700">Numero de Serie
-                            <sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup></label>
-                        <input type="text" id="hoja_semanal_serie" name="hoja_semanal_serie"
+                        <label for="hoja_semanal_serie" class="block text-sm font-medium text-gray-700">Número de Serie
+                            Semanal</label>
+                        <input type="number" id="hoja_semanal_serie" name="hoja_semanal_serie"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                               placeholder="Ingrese el numero de serie"
-                               maxlength="255"
-                               required="required"
+                               placeholder="Ingrese el número de serie"
+                               required
                                wire:model="hoja_semanal_serie">
+                        @error('hoja_semanal_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('hoja_semanal_serie') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
-                <br>
-                <div class="grid grid-cols-2 gap-4">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                     <!-- Venta Hoja Domingo -->
                     <div>
-                        <label for="amount_hoja_domingo" class="block text-sm font-medium text-gray-700">Venta de Hoja
+                        <label for="amount_hoja_domingo" class="block text-sm font-medium text-gray-700">Venta Hoja
                             Domingo</label>
                         <input type="number" id="amount_hoja_domingo" name="amount_hoja_domingo"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               class="sumar-total mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
-                               maxlength="255"
+                               required
                                wire:model="amount_hoja_domingo">
+                        @error('amount_hoja_domingo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('amount_hoja_domingo') <span class="text-danger">{{ $message }}</span> @enderror
 
-                    <!-- Numero Series Domingo -->
+                    <!-- Número de Serie Domingo -->
                     <div>
-                        <label for="hoja_domingo_serie" class="block text-sm font-medium text-gray-700">Numero de
-                            Serie</label>
-                        <input type="text" id="hoja_domingo_serie" name="hoja_domingo_serie"
+                        <label for="hoja_domingo_serie" class="block text-sm font-medium text-gray-700">Número de Serie
+                            Domingo</label>
+                        <input type="number" id="hoja_domingo_serie" name="hoja_domingo_serie"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                               placeholder="Ingrese el numero de serie"
-                               maxlength="255"
+                               placeholder="Ingrese el número de serie"
+                               required
                                wire:model="hoja_domingo_serie">
+                        @error('hoja_domingo_serie') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('hoja_domingo_serie') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </fieldset>
 
-            <fieldset class="border border-gray-300 rounded-md p-3">
+            <fieldset class="border border-gray-300 rounded-md p-3 mt-4">
                 <legend class="text-sm font-medium text-gray-700">Otros Cobros</legend>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <!-- Input 1: Multas -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Multas -->
                     <div>
                         <label for="multas" class="block text-sm font-medium text-gray-700">Multas</label>
                         <input type="number" id="multas" name="multas"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               class="sumar-total mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
                                wire:model="multas">
+                        @error('multas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('multas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    <!-- Input 2: Lavado -->
+
+                    <!-- Lavado Auto Rojo-->
                     <div>
-                        <label for="lavado_auto" class="block text-sm font-medium text-gray-700">Lavado</label>
-                        <input type="number" id="lavado_auto" name="lavado_auto"
+                        <label for="lavado_auto_rojo" class="block text-sm font-medium text-gray-700">{{
+                            $itemsCashFlows->firstWhere('id', 25)->name ?? 'No encontrado' }}</label>
+                        <input type="number" id="lavado_auto_rojo" name="lavado_auto_rojo"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
-                               wire:model="lavado_auto">
+                               wire:model="lavado_auto_rojo">
+                        @error('lavado_auto_rojo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('lavado_auto') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    <!-- Input 3: Aporte para Seguro -->
+
+                    <!-- Lavado Auto Azul-->
                     <div>
-                        <label for="aporte_seguro" class="block text-sm font-medium text-gray-700">Aporte para
-                            seguro</label>
+                        <label for="lavado_auto_azul" class="block text-sm font-medium text-gray-700">{{
+                            $itemsCashFlows->firstWhere('id', 28)->name ?? 'No encontrado' }}</label>
+                        <input type="number" id="lavado_auto_azul" name="lavado_auto_azul"
+                               class="sumar-total mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               placeholder="Ingresa un monto"
+                               wire:model="lavado_auto_azul">
+                        @error('lavado_auto_azul') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <!-- Aporte para Seguro -->
+                    <div>
+                        <label for="aporte_seguro" class="block text-sm font-medium text-gray-700">{{
+                            $itemsCashFlows->firstWhere('id', 27)->name ?? 'No encontrado' }}</label>
                         <input type="number" id="aporte_seguro" name="aporte_seguro"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                               class="sumar-total mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingresa un monto"
                                wire:model="aporte_seguro">
+                        @error('aporte_seguro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    @error('aporte_seguro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </fieldset>
 
@@ -207,18 +228,17 @@ Nuevo Ingresos por movilidad(Senanal)
         document.addEventListener("DOMContentLoaded", function () {
             function calcularSuma() {
                 let total = 0;
-                document.querySelectorAll('[type="number"]').forEach(input => {
+                document.querySelectorAll('.sumar-total').forEach(input => {
                     const valor = parseFloat(input.value) || 0;
                     total += valor;
                 });
 
-                // Muestra el total en un campo o en la consola
-                console.log("Total:", total);
+                // Mostrar el total en pantalla
                 document.getElementById("total").textContent = total.toFixed(2);
             }
 
-            // Agregar el evento input a todos los inputs numéricos
-            document.querySelectorAll('[type="number"]').forEach(input => {
+            // Agregar el evento "input" solo a los inputs con la clase "sumar-total"
+            document.querySelectorAll('.sumar-total').forEach(input => {
                 input.addEventListener("input", calcularSuma);
             });
 

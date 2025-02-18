@@ -6,10 +6,12 @@ use App\Models\AccountLetters;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use function PHPUnit\Framework\returnArgument;
 
 class Create extends Component
 {
@@ -20,8 +22,10 @@ class Create extends Component
     public $hoja_domingo_serie;
     public $amount_hoja_domingo;
     public $multas;
-    public $lavado_auto;
+    public $lavado_auto_rojo;
+    public $lavado_auto_azul;
     public $aporte_seguro;
+    public $fecha_registro;
 
     public function mount()
     {
@@ -37,8 +41,10 @@ class Create extends Component
             'hoja_domingo_serie' => 'nullable|string|max:255',
             'amount_hoja_domingo' => 'nullable|numeric|min:0',
             'multas' => 'nullable|numeric|min:0',
-            'lavado_auto' => 'nullable|numeric|min:0',
+            'lavado_auto_rojo' => 'nullable|numeric|min:0',
+            'lavado_auto_azul' => 'nullable|numeric|min:0',
             'aporte_seguro' => 'nullable|numeric|min:0',
+            'fecha_registro' => 'nullable'
         ]);
     }
 
@@ -61,7 +67,7 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
             }
-        }else{
+        } else {
             session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
     }
@@ -84,7 +90,7 @@ class Create extends Component
                 DB::rollBack();
                 session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
             }
-        }else{
+        } else {
             session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
         }
     }
@@ -95,7 +101,8 @@ class Create extends Component
 
         $items = [
             ['amount' => $this->multas, 'item_id' => 10],
-            ['amount' => $this->lavado_auto, 'item_id' => 25],
+            ['amount' => $this->lavado_auto_rojo, 'item_id' => 25],
+            ['amount' => $this->lavado_auto_azul, 'item_id' => 28],
             ['amount' => $this->aporte_seguro, 'item_id' => 27],
             ['amount' => $this->amount_hoja_semanal, 'item_id' => 8, 'series' => $this->hoja_semanal_serie],
             ['amount' => $this->amount_hoja_domingo, 'item_id' => 23, 'series' => $this->hoja_domingo_serie],
@@ -115,6 +122,8 @@ class Create extends Component
 
     private function createCashFlow($amount, $itemId, $series = null)
     {
+        $accountLetter = AccountLetters::find(1);
+        $itemCashFlow = ItemsCashFlow::findOrFail($itemId);
         CashFlow::create([
             'user_id' => Auth::id(),
             'transaction_type_income_expense' => 'income',
@@ -123,6 +132,8 @@ class Create extends Component
             'roadmap_series' => $series,
             'items_id' => $itemId,
             'vehicle_id' => $this->movil,
+            'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
+            'detail' => "Ingreso de dinero del movil: {$this->movil}{$accountLetter->currency_type}. {$amount} de: {$itemCashFlow->name}",
         ]);
     }
 
@@ -149,8 +160,10 @@ class Create extends Component
             'hoja_domingo_serie',
             'amount_hoja_domingo',
             'multas',
-            'lavado_auto',
+            'lavado_auto_rojo',
+            'lavado_auto_azul',
             'aporte_seguro',
+            'fecha_registro',
         ]);
     }
 
