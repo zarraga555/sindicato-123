@@ -17,7 +17,7 @@ class UserComponent extends Component
     {
         $users = User::where('name', 'like', '%' . $this->search . '%')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(25);
         return view('livewire.user-component', compact('users'));
     }
 }

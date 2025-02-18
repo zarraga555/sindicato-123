@@ -16,7 +16,7 @@ class IncomeCategoriesComponent extends Component
     {
         $incomeCategories = ItemsCashFlow::where('type_income_expense', 'income') // Filtrar solo por ingresos
         ->where('name', 'like', '%' . $this->search . '%') // Buscar por el término ingresado
-        ->paginate(10);
+        ->paginate(25);
         return view(
             'livewire.income-categories-component',
             compact('incomeCategories')

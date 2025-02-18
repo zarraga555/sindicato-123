@@ -53,7 +53,7 @@ class Create extends Component
 
         ItemsCashFlow::create([
             'name' => $this->name,
-            'type_income_expense' => 'income',
+            'type_income_expense' => 'Income',
             'created_by' => auth()->id(),
         ]);
     }

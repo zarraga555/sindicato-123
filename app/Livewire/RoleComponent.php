@@ -15,7 +15,7 @@ class RoleComponent extends Component
 
     public function render()
     {
-        $roles = Role::where('name', 'like', "%{$this->search}%")->paginate();
+        $roles = Role::where('name', 'like', "%{$this->search}%")->paginate(25);
         $permissions = Permission::all();
         return view('livewire.role-component', compact('roles', 'permissions'));
     }

@@ -37,9 +37,9 @@ class ExpenseReportComponent extends Component
 
         // Aplica los filtros basados en las fechas
         if ($this->dateCheck === 'unic') {
-            $query->where('transaction_type_income_expense', 'expense')->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->where('transaction_type_income_expense', 'expense')->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->where('transaction_type_income_expense', 'expense')->whereBetween('created_at', [
+            $query->where('transaction_type_income_expense', 'expense')->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);
@@ -56,7 +56,7 @@ class ExpenseReportComponent extends Component
         }
 
         // Paginación de los registros
-        return $query->paginate(10);
+        return $query->paginate(25);
     }
 
     private function filterRecords()
@@ -98,9 +98,9 @@ class ExpenseReportComponent extends Component
 
         // Aplica los filtros basados en las fechas
         if ($this->dateCheck === 'unic') {
-            $query->where('transaction_type_income_expense', 'expense')->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->where('transaction_type_income_expense', 'expense')->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->where('transaction_type_income_expense', 'expense')->whereBetween('created_at', [
+            $query->where('transaction_type_income_expense', 'expense')->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);

@@ -16,7 +16,7 @@ class AccountLettersComponent extends Component
     {
         $accountLetters = AccountLetters::where('bank_name', 'like', '%'.$this->search.'%')
                                             ->orWhere('account_name', 'like', '%'.$this->search.'%')
-                                            ->paginate(10);
+                                            ->paginate(25);
         return view(
             'livewire.account-letters-component',
             compact('accountLetters')

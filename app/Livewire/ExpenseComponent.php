@@ -27,8 +27,8 @@ class ExpenseComponent extends Component
                         $subQuery->where('name', 'like', '%' . $this->search . '%');
                     });
             })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->orderBy('registration_date', 'desc')
+            ->paginate(25);
         return view(
             'livewire.expense-component',
             compact('expenses')

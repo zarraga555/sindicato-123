@@ -31,7 +31,7 @@ class IncomeComponent extends Component
             })
             ->whereDate('created_at', Carbon::today()) // Filtrar por la fecha de hoy
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(25);
         $query = CashFlow::query();
         $totalIncome = $query->where('transaction_type_income_expense', 'income')
             ->whereNotNull('vehicle_id')

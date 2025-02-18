@@ -37,9 +37,9 @@ class IncomeReportComponent extends Component
 
         // Aplica los filtros basados en las fechas
         if ($this->dateCheck === 'unic') {
-            $query->where('transaction_type_income_expense', 'income')->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->where('transaction_type_income_expense', 'income')->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->where('transaction_type_income_expense', 'income')->whereBetween('created_at', [
+            $query->where('transaction_type_income_expense', 'income')->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);
@@ -55,7 +55,7 @@ class IncomeReportComponent extends Component
             $query->where('vehicle_id', $this->vehicleId);
         }
 
-        return $query->paginate(10);
+        return $query->paginate(25);
     }
 
     private function filterRecords()
@@ -97,9 +97,9 @@ class IncomeReportComponent extends Component
 
         // Aplica los filtros basados en las fechas
         if ($this->dateCheck === 'unic') {
-            $query->where('transaction_type_income_expense', 'income')->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->where('transaction_type_income_expense', 'income')->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->where('transaction_type_income_expense', 'income')->whereBetween('created_at', [
+            $query->where('transaction_type_income_expense', 'income')->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);

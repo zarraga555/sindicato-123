@@ -46,9 +46,9 @@ class TodayReportComponent extends Component
 
         // Filtrar por fecha
         if ($this->dateCheck === 'unic') {
-            $query->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);
@@ -64,7 +64,7 @@ class TodayReportComponent extends Component
             $query->where('vehicle_id', $this->vehicleId);
         }
 
-        return $query->paginate(10);
+        return $query->paginate(25);
     }
 
     private function filterRecords()
@@ -106,9 +106,9 @@ class TodayReportComponent extends Component
 
         // Filtrar por fecha
         if ($this->dateCheck === 'unic') {
-            $query->whereDate('created_at', '=', $this->reportDateFrom);
+            $query->whereDate('registration_date', '=', $this->reportDateFrom);
         } elseif ($this->dateCheck === 'range') {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('registration_date', [
                 Carbon::parse($this->reportDateFrom)->startOfDay(),
                 Carbon::parse($this->reportDateTo)->endOfDay()
             ]);
@@ -153,7 +153,7 @@ class TodayReportComponent extends Component
 
         // Contar cuántas hojas se vendieron (items_id 8 y 24)
         $soldSheets = CashFlow::whereIn('items_id', [8, 24])
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('registration_date', [$startDate, $endDate])
             ->count();
 
         // Generar PDF
