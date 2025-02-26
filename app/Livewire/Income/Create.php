@@ -57,7 +57,9 @@ class Create extends Component
         if (Vehicle::find($this->movil)) {
             DB::beginTransaction();
             try {
-                $totalAmount = $this->processCashFlows();
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
+                $totalAmount = $this->processCashFlows($cash_drawer->id);
                 $this->updateAccountBalance($totalAmount);
 
                 DB::commit();
