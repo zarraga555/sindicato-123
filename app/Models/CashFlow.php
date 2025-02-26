@@ -22,6 +22,10 @@ class CashFlow extends Model
         'type_transaction',
         'description',
         'registration_date',
+        'payment_type',
+        'payment_status',
+        'transaction_status',
+        'cash_drawer_id'
 //        'driver_id',
 //        'partner_id'
     ];
