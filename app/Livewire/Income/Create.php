@@ -3,6 +3,7 @@
 namespace App\Livewire\Income;
 
 use App\Models\AccountLetters;
+use App\Models\CashDrawer;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
 use App\Models\Vehicle;
@@ -80,7 +81,11 @@ class Create extends Component
         if (Vehicle::find($this->movil)) {
             DB::beginTransaction();
             try {
-                $totalAmount = $this->processCashFlows();
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
+
+                // Procesa los flujos de efectivo
+                $totalAmount = $this->processCashFlows($cash_drawer->id);
                 $this->updateAccountBalance($totalAmount);
 
                 DB::commit();
@@ -95,60 +100,122 @@ class Create extends Component
         }
     }
 
-    public function processCashFlows()
+    public function payWithQRAndCreateAnother()
+    {
+        $this->validateCashFlows();
+
+        // Verificar si el vehículo existe
+        if (Vehicle::find($this->movil)) {
+            DB::beginTransaction();
+            try {
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
+
+                // Procesa los flujos de efectivo
+                $this->processCashFlows($cash_drawer->id, 'qr');
+
+                DB::commit();
+                $this->resetForm();
+                session()->flash('success', 'Datos guardados correctamente.');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
+            }
+        } else {
+            session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
+        }
+    }
+
+    public function savePendingPaymentAndCreateAnother()
+    {
+        // Verificar si el vehículo existe
+        if (Vehicle::find($this->movil)) {
+            DB::beginTransaction();
+            try {
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
+
+                // Procesa los flujos de efectivo
+                $this->processCashFlows($cash_drawer->id, null, 'receivable');
+
+                DB::commit();
+                $this->resetForm();
+                session()->flash('success', 'Datos guardados correctamente.');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
+            }
+        } else {
+            session()->flash('error', 'El vehículo seleccionado no existe. Por favor, verifica e intenta nuevamente.');
+        }
+    }
+
+    public function processCashFlows($cash_drawer_id, $payment_type = null, $payment_status = null)
     {
         $totalAmount = 0;
 
         $items = [
-            ['amount' => $this->multas, 'item_id' => 10],
-            ['amount' => $this->lavado_auto_rojo, 'item_id' => 25],
-            ['amount' => $this->lavado_auto_azul, 'item_id' => 28],
-            ['amount' => $this->aporte_seguro, 'item_id' => 27],
-            ['amount' => $this->amount_hoja_semanal, 'item_id' => 8, 'series' => $this->hoja_semanal_serie],
-            ['amount' => $this->amount_hoja_domingo, 'item_id' => 23, 'series' => $this->hoja_domingo_serie],
+            ['amount' => $this->multas, 'item_id' => 10, 'payment_status' => $payment_status],
+            ['amount' => $this->lavado_auto_rojo, 'item_id' => 25, 'payment_status' => 'receivable'],
+            ['amount' => $this->lavado_auto_azul, 'item_id' => 28, 'payment_status' => $payment_status],
+            ['amount' => $this->aporte_seguro, 'item_id' => 27, 'payment_status' => $payment_status],
+            ['amount' => $this->amount_hoja_semanal, 'item_id' => 8, 'series' => $this->hoja_semanal_serie, 'payment_status' => $payment_status],
+            ['amount' => $this->amount_hoja_domingo, 'item_id' => 23, 'series' => $this->hoja_domingo_serie, 'payment_status' => $payment_status],
         ];
 
         foreach ($items as $item) {
             if (!empty($item['amount']) && $item['amount'] > 0) {
-//            Log::info('Creando flujo de efectivo: ', $item);
-                $this->createCashFlow($item['amount'], $item['item_id'], $item['series'] ?? null);
+                $this->createCashFlow($cash_drawer_id, $payment_type, $item['payment_status'], $item['amount'], $item['item_id'], $item['series']  ?? null);
                 $totalAmount += $item['amount'];
             }
         }
 
-//    Log::info('Total calculado en processCashFlows: ' . $totalAmount);
         return $totalAmount;
     }
 
-    private function createCashFlow($amount, $itemId, $series = null)
+    private function createCashFlow($cash_drawer_id, $payment_type, $payment_status, $amount, $itemId, $series = null,)
     {
         $accountLetter = AccountLetters::find(1);
         $itemCashFlow = ItemsCashFlow::findOrFail($itemId);
+
+        // Lógica para definir el payment_type
+        if ($payment_status === 'receivable') {
+            $payment_type = null; // Si payment_status es 'receivable', payment_type debe ser null
+        } elseif ($payment_type === 'qr') {
+            $payment_type = 'qr'; // Si el payment_type es 'qr', se mantiene como 'qr'
+        } else {
+            $payment_type = 'cash'; // Si no es 'qr', se guarda como 'cash'
+        }
+
         CashFlow::create([
             'user_id' => Auth::id(),
             'transaction_type_income_expense' => 'income',
-            'account_bank_id' => 1,
+            'account_bank_id' => $qr ?? 1,
             'amount' => $amount,
             'roadmap_series' => $series,
             'items_id' => $itemId,
             'vehicle_id' => $this->movil,
             'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
             'detail' => "Ingreso de dinero del movil: {$this->movil} cantidad de: {$accountLetter->currency_type}. {$amount} de: {$itemCashFlow->name}",
+            'payment_type' => $payment_type,
+            'payment_status' => $payment_status ?? 'paid',
+            'transaction_status' => 'open',
+            'cash_drawer_id' => $cash_drawer_id,
         ]);
     }
 
     public function updateAccountBalance($amount)
     {
-//    Log::info('Actualizando saldo: ' . $amount);
+        //    Log::info('Actualizando saldo: ' . $amount);
         $account = AccountLetters::find(1);
 
         if ($account) {
             $account->increment('initial_account_amount', $amount);
-//        Log::info('Saldo actualizado: ' . $account->initial_account_amount);
+            //        Log::info('Saldo actualizado: ' . $account->initial_account_amount);
         }
-//    else {
-//        Log::warning('Cuenta no encontrada para actualizar saldo.');
-//    }
+        //    else {
+        //        Log::warning('Cuenta no encontrada para actualizar saldo.');
+        //    }
     }
 
     private function resetForm()
@@ -167,8 +234,28 @@ class Create extends Component
         ]);
     }
 
+    private function getOrCreateCashDrawer()
+    {
+        // Verifica si ya hay una caja abierta para el usuario actual
+        $cash_drawer = CashDrawer::where('status', 'open')
+            ->where('user_id', Auth::id())
+            ->first();
+
+        // Si no hay una caja abierta, crea una nueva
+        if (!$cash_drawer) {
+            $cash_drawer = CashDrawer::create([
+                'user_id' => Auth::id(),
+                'status' => 'open',
+                'initial_amount' => 0,
+                'start_time' => Carbon::now(),
+            ]);
+        }
+
+        return $cash_drawer;
+    }
+
     public function render()
     {
-        return view('livewire.income.create')->layout('layouts.app');
+        return view('livewire.income.create');
     }
 }
