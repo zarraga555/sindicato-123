@@ -66,4 +66,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function totalRegistration()
+    {
+        $this->sum = 0;
+        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->each(function ($totalRegistration) {
+            if ($totalRegistration->transaction_type_income_expense == 'income') {
+                $this->sum += $totalRegistration->amount;
+            }else{
+                $this->sum -= $totalRegistration->amount;
+            }
+        });
+        return $this->sum;
+    }
+
+    public function cashOnHand()
+    {
+        $this->sum = 0;
+        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->where('payment_type', 'cash')->where('payment_status', 'paid')->each(function ($cashOnHand) {
+            if ($cashOnHand->transaction_type_income_expense == 'income') {
+                $this->sum += $cashOnHand->amount;
+            }else{
+                $this->sum -= $cashOnHand->amount;
+            }
+        });
+        return $this->sum;
+    }
 }
