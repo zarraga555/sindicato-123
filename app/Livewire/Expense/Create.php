@@ -3,6 +3,7 @@
 namespace App\Livewire\Expense;
 
 use App\Models\AccountLetters;
+use App\Models\CashDrawer;
 use App\Models\CashFlow;
 use App\Models\ItemsCashFlow;
 use Carbon\Carbon;
@@ -90,8 +91,10 @@ class Create extends Component
         if ($this->checkAccountBalance()) {
             DB::beginTransaction();
             try {
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
-                $amountFinal = $this->processCashFlows();
+                $amountFinal = $this->processCashFlows($cash_drawer->id);
 
                 // Actualiza el saldo de la cuenta bancaria
                 $this->updateAccountBalance($amountFinal);
@@ -118,8 +121,10 @@ class Create extends Component
         if ($this->checkAccountBalance()) {
             DB::beginTransaction();
             try {
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
-                $amountFinal = $this->processCashFlows();
+                $amountFinal = $this->processCashFlows($cash_drawer->id);
 
                 // Actualiza el saldo de la cuenta bancaria
                 $this->updateAccountBalance($amountFinal);
@@ -137,10 +142,19 @@ class Create extends Component
 
     }
 
-    private function processCashFlows()
+    private function processCashFlows($cash_drawer_id, $payment_type = null, $payment_status = null)
     {
         $accountLetter = AccountLetters::find($this->bank_id);
         $amountFinal = 0;
+
+        // Lógica para definir el payment_type
+        if ($payment_status === 'receivable') {
+            $payment_type = null; // Si payment_status es 'receivable', payment_type debe ser null
+        } elseif ($payment_type === 'qr') {
+            $payment_type = 'qr'; // Si el payment_type es 'qr', se mantiene como 'qr'
+        } else {
+            $payment_type = 'cash'; // Si no es 'qr', se guarda como 'cash'
+        }
 
         foreach ($this->cashFlows as $cashFlow) {
             $itemCashFlow = ItemsCashFlow::findOrFail($cashFlow['cashFlowId']);
@@ -154,8 +168,12 @@ class Create extends Component
                 'vehicle_id' => $this->vehicle_id,
                 'type_transaction' => 'expense',
                 'roadmap_series' => $cashFlow['serie'],
-                 'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
+                'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
                 'detail' => "Egreso de dinero: {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
+                'payment_type' => $payment_type,
+                'payment_status' => $payment_status ?? 'paid',
+                'transaction_status' => 'open',
+                'cash_drawer_id' => $cash_drawer_id,
             ]);
 
             $amountFinal += $cashFlow['amount'];
@@ -182,6 +200,26 @@ class Create extends Component
         $this->addCashFlow(); // Reinicia los flujos
         $this->bank_id = null;
         $this->vehicle_id = null;
+    }
+
+    private function getOrCreateCashDrawer()
+    {
+        // Verifica si ya hay una caja abierta para el usuario actual
+        $cash_drawer = CashDrawer::where('status', 'open')
+            ->where('user_id', Auth::id())
+            ->first();
+
+        // Si no hay una caja abierta, crea una nueva
+        if (!$cash_drawer) {
+            $cash_drawer = CashDrawer::create([
+                'user_id' => Auth::id(),
+                'status' => 'open',
+                'initial_amount' => 0,
+                'start_time' => Carbon::now(),
+            ]);
+        }
+
+        return $cash_drawer;
     }
 
     public function render()
