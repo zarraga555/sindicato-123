@@ -101,5 +101,9 @@ Route::middleware([
         Route::get('uncollectible-accounts', \App\Livewire\UncollectibleAccountsComponent::class)->name('uncollectibleAccounts.index');
         //Collection of Dues
         Route::get('collection-dues', \App\Livewire\CollectionDuesComponent::class)->name('collectionDues.index');
+        //Cash register
+        Route::get('cash-register', \App\Livewire\CashRegisterComponent::class)->name('cashRegister.index');
+        //Cash drawer
+        Route::get('cash-drawer', \App\Livewire\CashDrawersComponent::class)->name('cashDrawer.index');
     });
 });
