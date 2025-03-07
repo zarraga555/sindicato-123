@@ -542,5 +542,9 @@
     "Partial Closing" : "Cierre Parcial",
     "Are you sure you want to perform a partial closing? If you perform a partial close, you will still be able to complete your close later. This will allow you to generate the ticketing to record all cash entered." : "¿Está seguro de que desea realizar un cierre parcial? Si realiza un cierre parcial, aún podrá completar su cierre más tarde. Esto le permitirá generar el billetaje para registrar todo el efectivo ingresado.",
     "Partial Cash Closings" : "Cierre de Caja Parcial",
-    "Cash closing" : "Cierre de caja"
+    "Cash closing" : "Cierre de caja",
+    "Ticketing" : "Billetaje",
+    "Bills" : "Billetes",
+    "Coins" : "Monedas",
+    "Cash on Hand" : "Efectivo en caja"
 }
