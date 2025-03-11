@@ -546,5 +546,8 @@
     "Ticketing" : "Billetaje",
     "Bills" : "Billetes",
     "Coins" : "Monedas",
-    "Cash on Hand" : "Efectivo en caja"
+    "Cash on Hand" : "Efectivo en caja",
+    "Payment of dues" : "Pago de cuotas",
+    "Date of registration" : "Fecha",
+    "Amount receivable" : "Monto"
 }
