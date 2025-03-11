@@ -16,7 +16,10 @@ class paymentPlans extends Model
         'amount',
         'loan_id',
         'attachment',
-        'user_id'
+        'user_id',
+        'description',
+        'cash_flow_id',
+        'amount_paid'
     ];
 
     public function loans (): BelongsTo
@@ -27,5 +30,10 @@ class paymentPlans extends Model
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function cashFlows(): BelongsTo
+    {
+        return $this->belongsTo(CashFlow::class, 'cash_flows_id');
     }
 }
