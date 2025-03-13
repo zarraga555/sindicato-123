@@ -42,7 +42,7 @@ Ingresos por movilidad(Senanal)
 
                 <!-- Contenedor del total -->
                 <div class="mt-4 md:mt-0 md:mr-6">
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                    <p class="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
                         {{ __('Total Income') }}:
                         <span id="total">
                     {{ $incomes->first()? ($incomes->first()->banks ? $incomes->first()->banks->currency_type.'.' : '') : '' }}
