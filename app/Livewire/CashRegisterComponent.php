@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\CashDrawer;
 use App\Models\CashFlow;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -179,7 +180,7 @@ class CashRegisterComponent extends Component
             foreach ($cash_flows as $account) {
                 $account->update(['transaction_status' => 'parcial']);
             }
-            $cash_drawer->update(['status' => 'parcial']);
+            $cash_drawer->update(['status' => 'parcial', 'end_time' => Carbon::now()]);
             // Cerrar modal y mostrar mensaje
             $this->closeModalPartialClosing();
             session()->flash('success', 'Cierre de caja parcial guardado correctamente.');
