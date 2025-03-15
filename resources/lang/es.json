@@ -549,5 +549,13 @@
     "Cash on Hand" : "Efectivo en caja",
     "Payment of dues" : "Pago de cuotas",
     "Date of registration" : "Fecha",
-    "Amount receivable" : "Monto"
+    "Amount receivable" : "Monto",
+    "View" : "Ver",
+    "Date of open cash" : "Fecha de apertura de caja",
+    "Cash closing date" : "Fecha de cierre de caja",
+    "Amount recorded by the system" : "Monto registrado por el sistema",
+    "Total amount entered into the system" : "Total de monto ingresado al sistema",
+    "Total amount declared by the user" : "Total de monto declarado por el usuario",
+    "Banknoting of the amount declared in cash" : "Billetaje del monto declarado en efectivo",
+    "Cash status" : "Estado de la caja"
 }
