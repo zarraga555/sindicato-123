@@ -83,7 +83,7 @@
                                         {{ __('Close') }}
                                     </a>|
                                 @endif
-                                <a href="#" {{-- {{ route('cashDrawers.show', $cashRegister->id) }} --}}
+                                <a href="{{route('cashDrawer.show', $cashRegister->id)}}"
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     {{ __('View') }}
                                 </a>
