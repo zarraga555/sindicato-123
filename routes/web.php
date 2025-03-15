@@ -13,6 +13,7 @@ use App\Livewire\AccountLetters\Edit as AccountLettersEdit;
 use App\Livewire\AccountLetters\View as AccountLettersView;
 use App\Livewire\AccountLetters\History as AccountLettersHistory;
 use App\Livewire\AccountLetters\Transfer as AccountLettersTransfer;
+use App\Livewire\CashDrawers\Show;
 use App\Livewire\IncomeCategories\Create as IncomeCategoriesCreate;
 use App\Livewire\IncomeCategories\Edit as IncomeCategoriesEdit;
 use App\Livewire\IncomeCategories\View as IncomeCategoriesView;
@@ -47,7 +48,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::middleware(['auth:sanctum', 'verified', 'redirectIfNoUsers'])->group(function () {
-//        Incomes Routes
+        //        Incomes Routes
         Route::get('incomes', \App\Livewire\IncomeComponent::class)->name('income.index')->middleware('can:ver ingresos');
         Route::get('incomes/create', IncomeCreate::class)->name('income.create')->middleware('can:crear ingresos');
         Route::get('incomes/{id}/edit', IncomeEdit::class)->name('income.edit')->middleware('can:editar ingresos');
@@ -81,8 +82,8 @@ Route::middleware([
         //        Loans  Routes
         Route::get('loans', \App\Livewire\LoanComponent::class)->name('loans.index')->middleware('can:ver prestamos');
         Route::get('loans/create', LoansCreate::class)->name('loans.create')->middleware('can:crear prestamos');
-         Route::get('loans/{id}/edit',LoansEdit::class )->name('loans.edit')->middleware('can:editar prestamos');
-         Route::get('loans/{id}/view',LoansView::class )->name('loans.view')->middleware('can:ver prestamos');
+        Route::get('loans/{id}/edit', LoansEdit::class)->name('loans.edit')->middleware('can:editar prestamos');
+        Route::get('loans/{id}/view', LoansView::class)->name('loans.view')->middleware('can:ver prestamos');
         //        Reports
         Route::get('today-report', \App\Livewire\TodayReportComponent::class)->name('today.report');
         // Route::get('vehicle-report', \App\Livewire\VehicleReportComponent::class)->name('vehicle.report');
@@ -105,5 +106,6 @@ Route::middleware([
         Route::get('cash-register', \App\Livewire\CashRegisterComponent::class)->name('cashRegister.index');
         //Cash drawer
         Route::get('cash-drawer', \App\Livewire\CashDrawersComponent::class)->name('cashDrawer.index');
+        Route::get('cash-drawer/{id}/view', Show::class)->name('cashDrawer.show');
     });
 });
