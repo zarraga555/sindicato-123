@@ -177,10 +177,52 @@ class CashRegisterComponent extends Component
                 ->where('user_id', Auth::id())
                 ->get();
 
+            // Procesar transacciones abiertas filtradas
+            $cash_flowsdos = CashFlow::where('transaction_status', 'open')
+                ->where('payment_type', 'cash')->where('payment_status', 'paid')
+                ->where('user_id', Auth::id())
+                ->get();
+
+            if ($cash_flows->isEmpty()) {
+                throw new \Exception('No hay transacciones abiertas para cerrar.');
+            }
+            if ($cash_flowsdos->isEmpty()) {
+                throw new \Exception('No hay transacciones abiertas para cerrar.');
+            }
+
+            foreach ($cash_flows as $account) {
+                $amount = $account->amount;
+
+                if ($account->transaction_type_income_expense === 'income') {
+                    $this->final_money += $amount;
+                } else {
+                    $this->final_money -= $amount;
+                }
+                // Cerrar la transacción
+                $account->update(['transaction_status' => 'parcial']);
+            }
+
+            foreach ($cash_flowsdos as $account) {
+                $amount = $account->amount;
+
+                if ($account->transaction_type_income_expense === 'income') {
+                    $this->total_calculated += $amount;
+                } else {
+                    $this->total_calculated -= $amount;
+                }
+                // Cerrar la transacción
+                $account->update(['transaction_status' => 'parcial']);
+            }
+
+            // Procesar transacciones abiertas
+            $cash_flows = CashFlow::where('transaction_status', 'open')
+                ->where('user_id', Auth::id())
+                ->get();
+
             foreach ($cash_flows as $account) {
                 $account->update(['transaction_status' => 'parcial']);
             }
-            $cash_drawer->update(['status' => 'parcial', 'end_time' => Carbon::now()]);
+            $cash_drawer->update(['status' => 'parcial', 'end_time' => Carbon::now(), 'final_money' => $this->final_money, 'total_calculated' => $this->total_calculated,]);
             // Cerrar modal y mostrar mensaje
             $this->closeModalPartialClosing();
             session()->flash('success', 'Cierre de caja parcial guardado correctamente.');
