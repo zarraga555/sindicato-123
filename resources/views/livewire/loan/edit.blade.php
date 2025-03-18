@@ -37,7 +37,7 @@
                     <label for="driver_partner" class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                         {{ __('Select a user') }}
                     </label>
-                    <select id="bank_id" name="bank_id" wire:model="driver_partner"
+                    <select id="bank_id" name="bank_id" wire:model.live="driver_partner"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">{{ __('Select an option') }}</option>
                         <option value="partner">{{ __('Partner') }}</option>
@@ -93,7 +93,7 @@
                         <label for="bank_id" class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('Bank Account') }}
                         </label>
-                        <select id="bank_id" name="bank_id" wire:model="bank_id"
+                        <select id="bank_id" name="bank_id" wire:model.live="bank_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {{ $showInputs ? 'disabled' : '' }}>
                             <option value="">{{ __('Select an option') }}</option>
                             @foreach ($accountLetters as $item)
@@ -131,7 +131,7 @@
                             class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('Payment frecuency') }}
                         </label>
-                        <select id="payment_frequency" name="bank_id" wire:model="payment_frequency" {{ $showInputs ? 'disabled' : '' }}
+                        <select id="payment_frequency" name="bank_id" wire:model.live="payment_frequency" {{ $showInputs ? 'disabled' : '' }}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{ __('Select an option') }}</option>
                             <option value="weekly">{{ __('Weekly') }}</option>
@@ -149,7 +149,7 @@
                             class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('How do you wish to collect interest earned?') }}
                         </label>
-                        <select id="interest_payment_method" name="bank_id" wire:model="interest_payment_method" {{ $showInputs ? 'disabled' : '' }}
+                        <select id="interest_payment_method" name="bank_id" wire:model.live="interest_payment_method" {{ $showInputs ? 'disabled' : '' }}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{ __('Select an option') }}</option>
                             <option value="together">{{ __('Charge together with the quotas') }}</option>
