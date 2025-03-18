@@ -40,6 +40,16 @@ class Loans extends Model
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
     }
 
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(paymentPlans::class, 'loan_id');
+    }
+
 //    public function drivers(): BelongsTo
 //    {
 //        return $this->belongsTo(Driver::class, 'driver_id');
