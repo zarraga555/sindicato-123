@@ -5,14 +5,17 @@
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb pageTitle="{{ __('Edit loan') }}" breadcrumbMainUrl="{{ route('loans.index') }}"
             breadcrumbMain="{{ __('Loans') }}" breadcrumbCurrent="{{ __('Edit') }}">
-            @can('eliminar prestamos')
-                <!-- Contenido dentro del slot, como el botón de creación -->
-                <a href="#" wire:click="openDelete"
-                    class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
-                    {{ __('Borrar') }}
-                </a>
-            @endcan
+            @if (!$showButtonDelete)
+                @can('eliminar prestamos')
+                    <!-- Contenido dentro del slot, como el botón de creación -->
+                    <a href="#" wire:click="openDelete"
+                        class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
+                        {{ __('Delete') }}
+                    </a>
+                @endcan
+            @endif
         </x-breadcrumb>
+        @include('components.components.messagesFlash')
         <!-- Personal Information -->
         <fieldset class="border border-gray-300 rounded-md p-3">
             <legend class="text-sm font-medium text-gray-700">{{ __('Personal Information') }}</legend>
@@ -94,7 +97,8 @@
                             {{ __('Bank Account') }}
                         </label>
                         <select id="bank_id" name="bank_id" wire:model.live="bank_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {{ $showInputs ? 'disabled' : '' }}>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            {{ $showInputs ? 'disabled' : '' }}>
                             <option value="">{{ __('Select an option') }}</option>
                             @foreach ($accountLetters as $item)
                                 <option value="{{ $item->id }}">
@@ -118,7 +122,8 @@
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="loan_start_date" type="date" wire:model.live="loan_start_date" {{ $showInputs ? 'disabled' : '' }}>
+                            id="loan_start_date" type="date" wire:model.live="loan_start_date"
+                            {{ $showInputs ? 'disabled' : '' }}>
                     </div>
                     @error('loan_start_date')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -131,7 +136,8 @@
                             class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('Payment frecuency') }}
                         </label>
-                        <select id="payment_frequency" name="bank_id" wire:model.live="payment_frequency" {{ $showInputs ? 'disabled' : '' }}
+                        <select id="payment_frequency" name="bank_id" wire:model.live="payment_frequency"
+                            {{ $showInputs ? 'disabled' : '' }}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{ __('Select an option') }}</option>
                             <option value="weekly">{{ __('Weekly') }}</option>
@@ -149,7 +155,8 @@
                             class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('How do you wish to collect interest earned?') }}
                         </label>
-                        <select id="interest_payment_method" name="bank_id" wire:model.live="interest_payment_method" {{ $showInputs ? 'disabled' : '' }}
+                        <select id="interest_payment_method" name="bank_id" wire:model.live="interest_payment_method"
+                            {{ $showInputs ? 'disabled' : '' }}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{ __('Select an option') }}</option>
                             <option value="together">{{ __('Charge together with the quotas') }}</option>
@@ -170,7 +177,8 @@
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="numberInstalments" type="number" wire:model.live="numberInstalments" {{ $showInputs ? 'disabled' : '' }}>
+                            id="numberInstalments" type="number" wire:model.live="numberInstalments"
+                            {{ $showInputs ? 'disabled' : '' }}>
                     </div>
                     @error('numberInstalments')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
