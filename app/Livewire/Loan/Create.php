@@ -30,6 +30,7 @@ class Create extends Component
     public $total_debt = 0.00;
     public $interest_payment_method;
     public $description;
+    public $loan;
 
     public function mount()
     {
@@ -85,7 +86,7 @@ class Create extends Component
                     DB::commit();
                     $this->resetForm();
                     session()->flash('success', 'Datos guardados correctamente.');
-                    return redirect()->route('loans.view');
+                    return redirect()->route('loans.view', ['id' => $this->loan->id]);
                 } catch (Exception $e) {
                     DB::rollBack();
                     session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
@@ -135,7 +136,7 @@ class Create extends Component
             'type_transaction' => 'loan'
         ]);
 
-        $loan = Loans::create([
+        $this->loan = Loans::create([
             'vehicle_id' => $this->vehicle_id,
 //        'driver_id',
 //        'partner_id',
@@ -169,7 +170,7 @@ class Create extends Component
                         'datePayment' => $date,
                         'paymentStatus' => 'unpaid',
                         'amount' => $fees,
-                        'loan_id' => $loan->id,
+                        'loan_id' => $this->loan->id,
                         'user_id' => Auth::id(),
                     ]);
                 }
@@ -182,7 +183,7 @@ class Create extends Component
                         'datePayment' => $date,
                         'paymentStatus' => 'unpaid',
                         'amount' => $fees,
-                        'loan_id' => $loan->id,
+                        'loan_id' => $this->loan->id,
                         'user_id' => Auth::id(),
                     ]);
                 }
@@ -203,7 +204,7 @@ class Create extends Component
                         'datePayment' => $date,
                         'paymentStatus' => 'unpaid',
                         'amount' => $fees,
-                        'loan_id' => $loan->id,
+                        'loan_id' => $this->loan->id,
                         'user_id' => Auth::id(),
                     ]);
                 }
@@ -215,7 +216,7 @@ class Create extends Component
                     'datePayment' => $interest_payment_date,
                     'paymentStatus' => 'unpaid',
                     'amount' => $interest_fee,
-                    'loan_id' => $loan->id,
+                    'loan_id' => $this->loan->id,
                     'user_id' => Auth::id(),
                 ]);
             } elseif ($this->payment_frequency == 'monthly') {
@@ -227,7 +228,7 @@ class Create extends Component
                         'datePayment' => $date,
                         'paymentStatus' => 'unpaid',
                         'amount' => $fees,
-                        'loan_id' => $loan->id,
+                        'loan_id' => $this->loan->id,
                         'user_id' => Auth::id(),
                     ]);
                 }
@@ -239,7 +240,7 @@ class Create extends Component
                     'datePayment' => $interest_payment_date,
                     'paymentStatus' => 'unpaid',
                     'amount' => $interest_fee,
-                    'loan_id' => $loan->id,
+                    'loan_id' => $this->loan->id,
                     'user_id' => Auth::id(),
                 ]);
             }
@@ -276,6 +277,6 @@ class Create extends Component
     public function render()
     {
         number_format($this->total_debt = (($this->amountLoan * $this->interest_rate) / 100) + $this->amountLoan, 2);
-        return view('livewire.loan.create')->layout('layouts.app');
+        return view('livewire.loan.create');
     }
 }
