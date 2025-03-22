@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Loan;
 
-use App\Models\AccountLetters;
 use App\Models\Loans;
 use App\Models\paymentPlans;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class View extends Component
 {
@@ -44,5 +44,18 @@ class View extends Component
 
         // Si el archivo existe, proceder a la descarga
         return response()->download(storage_path('app/' . $fee->attachment));
+    }
+
+    public function generatePDF()
+    {
+        $fees = paymentPlans::where('loan_id', $this->loan->id)->get();
+        // Generar el PDF
+        $pdf = PDF::loadView('pdf.loan-report', ['loan' => $this->loan, 'fees' => $fees, 'currency' => $this->currency]);
+
+        // Descargar el archivo PDF
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            "reporte_prestamo_". __($this->loan->user_type) . "_". $this->loan->driver_partner_name . now()->format('d-m-Y') . ".pdf"
+        );
     }
 }
