@@ -55,7 +55,7 @@ class View extends Component
         // Descargar el archivo PDF
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            "reporte_prestamo_". __($this->loan->user_type) . "_". $this->loan->driver_partner_name . now()->format('d-m-Y') . ".pdf"
+            "reporte_prestamo_". __($this->loan->user_type) . "_". $this->loan->driver_partner_name ."_" .now()->format('d-m-Y') . ".pdf"
         );
     }
 }
