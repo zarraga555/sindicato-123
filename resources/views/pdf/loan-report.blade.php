@@ -121,7 +121,7 @@
                 <td style="width: 33%; padding: 5px; border: none;"><strong>{{ __('Vehicle') }}:</strong>
                     <br>{{ $loan->vehicle_id }}
                 </td>
-                <td style="width: 33%; padding: 5px; border: none;"><strong>{{ __('User Type') }}:</strong>
+                <td style="width: 33%; padding: 5px; border: none;"><strong>{{ __('User type') }}:</strong>
                     <br>{{ __($loan->user_type) }}
                 </td>
                 <td style="width: 33%; padding: 5px; border: none;"><strong>{{ __('Full Name') }}:</strong>
@@ -144,7 +144,9 @@
                     <br>{{ $loan->interest_payment_method === 'separate' ? __('Charge in a separate installment') : __('Charge together with the quotas') }}
                 </td>
                 <td style="padding: 5px; border: none;"><strong>{{ __('Number of Installments') }}:</strong>
-                    <br>{{ $loan->numberInstalments }} {{ __('Fees') }}
+                    <br>
+                    {{ $loan->interest_payment_method === 'separate' ? $loan->numberInstalments + 1 : $loan->numberInstalments }}
+                    {{ __('Fees') }}
                 </td>
                 <td style="padding: 5px; border: none;"><strong>{{ __('Loan amount') }}:</strong> {{ $currency }}.
                     <br>{{ $loan->amountLoan }}
@@ -177,7 +179,7 @@
                 @forelse($fees as $fee)
                     <tr>
                         <td>{{ $fee->instalmentNumber }}</td>
-                        <td>{{ $fee->datePayment ? $fee->datePayment : __('Date not available') }}</td>
+                        <td>{{ $fee->datePayment ? \Carbon\Carbon::parse($fee->datePayment)->format('d/m/Y') : __('Date not available') }}</td>
                         <td>{{ __($fee->paymentStatus) }}</td>
                         <td>{{ $currency }}. {{ $fee->amount }}</td>
                         <td>{{ $fee->description }}</td>
@@ -191,8 +193,8 @@
             </tbody>
         </table>
         <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 12px;">
-          <p>&copy; <?php echo date('Y'); ?> {{ env('ORIGEN') }}. {{ __('All rights reserved') }}.</p>
-      </footer>
+            <p>&copy; <?php echo date('Y'); ?> {{ env('ORIGEN') }}. {{ __('All rights reserved') }}.</p>
+        </footer>
     </div>
 </body>
 
