@@ -72,7 +72,7 @@
             <!-- Payment frecuency -->
             <div>
                 <label class="block text-sm font-bold text-gray-700 dark:text-white" for="created_by">
-                    {{ __('Payment frecuency') }}
+                    {{ __('Payment frequency') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
                     {{ __($this->loan->payment_frequency) }}
@@ -94,10 +94,10 @@
             <!-- Number instalments -->
             <div>
                 <label class="block text-sm font-bold text-gray-700 dark:text-white" for="created_by">
-                    {{ __('Number instalments') }}
+                    {{ __('Number of Installments') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
-                    {{ $this->loan->numberInstalments }} {{ __('Fees') }}
+                    {{ $this->loan->interest_payment_method === 'separate' ? $loan->numberInstalments + 1 : $loan->numberInstalments }} {{ __('Fees')  }}
                 </div>
             </div>
 
