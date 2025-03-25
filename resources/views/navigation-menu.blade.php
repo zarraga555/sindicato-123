@@ -79,13 +79,6 @@
             'can' => ['ver ingresos', 'ver otros ingresos', 'ver item ingreso'], // Lista de permisos
             'submenu' => [
                 [
-                    'name' => 'Accounts receivable',
-                    'route' => 'accountsReceivable.index',
-                    'icon' => 'fa-solid fa-arrow-right',
-                    'active' => request()->routeIs('accountsReceivable.index'),
-                    'permission' => null, // No requiere permiso
-                ],
-                [
                     'name' => 'Income from vehicles',
                     'route' => 'income.index',
                     'icon' => 'fa-solid fa-arrow-right',
@@ -98,6 +91,13 @@
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('otherIncome.index'),
                     'permission' => 'ver otros ingresos',
+                ],
+                [
+                    'name' => 'Accounts receivable',
+                    'route' => 'accountsReceivable.index',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('accountsReceivable.index'),
+                    'permission' => null, // No requiere permiso
                 ],
                 [
                     'name' => 'Income Categories',
