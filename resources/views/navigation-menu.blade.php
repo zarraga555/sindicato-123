@@ -151,6 +151,30 @@
             ],
         ],
         [
+            'header' => 'Settings',
+        ],
+        [
+            'name' => 'Settings',
+            'icon' => 'fa-solid fa-gear',
+            'can' => null, // No requiere permiso
+            'submenu' => [
+                [
+                    'name' => "Company Settings",
+                    'route' => 'settings.company',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('settings.company'),
+                    'permission' => null,
+                ],
+                [
+                    'name' => "Email Settings",
+                    'route' => 'settings.email',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('settings.email'),
+                    'permission' => null,
+                ],
+            ],
+        ],
+        [
             'header' => 'Profile',
         ],
         [
