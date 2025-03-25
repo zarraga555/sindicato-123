@@ -115,5 +115,7 @@ Route::middleware([
         Route::post('company-settings', [SystemConfigurationController::class, 'updateCompany'])->name('settings.company.update');
         Route::get('subscription-settings', [SystemConfigurationController::class, 'indexSubscription'])->name('settings.subscription');
         Route::post('subscription-settings', [SystemConfigurationController::class, 'updateSubscription'])->name('settings.subscription.update');
+        // Accounts Receivable
+        Route::get('accounts-receivable', \App\Livewire\AccountsReceivable::class)->name('accountsReceivable.index');
     });
 });
