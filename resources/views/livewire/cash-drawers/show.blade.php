@@ -105,107 +105,113 @@
                     @php
                         $denominations = json_decode($this->cashDrawer->denominations, true);
                     @endphp
-            
+
                     <ul>
-                        @foreach($denominations as $denomination => $quantity)
-                            @if($quantity) 
-                                <li><strong>{{ $this->currency }}. {{ str_replace('_', '', $denomination) }}:</strong> {{ $quantity }}</li>
-                            @endif
-                        @endforeach
+                        @if ($denominations && is_array($denominations))
+                            @foreach ($denominations as $denomination => $quantity)
+                                @if ($quantity)
+                                    <li><strong>{{ $this->currency }}.
+                                            {{ str_replace('_', '', $denomination) }}:</strong> {{ $quantity }}
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>
         </div>
-                <!-- Tabla -->
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 date-column">
-                                    {{ __('Date') }}
-                                </th>
-                                {{-- <th scope="col" class="px-6 py-3 date-column">
+        <!-- Tabla -->
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 date-column">
+                            {{ __('Date') }}
+                        </th>
+                        {{-- <th scope="col" class="px-6 py-3 date-column">
                                     {{ __('Vehicule') }}
                                 </th> --}}
-                                <th scope="col" class="px-6 py-3 amount-column">
-                                    {{ __('Detail') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 bank-column">
-                                    {{ __('Type') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 vehicle-column">
-                                    {{ __('Status') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 item-column">
-                                    {{ __('Total registration') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 amount-column">
-                                    {{ __('Cash on hand') }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($cashRegisters as $cashRegister)
-                                <tr
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-wrap dark:text-white date-column">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ \Carbon\Carbon::parse($cashRegister->registration_date)->format('d-m-Y (H:i)') }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 vehicle-column">
-                                        <div class="text-sm text-gray-900">
-                                            @if ($cashRegister->vehicle_id != null)
-                                                Movil: {{ $cashRegister->vehicle_id }} -
-                                                {{ $cashRegister->itemsCashFlow->name }}
-                                            @else
-                                                {{ $cashRegister->itemsCashFlow->name }}
-                                            @endif
-        
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-wrap bank-column text-gray-900">
-                                        {{ __($cashRegister->transaction_type_income_expense) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-wrap item-column text-gray-900">
-                                        {{ __($cashRegister->payment_status) }}
-                                        @if ($cashRegister->payment_type != null)
-                                            <br>
-                                            {{ '(' . __($cashRegister->payment_type) . ')' }}
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 amount-column text-gray-900">
-                                        <b>Bs.
-                                            {{ $cashRegister->transaction_type_income_expense != 'income' ? '-' : '' }}{{ number_format($cashRegister->amount, 2) }}</b>
-                                    </td>
-                                    <td class="px-6 py-4 amount-column text-gray-900">
-                                        <b>Bs.
-                                            {{ $cashRegister->transaction_type_income_expense != 'income' ? '-' : '' }}{{ $cashRegister->payment_type == 'cash' ? number_format($cashRegister->amount, 2) : 0.0 }}</b>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6"
-                                        class="px-6 py-4 text-center text-gray-500 dark:text-gray-400 font-medium">
-                                        {{ __('No records were found for today. You can create one now to start recording information.') }}
-                                    </td>
-                                </tr>
-                            @endforelse
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td colspan="4" class="px-6 py-4 amount-column text-gray-900 font-medium text-right">
-                                    <b>{{ __('Total Revenues') }}</b>
-                                </td>
-                                <td class="px-6 py-4 amount-column text-gray-900"><b>Bs. {{ number_format($totalRegistration,2) }}</b></td>
-                                <td class="px-6 py-4 amount-column text-gray-900"><b>Bs. {{ number_format($cashOnHand,2) }}</b></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- Paginación -->
-                    <div class="">
-                        {{ $cashRegisters->links() }}
-                    </div>
-                </div>
+                        <th scope="col" class="px-6 py-3 amount-column">
+                            {{ __('Detail') }}
+                        </th>
+                        <th scope="col" class="px-6 py-3 bank-column">
+                            {{ __('Type') }}
+                        </th>
+                        <th scope="col" class="px-6 py-3 vehicle-column">
+                            {{ __('Status') }}
+                        </th>
+                        <th scope="col" class="px-6 py-3 item-column">
+                            {{ __('Total registration') }}
+                        </th>
+                        <th scope="col" class="px-6 py-3 amount-column">
+                            {{ __('Cash on hand') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($cashRegisters as $cashRegister)
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-wrap dark:text-white date-column">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ \Carbon\Carbon::parse($cashRegister->registration_date)->format('d-m-Y (H:i)') }}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 vehicle-column">
+                                <div class="text-sm text-gray-900">
+                                    @if ($cashRegister->vehicle_id != null)
+                                        Movil: {{ $cashRegister->vehicle_id }} -
+                                        {{ $cashRegister->itemsCashFlow->name }}
+                                    @else
+                                        {{ $cashRegister->itemsCashFlow->name }}
+                                    @endif
+
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-wrap bank-column text-gray-900">
+                                {{ __($cashRegister->transaction_type_income_expense) }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-wrap item-column text-gray-900">
+                                {{ __($cashRegister->payment_status) }}
+                                @if ($cashRegister->payment_type != null)
+                                    <br>
+                                    {{ '(' . __($cashRegister->payment_type) . ')' }}
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 amount-column text-gray-900">
+                                <b>Bs.
+                                    {{ $cashRegister->transaction_type_income_expense != 'income' ? '-' : '' }}{{ number_format($cashRegister->amount, 2) }}</b>
+                            </td>
+                            <td class="px-6 py-4 amount-column text-gray-900">
+                                <b>Bs.
+                                    {{ $cashRegister->transaction_type_income_expense != 'income' ? '-' : '' }}{{ $cashRegister->payment_type == 'cash' ? number_format($cashRegister->amount, 2) : 0.0 }}</b>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6"
+                                class="px-6 py-4 text-center text-gray-500 dark:text-gray-400 font-medium">
+                                {{ __('No records were found for today. You can create one now to start recording information.') }}
+                            </td>
+                        </tr>
+                    @endforelse
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td colspan="4" class="px-6 py-4 amount-column text-gray-900 font-medium text-right">
+                            <b>{{ __('Total Revenues') }}</b>
+                        </td>
+                        <td class="px-6 py-4 amount-column text-gray-900"><b>Bs.
+                                {{ number_format($totalRegistration, 2) }}</b></td>
+                        <td class="px-6 py-4 amount-column text-gray-900"><b>Bs. {{ number_format($cashOnHand, 2) }}</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Paginación -->
+            <div class="">
+                {{ $cashRegisters->links() }}
+            </div>
+        </div>
     </section>
 </div>
