@@ -79,6 +79,13 @@
             'can' => ['ver ingresos', 'ver otros ingresos', 'ver item ingreso'], // Lista de permisos
             'submenu' => [
                 [
+                    'name' => 'Accounts receivable',
+                    'route' => 'accountsReceivable.index',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('accountsReceivable.index'),
+                    'permission' => null, // No requiere permiso
+                ],
+                [
                     'name' => 'Income from vehicles',
                     'route' => 'income.index',
                     'icon' => 'fa-solid fa-arrow-right',
@@ -159,14 +166,14 @@
             'can' => null, // No requiere permiso
             'submenu' => [
                 [
-                    'name' => "Company Settings",
+                    'name' => 'Company Settings',
                     'route' => 'settings.company',
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('settings.company'),
                     'permission' => null,
                 ],
                 [
-                    'name' => "Email Settings",
+                    'name' => 'Email Settings',
                     'route' => 'settings.email',
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('settings.email'),
@@ -270,7 +277,9 @@
     </div>
 </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+<aside id="logo-sidebar"
+    class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+    aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
             @foreach ($links as $link)
@@ -313,7 +322,8 @@
                                         @if (Gate::allows($submenu['permission']))
                                             <li>
                                                 <a href="{{ route($submenu['route']) }}"
-                                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700
+                                                    {{ $submenu['active'] ? 'bg-gray-200 dark:bg-gray-600' : '' }}">
                                                     <i
                                                         class="{{ $submenu['icon'] }} w-6 h-6 text-gray-800 dark:text-white mr-3 ml-3"></i>
                                                     {{ __($submenu['name']) }}
@@ -353,7 +363,7 @@
 
                 </form>
             </li>
-            
+
             <li>
                 <a href="{{ route('cashRegister.index') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
