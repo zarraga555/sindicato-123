@@ -638,5 +638,6 @@
     "An error occurred while processing the payment." : "Ocurrió un error al procesar el pago.",
     "Payment successfully processed via QR." : "Pago procesado correctamente mediante QR.",
     "This payment has already been processed." : "Este pago ya ha sido procesado.",
-    "Payment successfully processed in cash." : "Pago procesado correctamente en efectivo."
+    "Payment successfully processed in cash." : "Pago procesado correctamente en efectivo.",
+    "Casher" : "Caja"
 }
