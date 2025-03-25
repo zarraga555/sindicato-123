@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SystemConfigurationController;
 use App\Livewire\WizardSetup;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Income\Create as IncomeCreate;
@@ -107,5 +108,12 @@ Route::middleware([
         //Cash drawer
         Route::get('cash-drawer', \App\Livewire\CashDrawersComponent::class)->name('cashDrawer.index');
         Route::get('cash-drawer/{id}/view', Show::class)->name('cashDrawer.show');
+        // Settings Routes Email, Company, Subscription
+        Route::get('email-settings', [SystemConfigurationController::class, 'indexEmail'])->name('settings.email');
+        Route::post('email-settings', [SystemConfigurationController::class, 'updateEmail'])->name('settings.email.update');
+        Route::get('company-settings', [SystemConfigurationController::class, 'indexCompany'])->name('settings.company');
+        Route::post('company-settings', [SystemConfigurationController::class, 'updateCompany'])->name('settings.company.update');
+        Route::get('subscription-settings', [SystemConfigurationController::class, 'indexSubscription'])->name('settings.subscription');
+        Route::post('subscription-settings', [SystemConfigurationController::class, 'updateSubscription'])->name('settings.subscription.update');
     });
 });
