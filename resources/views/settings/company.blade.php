@@ -26,7 +26,7 @@
                                         @php
                                             $fields = [
                                                 'EMPRESA_NOMBRE' => 'Company Name',
-                                                'EMPRESA_REFERENCIA' => 'Company Reference',
+                                                'EMPRESA_REFERENCIA' => 'Company address',
                                                 'EMPRESA_CODIGO_POSTAL' => 'Postal Code',
                                                 'EMPRESA_CIUDAD' => 'City',
                                                 'EMPRESA_ESTADO' => 'State',
