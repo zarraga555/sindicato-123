@@ -43,7 +43,7 @@
             'icon' => 'fa-solid fa-sack-dollar',
             'route' => 'cashDrawer.index',
             'active' => request()->routeIs('cashDrawer.index'),
-            'can' => null, // No requiere permiso,
+            'can' => 'ver arqueos',
         ],
         [
             'name' => 'Loans',
@@ -97,7 +97,7 @@
                     'route' => 'accountsReceivable.index',
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('accountsReceivable.index'),
-                    'permission' => null, // No requiere permiso
+                    'permission' => 'ver cuentas por cobrar',
                 ],
                 [
                     'name' => 'Income Categories',
@@ -134,7 +134,7 @@
             'icon' => 'fa-solid fa-cash-register',
             'route' => 'cashRegister.index',
             'active' => request()->routeIs('cashRegister.index'),
-            'can' => null, // No requiere permiso
+            'can' => 'ver caja', // No requiere permiso
         ],
         [
             'name' => 'Reports',
@@ -170,21 +170,21 @@
         [
             'name' => 'Settings',
             'icon' => 'fa-solid fa-gear',
-            'can' => null, // No requiere permiso
+            'can' => ['ver configuracion de la empresa', 'ver configuracion de correo electronico'], // Lista de permisos
             'submenu' => [
                 [
                     'name' => 'Company Settings',
                     'route' => 'settings.company',
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('settings.company'),
-                    'permission' => null,
+                    'permission' => 'ver configuracion de la empresa',
                 ],
                 [
                     'name' => 'Email Settings',
                     'route' => 'settings.email',
                     'icon' => 'fa-solid fa-arrow-right',
                     'active' => request()->routeIs('settings.email'),
-                    'permission' => null,
+                    'permission' => 'ver configuracion de correo electronico',
                 ],
             ],
         ],
@@ -196,7 +196,7 @@
             'icon' => 'fa-solid fa-user',
             'route' => 'profile.show',
             'active' => request()->routeIs('profile.show'),
-            'can' => null,
+            'can' => 'ver perfil',
         ],
     ];
 @endphp
