@@ -120,5 +120,7 @@ Route::middleware([
         // Collateral
         Route::get('collateral', \App\Livewire\CollateralComponent::class)->name('collateral.index');
         Route::get('collateral/create', \App\Livewire\Collateral\Create::class)->name('collateral.create');
+        Route::get('collateral/{id}/edit', \App\Livewire\Collateral\Edit::class)->name('collateral.edit');
+        Route::get('collateral/{id}/view', \App\Livewire\Collateral\View::class)->name('collateral.view');
     });
 });
