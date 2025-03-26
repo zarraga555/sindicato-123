@@ -117,5 +117,8 @@ Route::middleware([
         Route::post('subscription-settings', [SystemConfigurationController::class, 'updateSubscription'])->name('settings.subscription.update');
         // Accounts Receivable
         Route::get('accounts-receivable', \App\Livewire\AccountsReceivable::class)->name('accountsReceivable.index');
+        // Collateral
+        Route::get('collateral', \App\Livewire\CollateralComponent::class)->name('collateral.index');
+        Route::get('collateral/create', \App\Livewire\Collateral\Create::class)->name('collateral.create');
     });
 });
