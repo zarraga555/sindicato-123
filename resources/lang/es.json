@@ -639,5 +639,13 @@
     "Payment successfully processed via QR." : "Pago procesado correctamente mediante QR.",
     "This payment has already been processed." : "Este pago ya ha sido procesado.",
     "Payment successfully processed in cash." : "Pago procesado correctamente en efectivo.",
-    "Casher" : "Caja"
+    "Casher" : "Caja",
+    "No records were found. Please create a record to get started." : "No se encontraron registros. Por favor, cree un registro para comenzar.",
+    "New collateral" : "Nueva garantía",
+    "Collateral" : "Garantía",
+    "Collaterals" : "Garantías",
+    "Number instalments" : "Número de cuotas",
+    "Payment frecuency" : "Frecuencia de pago",
+    "Create new collateral" : "Crear nueva garantía",
+    "Collect Information" : "Información de la garantía"
 }
