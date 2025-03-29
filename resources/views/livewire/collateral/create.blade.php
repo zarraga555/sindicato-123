@@ -27,16 +27,16 @@
                 </div>
                 <!-- Select a user -->
                 <div>
-                    <label for="driver_partner" class="block text-sm font-medium text-gray-900 dark:text-gray-400">
+                    <label for="user_type" class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                         {{ __('Select a user') }}
                     </label>
-                    <select id="bank_id" name="bank_id" wire:model="driver_partner"
+                    <select id="user_type" name="user_type" wire:model="user_type"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">{{ __('Select an option') }}</option>
                         <option value="partner">{{ __('Partner') }}</option>
                         <option value="driver">{{ __('Driver') }}</option>
                     </select>
-                    @error('driver_partner')
+                    @error('user_type')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
@@ -83,16 +83,16 @@
                 <!-- Loan start date -->
                 <div>
                     <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white"
-                        for="loan_start_date">
+                        for="start_date">
                         {{ __('Date') }}
                     </label>
                     <div
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="loan_start_date" type="date" wire:model.live="loan_start_date">
+                            id="start_date" type="date" wire:model.live="start_date">
                     </div>
-                    @error('loan_start_date')
+                    @error('start_date')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
@@ -117,16 +117,16 @@
                 <!-- Number instalments -->
                 <div>
                     <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white"
-                        for="numberInstalments">
+                        for="instalments">
                         {{ __('Number instalments') }}
                     </label>
                     <div
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="numberInstalments" type="number" wire:model.live="numberInstalments">
+                            id="instalments" type="number" wire:model.live="instalments">
                     </div>
-                    @error('numberInstalments')
+                    @error('instalments')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
