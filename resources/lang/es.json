@@ -647,5 +647,9 @@
     "Number instalments" : "Número de cuotas",
     "Payment frecuency" : "Frecuencia de pago",
     "Create new collateral" : "Crear nueva garantía",
-    "Collect Information" : "Información de la garantía"
+    "Collect Information" : "Información de la garantía",
+    "No fees were found for this collateral." : "No se encontraron cuotas registradas para esta garantía.",
+    "View collateral" : "Ver garantía",
+    "Edit loan" : "Editar préstamo",
+    "Edit collateral" : "Editar garantía"
 }
