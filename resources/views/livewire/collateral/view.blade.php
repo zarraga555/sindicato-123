@@ -85,7 +85,7 @@
                     {{ __('Number of Installments') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
-                    {{ $this->collateral->interest_payment_method === 'separate' ? $collateral->numberInstalments + 1 : $collateral->numberInstalments }}
+                    {{ $this->collateral->interest_payment_method === 'separate' ? $collateral->instalments + 1 : $collateral->instalments }}
                     {{ __('Fees') }}
                 </div>
             </div>
@@ -106,7 +106,7 @@
                     {{ __('Status') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
-                    {{ __($this->collateral->debtStatus) }}
+                    {{ __($this->collateral->status) }}
                 </div>
             </div>
         </div>
