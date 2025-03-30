@@ -25,6 +25,7 @@ class Edit extends Component
     //
     public $collateral;
     public $confirmingUserDeletion = false;
+    public bool $showButtonDelete = false;
 
     public function mount($id)
     {
@@ -37,6 +38,9 @@ class Edit extends Component
         $this->payment_frequency = $this->collateral->payment_frequency;
         $this->instalments = $this->collateral->instalments;
         $this->amount = $this->collateral->amount;
+
+        //$this->showInputs = $loan->installments()->where('paymentStatus', 'paid')->count() > 0;
+        $this->showButtonDelete = $this->collateral->installments()->where('paymentStatus', 'paid')->count() > 0;
     }
 
     /**
@@ -108,6 +112,20 @@ class Edit extends Component
             'user_type' => $this->user_type,
             'driver_partner_name' => $this->driver_partner_name,
             'description' => $this->description,
+        ]);
+    }
+
+    private function resetForm(): void
+    {
+        $this->reset([
+            'vehicle_id',
+            'user_type',
+            'driver_partner_name',
+            'description',
+            'start_date',
+            'payment_frequency',
+            'instalments',
+            'amount',
         ]);
     }
 
