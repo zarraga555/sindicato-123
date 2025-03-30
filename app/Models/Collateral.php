@@ -48,4 +48,9 @@ class Collateral extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function installments()
+    {
+        return $this->hasMany(paymentPlans::class, 'collateral_id');
+    }
 }
