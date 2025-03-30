@@ -46,7 +46,7 @@ class Create extends Component
             'start_date' => 'required|date',
             'payment_frequency' => 'required|string',
             'instalments' => 'required|integer',
-            'amount' => 'required|float',
+            'amount' => 'required',
         ]);
     }
 
@@ -66,7 +66,7 @@ class Create extends Component
         ]);
 
         $payment_date = Carbon::parse($this->start_date); // Asegúrate de que sea un objeto Carbon
-        $fees = $this->total_debt / $this->instalments;
+        $fees = $this->amount / $this->instalments;
         // Verificamos si la frecuencia es semanal o mensual
         if ($this->payment_frequency == 'weekly') {
             for ($i = 1; $i <= $this->instalments; $i++) {
