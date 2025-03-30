@@ -50,12 +50,12 @@ class View extends Component
     {
         $fees = paymentPlans::where('collateral_id', $this->collateral->id)->get();
         // Generar el PDF
-        $pdf = PDF::loadView('pdf.collateral-report', ['loan' => $this->loan, 'fees' => $fees, 'currency' => $this->currency]);
+        $pdf = PDF::loadView('pdf.collateral-report', ['collateral' => $this->collateral, 'fees' => $fees, 'currency' => $this->currency]);
 
         // Descargar el archivo PDF
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            "reporte_garantia_". __($this->loan->user_type) . "_". $this->loan->driver_partner_name ."_" .now()->format('d-m-Y') . ".pdf"
+            "reporte_garantia_". __($this->collateral->user_type) . "_". $this->collateral->driver_partner_name ."_" .now()->format('d-m-Y') . ".pdf"
         );
     }
 }
