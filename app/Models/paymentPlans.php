@@ -19,7 +19,8 @@ class paymentPlans extends Model
         'user_id',
         'description',
         'cash_flow_id',
-        'amount_paid'
+        'amount_paid',
+        'collateral_id'
     ];
 
     public function loans (): BelongsTo
@@ -35,5 +36,10 @@ class paymentPlans extends Model
     public function cashFlows(): BelongsTo
     {
         return $this->belongsTo(CashFlow::class, 'cash_flows_id');
+    }
+    
+    public function collaterals(): BelongsTo
+    {
+        return $this->belongsTo(Collateral::class, 'collateral_id');
     }
 }
