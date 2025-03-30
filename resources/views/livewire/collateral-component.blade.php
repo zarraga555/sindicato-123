@@ -44,16 +44,10 @@
                             {{ __('Number of dues') }}
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            {{ __('Debt status') }}
+                            {{ __('Status') }}
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            {{ __('Loan IR') }}
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            {{ __('Amount of loan') }}
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            {{ __('Amount to be repaid') }}
+                            {{ __('Amount') }}
                         </th>
                         @can('editar prestamos')
                             <th scope="col" class="px-6 py-3">
@@ -74,22 +68,16 @@
                                 {{ $collateral->driver_partner_name }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $collateral->numberInstalments }} {{ __('Fees') }}
+                                {{ $collateral->instalments }} {{ __('Fees') }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ __($collateral->debtStatus) }}
+                                {{ __($collateral->status) }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ number_format($collateral->interest_rate, 2) }}%
+                                {{ $collateral->cash_flows_id ? $collateral->cashFlows->banks->currency_type . '.' : 'Bs.' }}
+                                {{ number_format($collateral->amount, 2) }}
                             </td>
-                            <td class="px-6 py-4">
-                                {{ $collateral->cash_flows_id ? $collateral->cashFlows->banks->currency_type . '.' : '' }}
-                                {{ number_format($collateral->amountLoan, 2) }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $collateral->cash_flows_id ? $collateral->cashFlows->banks->currency_type . '.' : '' }}
-                                {{ number_format($collateral->total_debt, 2) }}
-                            </td>
+
                             @can('editar prestamos')
                                 <td class="px-6 py-4">
                                     <a href="{{ route('collateral.edit', $collateral->id) }}"
@@ -98,7 +86,7 @@
                                     |
                                     <a href="{{ route('collateral.view', $collateral->id) }}"
                                         class="font-medium text-green-600 dark:text-green-500 hover:underline">
-                                        {{ __('View loan') }}
+                                        {{ __('View collateral') }}
                                     </a>
                                     {{-- @endcan --}}
                                 </td>
