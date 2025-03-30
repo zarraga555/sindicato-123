@@ -148,7 +148,7 @@
                             {{ __($fee->paymentStatus) }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $this->currency }}. {{ $fee->amount }}
+                            {{ $this->currency ?? 'Bs' }}. {{ $fee->amount }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $fee->description }}
