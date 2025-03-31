@@ -46,6 +46,27 @@
             'can' => 'ver arqueos',
         ],
         [
+            'name' => 'Collaterals',
+            'icon' => 'fa-solid fa-file-invoice-dollar',
+            'can' => ['ver garantias', 'ver cobro cuotas de garantia'], // Lista de permisos
+            'submenu' => [
+                [
+                    'name' => 'Collaterals',
+                    'route' => 'collateral.index',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('collateral.index'),
+                    'permission' => 'ver garantias',
+                ],
+                [
+                    'name' => 'Collection of guarantee installments',
+                    'route' => 'collectionGuaranteeInstallments.index',
+                    'icon' => 'fa-solid fa-arrow-right',
+                    'active' => request()->routeIs('collectionGuaranteeInstallments.index'),
+                    'permission' => 'ver cobro cuotas de garantia',
+                ],
+            ],
+        ],
+        [
             'name' => 'Loans',
             'icon' => 'fa-solid fa-money-bill',
             'can' => ['ver prestamos', 'ver cobro cuotas', 'ver ceuntas incobrables'], // Lista de permisos
