@@ -73,7 +73,7 @@
                                 {{ number_format($collateral->amount, 2) }}
                             </td>
                             <!--Revertir cuentas incobrables -->
-                            @can('editar prestamos')
+                            @can('cobrar cobro cuotas de garantia')
                                 <td class="px-6 py-4">
                                     <a href="#" wire:click="openModalPayment({{$collateral->id}})" wire:loading.attr="disabled"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
