@@ -26,6 +26,7 @@ class Edit extends Component
     public $collateral;
     public $confirmingUserDeletion = false;
     public bool $showButtonDelete = false;
+    public bool $showInputs = true;
 
     public function mount($id)
     {
