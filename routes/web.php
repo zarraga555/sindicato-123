@@ -118,10 +118,10 @@ Route::middleware([
         // Accounts Receivable
         Route::get('accounts-receivable', \App\Livewire\AccountsReceivable::class)->name('accountsReceivable.index');
         // Collateral
-        Route::get('collateral', \App\Livewire\CollateralComponent::class)->name('collateral.index');
-        Route::get('collateral/create', \App\Livewire\Collateral\Create::class)->name('collateral.create');
-        Route::get('collateral/{id}/edit', \App\Livewire\Collateral\Edit::class)->name('collateral.edit');
-        Route::get('collateral/{id}/view', \App\Livewire\Collateral\View::class)->name('collateral.view');
-        Route::get('collection-guarantee-installments', \App\Livewire\Collateral\CollectionGuaranteeInstallments::class)->name('collectionGuaranteeInstallments.index');
+        Route::get('collateral', \App\Livewire\CollateralComponent::class)->name('collateral.index')->middleware('can:ver garantias');
+        Route::get('collateral/create', \App\Livewire\Collateral\Create::class)->name('collateral.create')->middleware('can:crear garantias');
+        Route::get('collateral/{id}/edit', \App\Livewire\Collateral\Edit::class)->name('collateral.edit')->middleware('can:editar garantias');
+        Route::get('collateral/{id}/view', \App\Livewire\Collateral\View::class)->name('collateral.view')->middleware('can:ver garantias');
+        Route::get('collection-guarantee-installments', \App\Livewire\Collateral\CollectionGuaranteeInstallments::class)->name('collectionGuaranteeInstallments.index')->middleware('can:ver cobro cuotas de garantia');
     });
 });
