@@ -122,5 +122,6 @@ Route::middleware([
         Route::get('collateral/create', \App\Livewire\Collateral\Create::class)->name('collateral.create');
         Route::get('collateral/{id}/edit', \App\Livewire\Collateral\Edit::class)->name('collateral.edit');
         Route::get('collateral/{id}/view', \App\Livewire\Collateral\View::class)->name('collateral.view');
+        Route::get('collection-guarantee-installments', \App\Livewire\Collateral\CollectionGuaranteeInstallments::class)->name('collectionGuaranteeInstallments.index');
     });
 });
