@@ -101,7 +101,8 @@
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="start_date" type="date" wire:model.live="start_date">
+                            id="start_date" type="date" wire:model.live="start_date"
+                            {{ $showInputs ? 'disabled' : '' }}>
                     </div>
                     @error('start_date')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -114,7 +115,7 @@
                             class="block text-sm font-medium text-gray-900 dark:text-gray-400">
                             {{ __('Payment frecuency') }}
                         </label>
-                        <select id="payment_frequency" name="bank_id" wire:model="payment_frequency"
+                        <select id="payment_frequency" name="bank_id" wire:model="payment_frequency" {{ $showInputs ? 'disabled' : '' }}
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="">{{ __('Select an option') }}</option>
                             <option value="weekly">{{ __('Weekly') }}</option>
@@ -134,7 +135,8 @@
                         class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                            id="instalments" type="number" wire:model.live="instalments">
+                            id="instalments" type="number" wire:model.live="instalments"
+                            {{ $showInputs ? 'disabled' : '' }}>
                     </div>
                     @error('instalments')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -150,7 +152,8 @@
                         <input
                             class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
                             id="amount" type="number" step="0.01" onblur="formatDecimals(this)"
-                            wire:model.live="amount">
+                            wire:model.live="amount"
+                            {{ $showInputs ? 'disabled' : '' }}>
                     </div>
                     @error('amount')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
