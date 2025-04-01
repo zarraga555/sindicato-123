@@ -5,7 +5,9 @@ namespace App\Livewire\Income;
 use App\Models\AccountLetters;
 use App\Models\CashDrawer;
 use App\Models\CashFlow;
+use App\Models\Collateral;
 use App\Models\ItemsCashFlow;
+use App\Models\Loans;
 use App\Models\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -27,10 +29,28 @@ class Create extends Component
     public $lavado_auto_azul;
     public $aporte_seguro;
     public $fecha_registro;
+    //
+    public $hasPendingDebts = false;
 
     public function mount()
     {
         $this->itemsCashFlows = ItemsCashFlow::where('type_income_expense', 'income')->get();
+    }
+
+    public function checkPendingDebts()
+    {
+        if ($this->movil) {
+            $hasPendingDebts = CashFlow::where('vehicle_id', $this->movil)
+                ->where('payment_status', 'receivable')
+                ->exists()
+                || Collateral::where('vehicle_id', $this->movil)->exists()
+                || Loans::where('vehicle_id', $this->movil)->exists();
+    
+            if ($hasPendingDebts) {
+                session()->flash('error', 'El vehículo '.$this->movil.' tiene deudas pendientes.');
+                $this->render(); // Esto hará que el componente se vuelva a renderizar.
+            }
+        }
     }
 
     private function validateCashFlows()
