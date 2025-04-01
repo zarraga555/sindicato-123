@@ -40,7 +40,7 @@ class IncomeComponent extends Component
         return view(
             'livewire.income-component',
             compact('incomes', 'totalIncome')
-        )->layout('layouts.app');
+        );
     }
 
 }
