@@ -27,7 +27,8 @@ Nuevo Ingresos por movilidad(Senanal)
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                placeholder="Ingrese el número de móvil"
                                required
-                               wire:model="movil">
+                               wire:model.defer="movil"
+                               wire:change="checkPendingDebts">
                         @error('movil') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 
