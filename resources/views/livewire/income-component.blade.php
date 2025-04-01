@@ -91,7 +91,7 @@ Ingresos por movilidad(Senanal)
                         {{ $income->banks ? $income->banks->bank_name : 'Sin banco asociado' }}
                     </td>
                     <td class="px-6 py-4 item-column">
-                        {{ $income->itemsCashFlow->name }}
+                        {{ $income->itemsCashFlow ? $income->itemsCashFlow->name : 'N/A' }}
                     </td>
                     <td class="px-6 py-4 amount-column">
                         {{ $income->banks ? $income->banks->currency_type.'.' : '' }} {{ number_format($income->amount,
