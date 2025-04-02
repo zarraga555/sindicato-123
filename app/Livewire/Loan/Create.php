@@ -276,7 +276,7 @@ class Create extends Component
 
     public function render()
     {
-        number_format($this->total_debt = (($this->amountLoan * $this->interest_rate) / 100) + $this->amountLoan, 2);
+        $this->total_debt = number_format(((float)$this->amountLoan * (float)$this->interest_rate) / 100 + (float)$this->amountLoan,2);
         return view('livewire.loan.create');
     }
 }
