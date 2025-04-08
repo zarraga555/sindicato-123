@@ -29,7 +29,7 @@
           <!-- Select Ítem -->
           <div>
               <label for="selectCashFlow-{{ $index }}" class="block text-sm font-medium text-gray-900">
-                  {{ __('Select an output item') }}
+                  {{ __('Expense item') }}
               </label>
               <select id="selectCashFlow-{{ $index }}" name="cashFlows[{{ $index }}][cashFlowId]"
                   wire:model="cashFlows.{{ $index }}.cashFlowId"
