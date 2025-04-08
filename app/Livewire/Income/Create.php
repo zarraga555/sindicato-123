@@ -18,7 +18,7 @@ use function PHPUnit\Framework\returnArgument;
 
 class Create extends Component
 {
-    public $itemsCashFlows;
+    public $incomeItems;
     public $movil;
     public $hoja_semanal_serie;
     public $amount_hoja_semanal;
@@ -31,10 +31,16 @@ class Create extends Component
     public $fecha_registro;
     //
     public $hasPendingDebts = false;
+    public $modalExpense = false;
+    // Expense
+    public array $cashFlows = [];
+    public $itemsCashFlows;
 
     public function mount()
     {
-        $this->itemsCashFlows = ItemsCashFlow::where('type_income_expense', 'income')->get();
+        $this->incomeItems = ItemsCashFlow::where('type_income_expense', 'income')->get();
+        $this->itemsCashFlows = ItemsCashFlow::where('type_income_expense', 'expense')->get();
+        $this->addCashFlow(); // Agrega un flujo inicial vacío
     }
 
     public function checkPendingDebts()
@@ -80,7 +86,7 @@ class Create extends Component
                 // Obtiene o crea una caja abierta
                 $cash_drawer = $this->getOrCreateCashDrawer();
                 $totalAmount = $this->processCashFlows($cash_drawer->id);
-                $this->updateAccountBalance($totalAmount);
+                $this->updateAccountBalance($totalAmount, 'income');
 
                 DB::commit();
                 $this->resetForm();
@@ -108,7 +114,7 @@ class Create extends Component
 
                 // Procesa los flujos de efectivo
                 $totalAmount = $this->processCashFlows($cash_drawer->id);
-                $this->updateAccountBalance($totalAmount);
+                $this->updateAccountBalance($totalAmount, 'income');
 
                 DB::commit();
                 $this->resetForm();
@@ -226,18 +232,20 @@ class Create extends Component
         ]);
     }
 
-    public function updateAccountBalance($amount)
+    public function updateAccountBalance($amount, $typeTransaction, $accountLetterId = 1)
     {
-        //    Log::info('Actualizando saldo: ' . $amount);
-        $account = AccountLetters::find(1);
-
-        if ($account) {
-            $account->increment('initial_account_amount', $amount);
-            //        Log::info('Saldo actualizado: ' . $account->initial_account_amount);
+        // Obtiene la cuenta bancaria
+        $account = AccountLetters::find($accountLetterId);
+        if($account){
+            if($typeTransaction === 'expense'){
+                $account->decrement('initial_account_amount', $amount);
+            }elseif($typeTransaction === 'income'){
+                $account->increment('initial_account_amount', $amount);
+            }
+        }else{ 
+            //Log::info('No se encontro la cuenta bancaria');
+            session()->flash('error', 'No se encontro la cuenta bancaria.');
         }
-        //    else {
-        //        Log::warning('Cuenta no encontrada para actualizar saldo.');
-        //    }
     }
 
     private function resetForm()
@@ -274,6 +282,112 @@ class Create extends Component
         }
 
         return $cash_drawer;
+    }
+
+    public function openModalExpense()
+    {
+        $this->modalExpense = true;
+    }
+
+    public function closeModalExpense()
+    {
+        $this->modalExpense = false;
+    }
+
+    public function addCashFlow()
+    {
+        $this->cashFlows[] = [
+            'amount' => '',
+            'cashFlowId' => '',
+            'serie' => '',
+        ];
+    }
+
+    public function saveExpense()
+    {
+        $this->validateItemsExpense();
+
+            DB::beginTransaction();
+            try {
+                // Obtiene o crea una caja abierta
+                $cash_drawer = $this->getOrCreateCashDrawer();
+                // Procesa los flujos de efectivo solo si el saldo es suficiente
+                $amountFinal = $this->processCashFlowsExpense($cash_drawer->id);
+
+                // Actualiza el saldo de la cuenta bancaria
+                $this->updateAccountBalance($amountFinal, 'expense');
+                DB::commit();
+                $this->resetFormExpense();
+                session()->flash('success', 'Gasto cuardado correctamente.');
+                $this->closeModalExpense();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
+            }
+
+    }
+
+    public function validateItemsExpense()
+    {
+        $this->validate([
+            'cashFlows.*.amount' => 'required|numeric|min:0.01',
+            'cashFlows.*.cashFlowId' => 'required|exists:items_cash_flows,id',
+            'cashFlows.*.serie' => 'nullable|string',
+        ]);
+    }
+
+    public function removeCashFlow($index)
+    {
+        if (isset($this->cashFlows[$index])) {
+            unset($this->cashFlows[$index]);
+            $this->cashFlows = array_values($this->cashFlows); // Reindexa el array
+        }
+    }
+
+    private function resetFormExpense()
+    {
+        $this->cashFlows = [];
+        $this->addCashFlow(); // Reinicia los flujos
+    }
+
+    private function processCashFlowsExpense($cash_drawer_id = null, $payment_type = null, $payment_status = null)
+    {
+        $accountLetter = AccountLetters::find(1);
+        $amountFinal = 0;
+
+        // Lógica para definir el payment_type
+        if ($payment_status === 'receivable') {
+            $payment_type = null; // Si payment_status es 'receivable', payment_type debe ser null
+        } elseif ($payment_type === 'qr') {
+            $payment_type = 'qr'; // Si el payment_type es 'qr', se mantiene como 'qr'
+        } else {
+            $payment_type = 'cash'; // Si no es 'qr', se guarda como 'cash'
+        }
+
+        foreach ($this->cashFlows as $cashFlow) {
+            $itemCashFlow = ItemsCashFlow::findOrFail($cashFlow['cashFlowId']);
+            // Solo crea el flujo si hay saldo suficiente
+            CashFlow::create([
+                'user_id' => Auth::id(),
+                'transaction_type_income_expense' => 'expense',
+                'account_bank_id' => $this->bank_id ?? 1,
+                'amount' => $cashFlow['amount'],
+                'items_id' => $cashFlow['cashFlowId'],
+                'vehicle_id' => null,
+                'type_transaction' => 'expense',
+                'roadmap_series' => $cashFlow['serie'],
+                'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
+                'detail' => "Egreso de dinero: {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
+                'payment_type' => $payment_type,
+                'payment_status' => $payment_status ?? 'paid',
+                'transaction_status' => 'open',
+                'cash_drawer_id' => $cash_drawer_id,
+            ]);
+
+            $amountFinal += $cashFlow['amount'];
+        }
+
+        return $amountFinal;
     }
 
     public function render()
