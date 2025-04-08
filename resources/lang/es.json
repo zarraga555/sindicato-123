@@ -655,5 +655,20 @@
     "Collection of guarantee installments" : "Cobro de cuotas de la garantía",
     "Remaining installments" : "Cuotas restantes",
     "No data found." : "No se encontraron datos.",
-    "payment of guarantee instalments" : "Pago de cuotas de la garantía"
-}
+    "payment of guarantee instalments" : "Pago de cuotas de la garantía",
+    "Add another expense" : "Agregar otro gasto",
+    "Enter an amount" : "Introduzca una cantidad",
+    "Serial Number" : "Número de serie",
+    "Enter the serial number" : "Introduzca el número de serie",
+    "Select an output item" : "Seleccione un item de egreso",
+    "New Expense" : "Nuevo Egreso",
+    "Expenses" : "Egresos",
+    "Save and create another" : "Guardar y crear otro",
+    "Select a Bank Account" : "Seleccione una Cuenta Bancaria",
+    "Date of Registration" : "Fecha de Registro",
+    "Enter the vehicle number" : "Introduzca el número de vehículo",
+    "Vehicle Number" : "Número de vehículo",
+    "Select the account from which the money will be deducted. If you do not select an account, the first registered bank account will automatically be used." : "Selecciona la cuenta de la cual se descontará el dinero. Si no seleccionas ninguna cuenta, se utilizará automáticamente la primera cuenta bancaria registrada.",
+    "If the egress is associated with a vehicle number, enter the corresponding number in the ‘Vehicle’ field. Otherwise, leave it empty." : "Si el egreso está asociado a un número de vehículo, ingresa el número correspondiente en el campo ‘Vehiculo’. De lo contrario, déjalo vacío.",
+    "Expense item" : "Item de egreso"
+}   
