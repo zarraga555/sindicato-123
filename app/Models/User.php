@@ -70,7 +70,7 @@ class User extends Authenticatable
     public function totalRegistration()
     {
         $this->sum = 0;
-        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->each(function ($totalRegistration) {
+        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->where('cash_drawer_id', '!=', null)->each(function ($totalRegistration) {
             if ($totalRegistration->transaction_type_income_expense == 'income') {
                 $this->sum += $totalRegistration->amount;
             }else{
@@ -83,7 +83,7 @@ class User extends Authenticatable
     public function cashOnHand()
     {
         $this->sum = 0;
-        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->where('payment_type', 'cash')->where('payment_status', 'paid')->each(function ($cashOnHand) {
+        $this->hasMany(CashFlow::class, 'user_id', 'id')->where('transaction_status', 'open')->where('cash_drawer_id', '!=', null)->where('payment_type', 'cash')->where('payment_status', 'paid')->each(function ($cashOnHand) {
             if ($cashOnHand->transaction_type_income_expense == 'income') {
                 $this->sum += $cashOnHand->amount;
             }else{
