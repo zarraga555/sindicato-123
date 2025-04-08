@@ -87,14 +87,14 @@ class Create extends Component
         $this->validateCashFlows();
 
         // **Verificar saldo antes de proceder con la creación de flujos**
-//            return  dd($this->checkAccountBalance());
+        //            return  dd($this->checkAccountBalance());
         if ($this->checkAccountBalance()) {
             DB::beginTransaction();
             try {
-                // Obtiene o crea una caja abierta
-                $cash_drawer = $this->getOrCreateCashDrawer();
+                // // Obtiene o crea una caja abierta
+                // $cash_drawer = $this->getOrCreateCashDrawer();
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
-                $amountFinal = $this->processCashFlows($cash_drawer->id);
+                $amountFinal = $this->processCashFlows();
 
                 // Actualiza el saldo de la cuenta bancaria
                 $this->updateAccountBalance($amountFinal);
@@ -117,14 +117,14 @@ class Create extends Component
         $this->validateCashFlows();
 
         // **Verificar saldo antes de proceder con la creación de flujos**
-//        return  dd($this->checkAccountBalance());
+        //        return  dd($this->checkAccountBalance());
         if ($this->checkAccountBalance()) {
             DB::beginTransaction();
             try {
-                // Obtiene o crea una caja abierta
-                $cash_drawer = $this->getOrCreateCashDrawer();
+                // // Obtiene o crea una caja abierta
+                // $cash_drawer = $this->getOrCreateCashDrawer();
                 // Procesa los flujos de efectivo solo si el saldo es suficiente
-                $amountFinal = $this->processCashFlows($cash_drawer->id);
+                $amountFinal = $this->processCashFlows();
 
                 // Actualiza el saldo de la cuenta bancaria
                 $this->updateAccountBalance($amountFinal);
@@ -139,10 +139,9 @@ class Create extends Component
         } else {
             session()->flash('error', 'Saldo insuficiente en la cuenta bancaria seleccionada.');
         }
-
     }
 
-    private function processCashFlows($cash_drawer_id, $payment_type = null, $payment_status = null)
+    private function processCashFlows($cash_drawer_id = null, $payment_type = null, $payment_status = null)
     {
         $accountLetter = AccountLetters::find($this->bank_id);
         $amountFinal = 0;
@@ -224,6 +223,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.expense.create')->layout('layouts.app');
+        return view('livewire.expense.create');
     }
 }
