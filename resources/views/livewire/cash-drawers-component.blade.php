@@ -30,10 +30,10 @@
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3 date-column">
+                        <th scope="col" class="px-6 py-3 vehicle-column">
                             {{ __('Opening date') }}
                         </th>
-                        <th scope="col" class="px-6 py-3 vehicle-column">
+                        <th scope="col" class="px-6 py-3 date-column">
                             {{ __('Closing date') }}
                         </th>
                         <th scope="col" class="px-6 py-3 bank-column">
@@ -58,11 +58,13 @@
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-wrap dark:text-white date-column">
-                                {{ \Carbon\Carbon::parse($cashRegister->start_time)->format('d-m-Y H:i:s') }}
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-wrap dark:text-white vehicle-column">
+                                {{ \Carbon\Carbon::parse($cashRegister->start_time)->locale(app()->getLocale())->translatedFormat('d M Y - h:i') }}
                             </td>
-                            <td class="px-6 py-4 vehicle-column">
-                                {{ \Carbon\Carbon::parse($cashRegister->end_time)->format('d-m-Y H:i:s') ?? 'Sin Fecha de Cierre' }}
+                            <td class="px-6 py-4 date-column">
+                                {{ $cashRegister->end_time
+                                    ? \Carbon\Carbon::parse($cashRegister->end_time)->locale(app()->getLocale())->translatedFormat('d M Y - h:i')
+                                    : __('Unclosed cash register') }}
                             </td>
                             <td class="px-6 py-4 whitespace-wrap bank-column">
                                 {{ number_format($cashRegister->total_calculated, 2) }}
@@ -83,7 +85,7 @@
                                         {{ __('Close') }}
                                     </a>|
                                 @endif
-                                <a href="{{route('cashDrawer.show', $cashRegister->id)}}"
+                                <a href="{{ route('cashDrawer.show', $cashRegister->id) }}"
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     {{ __('View') }}
                                 </a>
