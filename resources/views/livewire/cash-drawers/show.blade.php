@@ -44,7 +44,7 @@
                     {{ __('Cash closing date') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
-                    <span id="fechaLocal">{{ $this->cashDrawer->end_time }}</span>
+                    <span id="fechaLocal">{{ $this->cashDrawer->end_time ?? __('Unclosed cash register')}}</span>
                 </div>
             </div>
 
@@ -203,7 +203,8 @@
                         </td>
                         <td class="px-6 py-4 amount-column text-gray-900"><b>Bs.
                                 {{ number_format($totalRegistration, 2) }}</b></td>
-                        <td class="px-6 py-4 amount-column text-gray-900"><b>Bs. {{ number_format($cashOnHand, 2) }}</b>
+                        <td class="px-6 py-4 amount-column text-gray-900"><b>Bs.
+                                {{ number_format($cashOnHand, 2) }}</b>
                         </td>
                     </tr>
                 </tbody>
