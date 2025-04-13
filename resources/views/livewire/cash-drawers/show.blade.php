@@ -11,10 +11,13 @@
                 id="cancel-button">
                 <span class="fi-btn-label">{{ __('Back') }}</span>
             </a>
-            <!-- Contenido dentro del slot, como el botón de creación -->
-            <a href="#" wire:click="generateReport"
+            <a href="#" wire:click="generateSimplePDF"
                 class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-bold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Generate PDF') }}
+            </a>
+            <a href="#" wire:click="generateReport"
+                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-bold inline-flex items-center shadow-sm transition duration-75">
+                {{ __('Generate Detailed PDF') }}
             </a>
         </x-breadcrumb>
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
