@@ -62,6 +62,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            font-size: 10px;
         }
 
         th,
@@ -69,6 +70,7 @@
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+            font-size: 10px;
         }
 
         th {
