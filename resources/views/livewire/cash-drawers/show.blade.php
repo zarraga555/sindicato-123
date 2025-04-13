@@ -12,7 +12,7 @@
                 <span class="fi-btn-label">{{ __('Back') }}</span>
             </a>
             <!-- Contenido dentro del slot, como el botón de creación -->
-            <a href="#"
+            <a href="#" wire:click="generateReport"
                 class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-bold inline-flex items-center shadow-sm transition duration-75">
                 {{ __('Generate PDF') }}
             </a>
