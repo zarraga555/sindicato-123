@@ -674,5 +674,6 @@
     "Pay with QR and create another" : "Pagar con QR y crear otro",
     "Save pending payment and create another one" : "Guardar pago pendiente y crear otro",
     "Unclosed cash register" : "Caja sin cerrar",
-    "Total Registration" : "Total de Registro"
+    "Total Registration" : "Total de Registro",
+    "Generate Detailed PDF" : "Generar PDF Detallado"
 }   
