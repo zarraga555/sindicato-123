@@ -672,5 +672,7 @@
     "If the egress is associated with a vehicle number, enter the corresponding number in the ‘Vehicle’ field. Otherwise, leave it empty." : "Si el egreso está asociado a un número de vehículo, ingresa el número correspondiente en el campo ‘Vehiculo’. De lo contrario, déjalo vacío.",
     "Expense item" : "Item de egreso",
     "Pay with QR and create another" : "Pagar con QR y crear otro",
-    "Save pending payment and create another one" : "Guardar pago pendiente y crear otro"
+    "Save pending payment and create another one" : "Guardar pago pendiente y crear otro",
+    "Unclosed cash register" : "Caja sin cerrar",
+    "Total Registration" : "Total de Registro"
 }   
