@@ -112,19 +112,25 @@
         </table>
     @endif
 
-    @foreach ($groupedCashFlow as $transactionType => $itemsGroup)
-        <p style="font-weight: bold; margin-bottom: 4px;">
-            • {{ ucfirst($transactionType) === 'Income' ? 'Ingresos' : 'Gastos' }}
-        </p>
+    @php
+        $order = ['income', 'expense'];
+    @endphp
 
-        <ul style="margin-left: 20px; margin-bottom: 12px;">
-            @foreach ($itemsGroup as $item)
-                <li style="margin-bottom: 4px;">
-                    {{ $item->itemsCashFlow->name ?? 'Item #' . $item->items_id }} |
-                    Bs. {{ number_format($item->total_amount, 2) }} |
-                    {{ $item->total_count }} {{ Str::plural('registro', $item->total_count) }}
-                </li>
-            @endforeach
-        </ul>
+    @foreach ($order as $type)
+        @if (isset($groupedCashFlow[$type]))
+            <p style="font-weight: bold; margin-bottom: 4px;">
+                • {{ ucfirst($type) === 'Income' ? 'Ingresos' : 'Gastos' }}
+            </p>
+
+            <ul style="margin-left: 20px; margin-bottom: 12px;">
+                @foreach ($groupedCashFlow[$type] as $item)
+                    <li style="margin-bottom: 4px;">
+                        {{ $item->itemsCashFlow->name ?? 'Item #' . $item->items_id }} |
+                        Bs. {{ number_format($item->total_amount, 2) }} |
+                        {{ $item->total_count }} {{ Str::plural('registro', $item->total_count) }}
+                    </li>
+                @endforeach
+            </ul>
+        @endif
     @endforeach
 @endsection
