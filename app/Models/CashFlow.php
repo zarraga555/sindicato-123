@@ -59,7 +59,7 @@ class CashFlow extends Model
             ->get();
 
         if ($cash_flows->isEmpty()) {
-            throw new \Exception('No hay transacciones abiertas para cerrar.');
+            return null; // Antes lanzaba excepción, ahora solo devuelve null
         }
 
         foreach ($cash_flows as $account) {
