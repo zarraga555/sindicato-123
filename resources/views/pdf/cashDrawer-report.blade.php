@@ -17,7 +17,7 @@
 
         <tr>
             <td style="padding: 5px; border: none;"><strong>{{ __('Amount recorded by the system') }}:</strong><br>
-                {{ $currency }}. {{ $cashDrawer->final_money }}
+                {{ $currency }}. {{ $cashDrawer->final_money > 0 ? $cashDrawer->final_money : $final_money }}
             </td>
             <td style="padding: 5px; border: none;"><strong>{{ __('Total amount entered into the system') }}:</strong><br>
                 {{ $currency }}. {{ $cashDrawer->total_calculated }}
@@ -113,24 +113,53 @@
     @endif
 
     @php
-        $order = ['income', 'expense'];
+        $order = ['income' => 'Ingresos', 'expense' => 'Gastos'];
+        $paymentTypes = ['cash' => 'Efectivo', 'qr' => 'QR', 'pending payment' => 'Pago pendiente'];
     @endphp
 
-    @foreach ($order as $type)
-        @if (isset($groupedCashFlow[$type]))
-            <p style="font-weight: bold; margin-bottom: 4px;">
-                • {{ ucfirst($type) === 'Income' ? 'Ingresos' : 'Gastos' }}
-            </p>
+    @foreach ($order as $typeKey => $typeLabel)
+        @if (isset($groupedCashFlow[$typeKey]))
+            <h3 style="margin-top: 10px; font-weight: bold; font-size: 12px; margin-bottom: 4px;">{{ $typeLabel }}</h3>
 
-            <ul style="margin-left: 20px; margin-bottom: 12px;">
-                @foreach ($groupedCashFlow[$type] as $item)
-                    <li style="margin-bottom: 4px;">
-                        {{ $item->itemsCashFlow->name ?? 'Item #' . $item->items_id }} |
-                        Bs. {{ number_format($item->total_amount, 2) }} |
-                        {{ $item->total_count }} {{ Str::plural('registro', $item->total_count) }}
-                    </li>
-                @endforeach
-            </ul>
+            @foreach ($paymentTypes as $paymentKey => $paymentLabel)
+                @php $total = 0; @endphp
+
+                @if (isset($groupedCashFlow[$typeKey][$paymentKey]))
+                    <h4 style="margin-top: 6px; font-size: 10px; margin-bottom: 2px;">Método de pago: {{ $paymentLabel }}
+                    </h4>
+
+                    <table style="border: none;" cellpadding="0" cellspacing="0"
+                        style="font-size: 8px; width: 360px; table-layout: fixed; border-collapse: collapse; margin-bottom: 8px;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="border: none; width: 180px; padding: 2px; text-align: left;">Ítem</th>
+                                <th style="border: none; width: 90px; padding: 2px; text-align: right;">Monto (Bs)</th>
+                                <th style="border: none; width: 90px; padding: 2px; text-align: center;">Registros</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $total = 0; @endphp
+                            @foreach ($groupedCashFlow[$typeKey][$paymentKey] as $item)
+                                <tr>
+                                    <td style="border: none; padding: 2px;">
+                                        {{ Str::limit($item->itemsCashFlow->name ?? 'Item #' . $item->items_id, 35) }}</td>
+                                    <td style="border: none; padding: 2px; text-align: right;">
+                                        {{ number_format($item->total_amount, 2) }}</td>
+                                    <td style="border: none; padding: 2px; text-align: center;">
+                                        {{ $item->total_count }} {{ Str::plural('registro', $item->total_count) }}
+                                    </td>
+                                </tr>
+                                @php $total += $item->total_amount; @endphp
+                            @endforeach
+                            <tr style="font-weight: bold; background-color: #f9f9f9;">
+                                <td style="padding: 2px; text-align: right;">Total {{ $paymentLabel }}</td>
+                                <td style="padding: 2px; text-align: right;">Bs. {{ number_format($total, 2) }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                @endif
+            @endforeach
         @endif
     @endforeach
 @endsection
