@@ -89,18 +89,21 @@ class Show extends Component
         $cashOnHand = $this->cashOnHand;
         $groupedCashFlow = CashFlow::select(
             'transaction_type_income_expense',
+            'payment_type',
             'items_id',
             DB::raw('SUM(amount) as total_amount'),
             DB::raw('COUNT(*) as total_count')
         )
-            // ->where('transaction_status', 'closed')
             ->where('cash_drawer_id', $this->cashDrawer->id)
-            ->groupBy('transaction_type_income_expense', 'items_id')
-            ->with('itemsCashFlow') // Si tienes relación con Items
+            ->groupBy('transaction_type_income_expense', 'payment_type', 'items_id')
+            ->with('itemsCashFlow')
             ->get()
-            ->groupBy('transaction_type_income_expense');
+            ->groupBy(['transaction_type_income_expense', 'payment_type']);
+
+        $final_money = CashFlow::totalRecordedByTheSystem($this->cashDrawer->id);
+
         // Generar el PDF
-        $pdf = PDF::loadView('pdf.cashDrawer-report', compact('cashFlows', 'cashRegisters', 'cashDrawer', 'currency', 'totalRegistration', 'cashOnHand', 'groupedCashFlow', 'cashResgistersBoolean'));
+        $pdf = PDF::loadView('pdf.cashDrawer-report', compact('cashFlows', 'cashRegisters', 'cashDrawer', 'currency', 'totalRegistration', 'cashOnHand', 'groupedCashFlow', 'cashResgistersBoolean', 'final_money'));
 
         // Descargar el archivo PDF
         return response()->streamDownload(
@@ -124,12 +127,12 @@ class Show extends Component
             DB::raw('SUM(amount) as total_amount'),
             DB::raw('COUNT(*) as total_count')
         )
-        ->where('cash_drawer_id', $this->cashDrawer->id)
-        ->groupBy('transaction_type_income_expense', 'payment_type', 'items_id')
-        ->with('itemsCashFlow')
-        ->get()
-        ->groupBy(['transaction_type_income_expense', 'payment_type']);
-        
+            ->where('cash_drawer_id', $this->cashDrawer->id)
+            ->groupBy('transaction_type_income_expense', 'payment_type', 'items_id')
+            ->with('itemsCashFlow')
+            ->get()
+            ->groupBy(['transaction_type_income_expense', 'payment_type']);
+
         $final_money = CashFlow::totalRecordedByTheSystem($this->cashDrawer->id);
 
         // Generar el PDF
