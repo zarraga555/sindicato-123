@@ -17,7 +17,12 @@
 
         <tr>
             <td style="padding: 5px; border: none;"><strong>{{ __('Amount recorded by the system') }}:</strong><br>
-                {{ $currency }}. {{ $cashDrawer->final_money > 0 ? $cashDrawer->final_money : $final_money }}
+                {{ $currency }}.
+                {{ $cashDrawer->final_money > 0
+                    ? number_format($cashDrawer->final_money, 2)
+                    : ($final_money !== null
+                        ? number_format($final_money, 2)
+                        : '0.00') }}
             </td>
             <td style="padding: 5px; border: none;"><strong>{{ __('Total amount entered into the system') }}:</strong><br>
                 {{ $currency }}. {{ $cashDrawer->total_calculated }}
