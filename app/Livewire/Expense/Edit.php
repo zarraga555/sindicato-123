@@ -23,6 +23,7 @@ class Edit extends Component
     public $bank_id;
     public $mode = "expense";
     public $fecha_registro;
+    public $status;
 
     protected array $rules = [
         'amount' => 'required|numeric',
@@ -53,6 +54,7 @@ class Edit extends Component
         $this->movil = $expense->vehicle_id;
         $this->bank_id = $expense->account_bank_id;
         $this->fecha_registro = \Carbon\Carbon::parse($this->fecha_registro)->format('Y-m-d');
+        $this->status = $expense->transaction_status;
     }
 
     /**
