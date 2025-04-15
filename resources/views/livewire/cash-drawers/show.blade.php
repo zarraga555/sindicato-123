@@ -57,7 +57,8 @@
                     {{ __('Amount recorded by the system') }}
                 </label>
                 <div class="mt-1 text-gray-900 dark:text-gray-200">
-                    {{ $this->currency }}. {{ $this->cashDrawer->final_money }}
+                    {{ $this->currency }}. 
+                    {{ $cashDrawer->final_money > 0 ? $cashDrawer->final_money : \App\Models\CashFlow::totalRecordedByTheSystem($this->cashDrawer->id) }}
                 </div>
             </div>
 
