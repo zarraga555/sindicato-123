@@ -86,8 +86,10 @@ Egresos
                     </td>
                     @can('editar egreso')
                     <td class="px-6 py-4">
+                        @if ($expense->transaction_status !== 'closed')
                         <a href="{{ route('expense.edit', $expense->id) }}"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
+                        @endif
                     </td>
                     @endcan
                 </tr>
