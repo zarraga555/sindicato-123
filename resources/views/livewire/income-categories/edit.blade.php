@@ -1,43 +1,25 @@
 @section('title')
-Editar Item de Ingreso
+    {{__('Edit Income Item')}}
 @endsection
 
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
-            pageTitle="Editar Item de Ingreso"
+            pageTitle="{{__('Edit Income Item')}}"
             breadcrumbMainUrl="{{ route('incomeCategories.index') }}"
-            breadcrumbMain="Items de Ingresos"
-            breadcrumbCurrent="Editar"
+            breadcrumbMain="{{__('Income Items')}}"
+            breadcrumbCurrent="{{__('Edit')}}"
         >
         @can('eliminar item ingreso')
             @if(!in_array($itemIncomeId, [10, 25, 28, 27, 8, 23]))
                 <a href="#" wire:click="openDelete"
                    class="fi-btn bg-red-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
-                    {{ __('Borrar') }}
+                    {{ __('Delete') }}
                 </a>
             @endif
         @endcan
         </x-breadcrumb>
-
-        <div class="grid grid-cols-2 gap-4">
-            <!-- input1 -->
-            <div>
-                <label class="block text-sm font-medium leading-6 text-gray-950 dark:text-white" for="input1">
-                    Nombre del nuevo Item de Ingreso
-                    <!--<sup class="text-danger-600 dark:text-danger-400 font-medium">*</sup> -->
-                </label>
-                <div
-                    class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 focus-within:ring-primary-600 dark:focus-within:ring-primary-500 fi-fo-text-input overflow-hidden">
-                    <input
-                        class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 dark:text-white dark:placeholder:text-gray-500 sm:text-sm sm:leading-6 bg-transparent ps-3 pe-3"
-                        id="input1"
-                        maxlength="255"
-                        type="text"
-                        wire:model.live="name">
-                </div>
-            </div>
-        </div>
+        @include('livewire.income-categories.formIncomeCategories')
         <div class="fi-form-actions">
             <div class="fi-ac gap-3 flex flex-wrap items-center justify-start">
 
