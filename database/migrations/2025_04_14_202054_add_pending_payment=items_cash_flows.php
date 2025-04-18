@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::table('items_cash_flows', function (Blueprint $table) {
             $table->boolean('pending_payment')->nullable(); // pendiente de pago
+            $table->double('amount')->nullable(); // monto 
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
      */
     public function down(): void
     {
         Schema::table('items_cash_flows', function (Blueprint $table) {
             $table->dropColumn('pending_payment');
+            $table->dropColumn('amount');
         });
     }
 };
