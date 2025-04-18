@@ -8,11 +8,15 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $itemIncomeId;
-    public $name;
+    public string $name;
+    public float $amount;
+    public bool $pending_payment;
     public $confirmingUserDeletion = false;
 
     protected array $rules = [
         'name' => 'required|string|max:255',
+        'amount' => 'nullable|min:0',
+        'pending_payment' => 'nullable|boolean',
     ];
 
     /**
@@ -24,6 +28,8 @@ class Edit extends Component
 
         $this->itemIncomeId = $incomeCategory->id;
         $this->name = $incomeCategory->name;
+        $this->amount = $incomeCategory->amount;
+        $this->pending_payment = $incomeCategory->pending_payment;
     }
 
     /**
@@ -36,6 +42,8 @@ class Edit extends Component
         $incomeCategory = ItemsCashFlow::findOrFail($this->itemIncomeId);
         $incomeCategory->update([
             'name' => $this->name,
+            'amount' => $this->amount ?? 0.00,
+            'pending_payment' => $this->pending_payment,
         ]);
 
         session()->flash('message', 'Registro actualizado correctamente.');
@@ -76,6 +84,6 @@ class Edit extends Component
      */
     public function render()
     {
-        return view('livewire.income-categories.edit')->layout('layouts.app');
+        return view('livewire.income-categories.edit');
     }
 }
