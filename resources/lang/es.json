@@ -675,5 +675,13 @@
     "Save pending payment and create another one" : "Guardar pago pendiente y crear otro",
     "Unclosed cash register" : "Caja sin cerrar",
     "Total Registration" : "Total de Registro",
-    "Generate Detailed PDF" : "Generar PDF Detallado"
+    "Generate Detailed PDF" : "Generar PDF Detallado",
+    "Create New Income Item" : "Crear Nuevo Item de Ingreso",
+    "Type Item" : "Tipo de Item",
+    "No records found. Please create a Bank Account to get started." : "No se encontraron registros. Por favor, cree una Cuenta Bancaria para comenzar.",
+    "Pending payment" : "Pago pendiente",
+    "Yes" : "Si",
+    "Edit Income Item" : "Editar Item de Ingreso",
+    "Pending Payment" : "Pago Pendiente",
+    "Name of the New Income Item" : "Nombre del Nuevo Item de Ingreso"
 }   
