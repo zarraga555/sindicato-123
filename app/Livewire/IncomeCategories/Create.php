@@ -3,14 +3,19 @@
 namespace App\Livewire\IncomeCategories;
 
 use App\Models\ItemsCashFlow;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
 {
-    public $name;
+    public string $name;
+    public float $amount;
+    public bool $pending_payment = false;
 
     protected array $rules = [
         'name' => 'required|string|max:255',
+        'amount' => 'nullable|min:0',
+        'pending_payment' => 'nullable|boolean',
     ];
 
     /**
@@ -18,7 +23,7 @@ class Create extends Component
      */
     public function render()
     {
-        return view('livewire.income-categories.create')->layout('layouts.app');
+        return view('livewire.income-categories.create');
     }
 
     /**
@@ -54,7 +59,9 @@ class Create extends Component
         ItemsCashFlow::create([
             'name' => $this->name,
             'type_income_expense' => 'Income',
-            'created_by' => auth()->id(),
+            'amount' => $this->amount ?? 0.00,
+            'pending_payment' => $this->pending_payment,
+            'created_by' => Auth::id(),
         ]);
     }
 }
