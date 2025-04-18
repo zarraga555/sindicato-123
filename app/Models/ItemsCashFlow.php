@@ -10,6 +10,10 @@ class ItemsCashFlow extends Model
 {
     use SoftDeletes;
 
+    protected $casts = [
+        'pending_payment' => 'boolean',
+    ];
+
     protected $fillable = [
         'user_id',
         'name',
@@ -19,7 +23,7 @@ class ItemsCashFlow extends Model
         'amount',
     ];
 
-    public function users (): BelongsTo
+    public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
