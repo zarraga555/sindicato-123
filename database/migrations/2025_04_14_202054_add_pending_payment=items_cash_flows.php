@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('items_cash_flows', function (Blueprint $table) {
-            $table->boolean('pending_payment')->nullable(); // pendiente de pago
-            $table->double('amount')->nullable(); // monto 
+            $table->boolean('pending_payment')->nullable()->default(0.00); // pendiente de pago
+            $table->double('amount')->nullable()->default(false); // monto 
         });
     }
 
