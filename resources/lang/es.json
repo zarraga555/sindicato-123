@@ -683,5 +683,6 @@
     "Yes" : "Si",
     "Edit Income Item" : "Editar Item de Ingreso",
     "Pending Payment" : "Pago Pendiente",
-    "Name of the New Income Item" : "Nombre del Nuevo Item de Ingreso"
+    "Name of the New Income Item" : "Nombre del Nuevo Item de Ingreso",
+    "pending payment" : "Pago pendiente" 
 }   
