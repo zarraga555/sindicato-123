@@ -1,19 +1,19 @@
 @section('title')
-Items de Ingresos
+{{__('Income Items')}}
 @endsection
 <div>
     <section class="flex flex-col gap-y-8 py-8 mt-14">
         <x-breadcrumb
-            pageTitle="Items de Ingresos"
+            pageTitle="{{__('Income Items')}}"
             breadcrumbMainUrl="{{ route('incomeCategories.index') }}"
-            breadcrumbMain="Items de Ingresos"
-            breadcrumbCurrent="Listado"
+            breadcrumbMain="{{__('Income Items')}}"
+            breadcrumbCurrent="{{__('List')}}"
         >
             @can('crear item ingreso')
             <!-- Contenido dentro del slot, como el botón de creación -->
             <a href="{{ route('incomeCategories.create') }}"
                class="fi-btn bg-orange-500 text-white hover:bg-custom-500 rounded-lg px-3 py-2 text-sm font-semibold inline-flex items-center shadow-sm transition duration-75">
-                {{ __('Nuevo Item de Ingreso') }}
+                {{ __('Create New Income Item') }}
             </a>
             @endif
         </x-breadcrumb>
@@ -21,7 +21,7 @@ Items de Ingresos
         <!--Table-->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
-                <label for="table-search" class="sr-only">Search</label>
+                <label for="table-search" class="sr-only">{{__('Search')}}</label>
                 <div class="relative mt-4 ml-4">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -45,11 +45,17 @@ Items de Ingresos
                         {{ __('Name') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        {{ __('Amount') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Pending payment') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         {{ __('Type Item') }}
                     </th>
                     @can('editar item ingreso')
                     <th scope="col" class="px-6 py-3">
-                        Action
+                        {{__('Action')}}
                     </th>
                     @endcan
                 </tr>
@@ -60,20 +66,30 @@ Items de Ingresos
                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $incomeCategorie->name }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ $incomeCategorie->type_income_expense }}
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        Bs. {{ number_format($incomeCategorie->amount, 2) }}
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        @if ($incomeCategorie->pending_payment)
+                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">{{__('Yes')}}</span>
+                        @else
+                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">{{__('No')}}</span>
+                        @endif
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ __($incomeCategorie->type_income_expense) }}
                     </td>
                     @can('editar item ingreso')
                     <td class="px-6 py-4">
                         <a href="{{ route('incomeCategories.edit', $incomeCategorie->id) }}"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{__('Edit')}}</a>
                     </td>
                     @endcan
                 </tr>
                 @empty
                 <tr>
                     <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                        No se encontraron registros. Cree un una Cuenta Bancaria para empezar.
+                        {{__('No records found. Please create a Bank Account to get started.')}}
                     </td>
                 </tr>
                 @endforelse
