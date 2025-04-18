@@ -15,6 +15,8 @@ class ItemsCashFlow extends Model
         'name',
         'type_income_expense',
         'created_by',
+        'pending_payment',
+        'amount',
     ];
 
     public function users (): BelongsTo
