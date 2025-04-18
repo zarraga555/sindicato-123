@@ -51,9 +51,9 @@ class Create extends Component
                 ->exists()
                 || Collateral::where('vehicle_id', $this->movil)->exists()
                 || Loans::where('vehicle_id', $this->movil)->exists();
-    
+
             if ($hasPendingDebts) {
-                session()->flash('error', 'El vehículo '.$this->movil.' tiene deudas pendientes.');
+                session()->flash('error', 'El vehículo ' . $this->movil . ' tiene deudas pendientes.');
                 $this->render(); // Esto hará que el componente se vuelva a renderizar.
             }
         }
@@ -183,42 +183,62 @@ class Create extends Component
         $totalAmount = 0;
 
         $items = [
+            ['amount' => $this->amount_hoja_semanal, 'item_id' => 8, 'series' => $this->hoja_semanal_serie, 'payment_status' => $payment_status],
+            ['amount' => $this->amount_hoja_domingo, 'item_id' => 23, 'series' => $this->hoja_domingo_serie, 'payment_status' => $payment_status],
             ['amount' => $this->multas, 'item_id' => 10, 'payment_status' => $payment_status],
             ['amount' => $this->lavado_auto_rojo, 'item_id' => 25, 'payment_status' => 'receivable'],
             ['amount' => $this->lavado_auto_azul, 'item_id' => 28, 'payment_status' => $payment_status],
             ['amount' => $this->aporte_seguro, 'item_id' => 27, 'payment_status' => $payment_status],
-            ['amount' => $this->amount_hoja_semanal, 'item_id' => 8, 'series' => $this->hoja_semanal_serie, 'payment_status' => $payment_status],
-            ['amount' => $this->amount_hoja_domingo, 'item_id' => 23, 'series' => $this->hoja_domingo_serie, 'payment_status' => $payment_status],
         ];
 
         foreach ($items as $item) {
             if (!empty($item['amount']) && $item['amount'] > 0) {
-                $this->createCashFlow($cash_drawer_id, $payment_type, $item['payment_status'], $item['amount'], $item['item_id'], $item['series']  ?? null);
-                $totalAmount += $item['amount'];
+                $itemCashFlow = ItemsCashFlow::find($item['item_id']);
+
+                if (!$itemCashFlow) {
+                    continue;
+                }
+
+                // Lógica nueva para payment_type
+                $finalPaymentType = null;
+                if ($itemCashFlow->pending_payment) {
+                    $finalPaymentType = 'pending payment';
+                } elseif ($item['payment_status'] === 'receivable') {
+                    $finalPaymentType = null;
+                } elseif ($payment_type === 'qr') {
+                    $finalPaymentType = 'qr';
+                } else {
+                    $finalPaymentType = 'cash';
+                }
+
+                $this->createCashFlow(
+                    $cash_drawer_id,
+                    $finalPaymentType,
+                    $item['payment_status'],
+                    $item['amount'],
+                    $item['item_id'],
+                    $item['series'] ?? null
+                );
+
+                if (!$itemCashFlow->pending_payment) {
+                    $totalAmount += $item['amount'];
+                }
             }
         }
 
         return $totalAmount;
     }
 
-    private function createCashFlow($cash_drawer_id, $payment_type, $payment_status, $amount, $itemId, $series = null,)
+
+    private function createCashFlow($cash_drawer_id, $payment_type, $payment_status, $amount, $itemId, $series = null)
     {
         $accountLetter = AccountLetters::find(1);
         $itemCashFlow = ItemsCashFlow::findOrFail($itemId);
 
-        // Lógica para definir el payment_type
-        if ($payment_status === 'receivable') {
-            $payment_type = null; // Si payment_status es 'receivable', payment_type debe ser null
-        } elseif ($payment_type === 'qr') {
-            $payment_type = 'qr'; // Si el payment_type es 'qr', se mantiene como 'qr'
-        } else {
-            $payment_type = 'cash'; // Si no es 'qr', se guarda como 'cash'
-        }
-
         CashFlow::create([
             'user_id' => Auth::id(),
             'transaction_type_income_expense' => 'income',
-            'account_bank_id' => $qr ?? 1,
+            'account_bank_id' => $payment_type === 'qr' ? $this->bank_id ?? 1 : 1,
             'amount' => $amount,
             'roadmap_series' => $series,
             'items_id' => $itemId,
@@ -236,13 +256,13 @@ class Create extends Component
     {
         // Obtiene la cuenta bancaria
         $account = AccountLetters::find($accountLetterId);
-        if($account){
-            if($typeTransaction === 'expense'){
+        if ($account) {
+            if ($typeTransaction === 'expense') {
                 $account->decrement('initial_account_amount', $amount);
-            }elseif($typeTransaction === 'income'){
+            } elseif ($typeTransaction === 'income') {
                 $account->increment('initial_account_amount', $amount);
             }
-        }else{ 
+        } else {
             //Log::info('No se encontro la cuenta bancaria');
             session()->flash('error', 'No se encontro la cuenta bancaria.');
         }
@@ -307,24 +327,23 @@ class Create extends Component
     {
         $this->validateItemsExpense();
 
-            DB::beginTransaction();
-            try {
-                // Obtiene o crea una caja abierta
-                $cash_drawer = $this->getOrCreateCashDrawer();
-                // Procesa los flujos de efectivo solo si el saldo es suficiente
-                $amountFinal = $this->processCashFlowsExpense($cash_drawer->id);
+        DB::beginTransaction();
+        try {
+            // Obtiene o crea una caja abierta
+            $cash_drawer = $this->getOrCreateCashDrawer();
+            // Procesa los flujos de efectivo solo si el saldo es suficiente
+            $amountFinal = $this->processCashFlowsExpense($cash_drawer->id);
 
-                // Actualiza el saldo de la cuenta bancaria
-                $this->updateAccountBalance($amountFinal, 'expense');
-                DB::commit();
-                $this->resetFormExpense();
-                session()->flash('success', 'Gasto cuardado correctamente.');
-                $this->closeModalExpense();
-            } catch (\Exception $e) {
-                DB::rollBack();
-                session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
-            }
-
+            // Actualiza el saldo de la cuenta bancaria
+            $this->updateAccountBalance($amountFinal, 'expense');
+            DB::commit();
+            $this->resetFormExpense();
+            session()->flash('success', 'Gasto cuardado correctamente.');
+            $this->closeModalExpense();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
+        }
     }
 
     public function validateItemsExpense()
