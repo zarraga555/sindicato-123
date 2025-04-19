@@ -102,8 +102,6 @@ class Create extends Component
             DB::rollBack();
             session()->flash('error', 'Ocurrió un error al guardar los datos: ' . $e->getMessage());
         }
-
-
     }
 
     public function payWithQRAndCreateAnother()
@@ -125,7 +123,6 @@ class Create extends Component
             DB::rollBack();
             session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
         }
-
     }
 
     public function savePendingPaymentAndCreateAnother()
@@ -146,7 +143,6 @@ class Create extends Component
             DB::rollBack();
             session()->flash('error', 'Error al guardar los datos: ' . $e->getMessage());
         }
-
     }
 
     private function processCashFlows($cash_drawer_id, $payment_type = null, $payment_status = null)
@@ -156,35 +152,41 @@ class Create extends Component
 
         $amountFinal = 0;
 
-        // Lógica para definir el payment_type
-        if ($payment_status === 'receivable') {
-            $payment_type = null; // Si payment_status es 'receivable', payment_type debe ser null
-        } elseif ($payment_type === 'qr') {
-            $payment_type = 'qr'; // Si el payment_type es 'qr', se mantiene como 'qr'
-        } else {
-            $payment_type = 'cash'; // Si no es 'qr', se guarda como 'cash'
-        }
-
         foreach ($this->cashFlows as $cashFlow) {
             $itemCashFlow = ItemsCashFlow::findOrFail($cashFlow['cashFlowId']);
-            // Solo crea el flujo si hay saldo suficiente
+
+            // Nueva lógica: definir el payment_type dependiendo de pending_payment
+            if ($itemCashFlow->pending_payment) {
+                $finalPaymentType = 'pending payment';
+            } elseif ($payment_status === 'receivable') {
+                $finalPaymentType = null;
+            } elseif ($payment_type === 'qr') {
+                $finalPaymentType = 'qr';
+            } else {
+                $finalPaymentType = 'cash';
+            }
+
+            // Crear el flujo de caja
             CashFlow::create([
                 'user_id' => Auth::id(),
                 'transaction_type_income_expense' => 'income',
-                'account_bank_id' => $this->bank_id ?? 1,
+                'account_bank_id' => $this->bank_id,
                 'amount' => $cashFlow['amount'],
                 'items_id' => $cashFlow['cashFlowId'],
                 'vehicle_id' => $this->vehicle_id,
                 'roadmap_series' => $cashFlow['serie'],
                 'registration_date' => $this->fecha_registro ? Carbon::parse($this->fecha_registro) : Carbon::now(),
                 'detail' => "Ingreso de dinero del movil: {$this->vehicle_id} cantidad de: {$accountLetter->currency_type}. {$cashFlow['amount']} de: {$itemCashFlow->name}",
-                'payment_type' => $payment_type,
+                'payment_type' => $finalPaymentType,
                 'payment_status' => $payment_status ?? 'paid',
                 'transaction_status' => 'open',
                 'cash_drawer_id' => $cash_drawer_id,
             ]);
 
-            $amountFinal += $cashFlow['amount'];
+            // Solo sumar si no es pending_payment
+            if (!$itemCashFlow->pending_payment) {
+                $amountFinal += $cashFlow['amount'];
+            }
         }
 
         return $amountFinal;
@@ -198,7 +200,6 @@ class Create extends Component
 
             $newBalance = $accountLetter->initial_account_amount + $amountFinal;
             $accountLetter->update(['initial_account_amount' => $newBalance]);
-
         }
     }
 
@@ -232,6 +233,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.other-income.create')->layout('layouts.app');
+        return view('livewire.other-income.create');
     }
 }
