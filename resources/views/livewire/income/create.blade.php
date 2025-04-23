@@ -28,8 +28,8 @@
                         <label for="movil" class="block text-sm font-medium text-gray-700">Número de Móvil</label>
                         <input type="number" id="movil" name="movil"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Ingrese el número de móvil" required wire:model.defer="movil"
-                            wire:change="checkPendingDebts">
+                            placeholder="Ingrese el número de móvil" required wire:model.defer="movil">
+                            {{-- wire:change="checkPendingDebts"> --}}
                         @error('movil')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
